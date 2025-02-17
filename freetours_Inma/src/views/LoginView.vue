@@ -99,7 +99,7 @@ function userRegister() {
 
 <template>
     <div id="generalDiv" class="d-flex flex-column justify-content-center align-items-center mt-5">
-        <div id="buttonsChange" class="d-flex justify-content-evenly w-50">
+        <div id="botonesCambio" class="d-flex justify-content-evenly w-50">
             <RouterLink class="text-white" to="/login">
                 <button class="btn btn-primary text-decoration-none">Login</button>
             </RouterLink>
@@ -168,13 +168,27 @@ function userRegister() {
     /* Ocupará toda la pantalla */
 }
 
+#botonesCambio button {
+    font-size: 1.3em;
+    font-weight: bold;
+    background-color: rgb(236, 166, 177);
+    border: 1px solid rgb(22, 11, 11);
+    color: rgb(22, 11, 11);
+}
+
+#botonesCambio button:hover {
+    background-color: rgb(22, 11, 11);
+    color: rgb(238, 182, 191);
+}
+
+
 #loginDiv,
 #registerDiv {
     width: 100%;
     max-width: 400px;
     /* Para que no sean demasiado anchos */
     text-align: center;
-    box-shadow: 5px 5px 10px #c3c3c3;
+    box-shadow: 5px 5px 10px #a58e92;
     border-radius: 10px;
 }
 
@@ -187,5 +201,6 @@ form {
 
 input {
     max-width: 300px;
+    margin: 0.2em;
 }
 </style>
