@@ -22,10 +22,10 @@ const props = defineProps({
                     <RouterLink class="nav-link" to="/admin">Gestión Usuarios</RouterLink>
                 </li>
                 <li class="nav-item">
-                    <RouterLink class="nav-link" to="/admin">Crear Ruta</RouterLink>
+                    <RouterLink class="nav-link" to="/admin/crear-ruta">Crear Ruta</RouterLink>
                 </li>
                 <li class="nav-item">
-                    <RouterLink class="nav-link" to="/admin">Listado Rutas</RouterLink>
+                    <RouterLink class="nav-link" to="/admin/listar-rutas">Listado Rutas</RouterLink>
                 </li>
                 <!--<li v-if="props.userData?.role == 'profe'" class="nav-item active">
                     <a class="nav-link" href="#">Preguntas </a>

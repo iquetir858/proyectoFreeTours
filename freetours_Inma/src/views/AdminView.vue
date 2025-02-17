@@ -84,22 +84,22 @@ function borrarUsuario(id) {
     }
 }
 
+//Llamada principal para obtener los datos de la tabla la primera vez que entramos
 obtenerUsuariosBD();
 </script>
 
 <template>
-    <h3>Esta sería la vista principal del admin</h3>
-    <!--Meter aquí un modal de confirmación del guardado/borrado
-        y hacer que el mensaje de confirmación desaparezca al poco tiempo??
-        ???-->
+    <h2 class="text-center mb-5">Tabla principal de usuarios registrados</h2>
+    <!--Meter aquí un modal de confirmación del guardado/borrado y hacer 
+        que el mensaje de confirmación desaparezca al poco tiempo??-->
     <div v-if="exitoActualizacion != ''" class="text-success border border-3 border-success mb-3">{{ exitoActualizacion
         }}</div>
 
 
     <div v-if="error">{{ error }}</div>
-    <div v-else id="divTabla">
+    <div v-else id="divTabla" class="m-3">
         <table class="table table-light table-striped table-hover">
-            <!--Añadirle legenda a la tabla -->
+            <caption>Tabla de Usuarios Registrados</caption>
             <thead>
                 <tr>
                     <th scope="col">ID</th>
@@ -111,6 +111,7 @@ obtenerUsuariosBD();
                 </tr>
             </thead>
             <tbody>
+                <!--HACER QUE NO SE PUEDA MODIFICAR EL ADMIN-->
                 <tr v-for="usuario in usuariosBD" :key="usuario.id">
                     <td>{{ usuario.id }}</td>
                     <td>{{ usuario.nombre }}</td>

@@ -3,7 +3,8 @@ import HomeView from '@/views/HomeView.vue'
 import LoginView from '@/views/LoginView.vue'
 import AboutView from '@/views/AboutView.vue'
 import AdminView from '@/views/AdminView.vue'
-
+import AdminCreateRoute from '@/views/AdminCreateRoute.vue'
+import AdminListRoutes from  '@/views/AdminListRoutes.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -32,6 +33,16 @@ const router = createRouter({
       path: '/admin',
       name: 'admin',
       component: AdminView,
+    },
+    {
+      path: '/admin/crear-ruta',
+      name: 'adminRuta',
+      component: AdminCreateRoute,
+    },
+    {
+      path: '/admin/listar-rutas',
+      name: 'adminListado',
+      component: AdminListRoutes,
     },
   ],
 })

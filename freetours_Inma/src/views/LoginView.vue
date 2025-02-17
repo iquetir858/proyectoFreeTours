@@ -98,7 +98,6 @@ function userRegister() {
 </script>
 
 <template>
-
     <div id="generalDiv" class="d-flex flex-column justify-content-center align-items-center mt-5">
         <div id="buttonsChange" class="d-flex justify-content-evenly w-50">
             <RouterLink class="text-white" to="/login">
@@ -111,13 +110,18 @@ function userRegister() {
         <!-- --------- LOGIN -------------->
         <div v-if="route.path == '/login'" id="loginDiv"
             class="w-50 d-flex flex-column justify-content-center align-items-center bg-white m-2 p-5">
-            <h2>LOGIN</h2>
             <!--<p>Aquí irá un flash message al completar registro??</p>-->
             <form action="POST">
-                <label for="email">Correo</label>
-                <input v-model="form.email" type="text" name="email">
-                <label for='contraseña'>Contraseña</label>
-                <input v-model="form.contraseña" type="password" name='contraseña'>
+                <h2 class="h3 mb-3 fw-normal">LOGIN</h2>
+                <div class="form-floating">
+                    <input v-model="form.email" type="text" name="email" id="email" class="form-control">
+                    <label for="email">Correo electrónico</label>
+                </div>
+                <div class="form-floating">
+                    <input v-model="form.contraseña" type="password" name='contraseña' id="contraseña"
+                        class="form-control">
+                    <label for='contraseña'>Contraseña</label>
+                </div>
                 <p v-if="errorLogin" class="text-danger mt-2">{{ errorLogin }}</p>
                 <div class="buttons mt-2 d-flex justify-content-evenly">
                     <button type="submit" @click.prevent="login" class="btn btn-success">Iniciar Sesion</button>
@@ -130,15 +134,22 @@ function userRegister() {
         <div v-if="route.path == '/register'" id="registerDiv"
             class="w-50 d-flex flex-column justify-content-center align-items-center bg-white m-2 p-5">
             <p v-if="exitoRegistro" class="text-success mb-2">{{ exitoRegistro }}</p>
-            <h2>REGISTRO</h2>
             <!--MOSTRAR AQUÍ UN MODAL DE REGISTRO COMPLETADO-->
             <form action="">
-                <label for="nombre">Nombre</label>
-                <input v-model="formRegistro.nombre" type="text" name="nombre">
-                <label for="email">Correo</label>
-                <input v-model="formRegistro.email" type="text" name="email">
-                <label for="pass">Contraseña</label>
-                <input v-model="formRegistro.contraseña" type="text" name="contraseña">
+                <h2 class="h3 mb-3 fw-normal">REGISTRO</h2>
+                <div class="form-floating">
+                    <input v-model="formRegistro.nombre" type="text" name="nombre" id="nombre" class="form-control">
+                    <label for="nombre">Nombre</label>
+                </div>
+
+                <div class="form-floating">
+                    <input v-model="formRegistro.email" type="text" name="email" class="form-control">
+                    <label for="email">Correo</label>
+                </div>
+                <div class="form-floating">
+                    <input v-model="formRegistro.contraseña" type="text" name="contraseña" class="form-control">
+                    <label for="pass">Contraseña</label>
+                </div>
                 <p v-if="errorRegistro" class="text-danger mt-2">{{ errorRegistro }}</p>
                 <div class="buttons mt-2 d-flex justify-content-evenly">
                     <button @click.prevent="userRegister" class="btn btn-success">Registrarse</button>

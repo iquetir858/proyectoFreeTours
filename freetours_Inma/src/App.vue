@@ -10,20 +10,22 @@ const route = useRoute();
 //Habría que controlar cuando se inicia sesión y se cierra con un emit desde el hijo y tener un dato
 // de sesión reactivo para pasarlo a la barra de navegación como props
 //const session = ref(JSON.parse(localStorage.getItem('session')));
-const usuarioLogeado=ref();
+//const session = ref(JSON.parse(localStorage.getItem('session')));
+//const usuarioLogeado = ref();
+const usuarioLogeado = ref(JSON.parse(localStorage.getItem('usuarioLogeado')));
 
 function updateSessionData(user) {
   usuarioLogeado.value = user;
-  //if (user) localStorage.setItem('session', JSON.stringify(user));
-  //else localStorage.removeItem('session');
+  if (usuarioLogeado.value) localStorage.setItem('usuarioLogeado', JSON.stringify(user));
+  else localStorage.removeItem('usuarioLogeado');
 }
 </script>
 
 <template>
   <div class="layout">
-    <Header :loggedUser="usuarioLogeado" @logout="updateSessionData" title="Web FreeTours"></Header>
+    <Header :loggedUser="usuarioLogeado" @logout="updateSessionData" title="PurrfectTours"></Header>
     <!--Si la página es el home o login, no debería haber navbar??-->
-    <NavBar :usuario="usuarioLogeado">    </NavBar>
+    <NavBar v-if="usuarioLogeado" :usuario="usuarioLogeado"> </NavBar>
 
     <RouterView @loggedIn="updateSessionData" />
     <Footer />
