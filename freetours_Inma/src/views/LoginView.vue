@@ -203,4 +203,9 @@ input {
     max-width: 300px;
     margin: 0.2em;
 }
+
+/*FOCUS DE INPUTS
+:focus-visible{
+    outline: 1px solid purple;
+}*/
 </style>

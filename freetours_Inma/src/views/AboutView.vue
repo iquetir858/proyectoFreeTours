@@ -13,7 +13,8 @@
         y pensamos en lo cómodo que sería disponer de una plataforma que ponga en contacto a viajeros inteligentes con
         lugañeros, guías residentes y proveedores de tours económicos alrededor del mundo, de forma que cualquiera pueda
         disfrutar de experiencias auténticas y enriquecedoras sin preocuparse de gastar demasiado. ¡Y así nació
-        <span>PurrfectTours!</span></p>
+        <span>PurrfectTours!</span>
+      </p>
     </div>
 
     <div class="video col-12 col-md-6">
@@ -60,7 +61,12 @@
   inset: 0;
 }
 
+h2 {
+  color: rgb(204, 15, 44);
+  font-weight: bold;
+}
+
 p {
-  word-wrap: break-word;
+  text-indent: 2em;
 }
 </style>
