@@ -40,7 +40,8 @@ function logout() {
                     Registrarse
                 </RouterLink>
             </li>
-            <li class="bienvenida nav-item d-flex flex-column" v-if="loggedUser && route.path != '/login' && route.path != '/register'">
+            <li class="bienvenida nav-item d-flex flex-column"
+                v-if="loggedUser && route.path != '/login' && route.path != '/register'">
                 <!--Intentar poner el nombre en mayúscula-->
                 <span>Bienvenid@, {{ loggedUser.nombre }} ({{ loggedUser.rol }})</span>
                 <button @click="logout" class="btn btn-danger">Cerrar Sesión</button>
@@ -77,12 +78,18 @@ img {
     font-weight: bold;
 }
 
-.bienvenida{
+.bienvenida {
     color: rgb(22, 11, 11);
 }
 
 .nav-link:hover {
     color: rgb(204, 15, 44);
     text-decoration: underline;
+}
+
+.btn-danger:hover {
+    background-color: white;
+    color: #DC4C64;
+    font-weight: bold;
 }
 </style>

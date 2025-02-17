@@ -15,12 +15,10 @@ function obtenerUsuariosBD() {
         })
             .then(response => response.json())
             .then(data => {
-
                 usuariosBD.value = data;
                 //console.log("Data: " + JSON.stringify(data));
                 //console.log("usuariosBD: " + JSON.stringify(usuariosBD));
                 error.value = '';
-
             })
             .catch(errMsg => {
                 error.value = errMsg;
@@ -98,7 +96,7 @@ obtenerUsuariosBD();
 
     <div v-if="error">{{ error }}</div>
     <div v-else id="divTabla" class="m-3">
-        <table class="table table-light table-striped table-hover">
+        <table class="table table-light table-striped table-hover text-center">
             <caption>Tabla de Usuarios Registrados</caption>
             <thead>
                 <tr>
@@ -107,7 +105,7 @@ obtenerUsuariosBD();
                     <th scope="col">Correo</th>
                     <th scope="col">Contraseña</th>
                     <th scope="col">Rol</th>
-                    <th scope="col">Acciones</th>
+                    <th scope="col">Borrado</th>
                 </tr>
             </thead>
             <tbody>
@@ -125,12 +123,12 @@ obtenerUsuariosBD();
                         </select>
                     </td>
                     <td>
-                        <button title="Guardar cambios" type="button" class="btn btn-primary"
+                        <!--<button title="Guardar cambios" type="button" class="btn btn-primary"
                             @click.prevent="actualizarRol">
                             <i class="fa-solid fa-check"></i>
-                        </button>
-                        <button title="Borrar usuario" type="button" class="btn btn-danger"
-                            @click="borrarUsuario(usuario.id)">
+                        </button>-->
+                        <button aria-label="Botón para borrar al usuario" title="Borrar usuario" type="button"
+                            class="btn btn-danger" @click="borrarUsuario(usuario.id)">
                             <i class="fa-solid fa-trash"></i>
                         </button>
                     </td>
@@ -144,5 +142,10 @@ obtenerUsuariosBD();
 table {
 
     overflow-y: scroll;
+}
+
+.btn-danger:hover {
+    background-color: white;
+    color: #DC4C64;
 }
 </style>
