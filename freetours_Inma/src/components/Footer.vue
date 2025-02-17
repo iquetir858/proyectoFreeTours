@@ -7,11 +7,11 @@
 
 <style scoped>
 .footer {
-    background: darkblue;
+    background: rgb(22, 11, 11);
     color: white;
     text-align: center;
     position: absolute;
-    padding: 1rem;
+    padding: 0.2rem;
     bottom: 0;
     width: 100%;
 }

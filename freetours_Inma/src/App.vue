@@ -34,7 +34,7 @@ function updateSessionData(user) {
 
 <style scoped>
 :global(body) {
-  background-color: rgb(238, 238, 238);
+  background-color: rgb(250, 244, 246);
 }
 
 .layout {

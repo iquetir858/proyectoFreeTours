@@ -20,7 +20,7 @@ function logout() {
         <RouterLink to="/"
             class="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-body-emphasis text-decoration-none text-white">
             <img src="../assets/logo.png" alt="(Logo)" title="Logo">
-            <span class="fs-4">{{ title }}</span>
+            <span class="fs-4 titlePage">{{ title }}</span>
         </RouterLink>
 
         <ul class="nav nav-pills">
@@ -53,7 +53,12 @@ function logout() {
 
 <style scoped>
 header {
-    background-color: darkblue;
+    background-color: rgb(236, 166, 177);
+}
+
+.titlePage {
+    color: rgb(22, 11, 11);
+    font-weight: bold;
 }
 
 img {
