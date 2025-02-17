@@ -61,8 +61,24 @@ header {
     font-weight: bold;
 }
 
+.titlePage:hover {
+    color: white;
+}
+
 img {
-    width: 45px;
+    width: 35px;
     height: auto;
+}
+
+.nav-link {
+    color: rgb(22, 11, 11);
+    transition: 0.2 linear;
+    margin: 0.2em;
+    font-weight: bold;
+}
+
+.nav-link:hover {
+    color: rgb(204, 15, 44);
+    text-decoration: underline;
 }
 </style>

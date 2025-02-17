@@ -13,18 +13,44 @@ let rutas = ref([
 <template>
   <main class="text-black d-flex flex-column align-items-center justify-content-center">
     <!--Meter aquí un carrusel o algo así-->
+
+
     <div id="divBusqueda">
       <h3>¡Realiza una búsqueda para ver nuestras rutas disponibles!</h3>
-      <label for="localidadBusqueda" class="me-2">Localidad:</label>
-      <!--Cambiar esto a un select?-->
-      <input type="text" name="localidadBusqueda" placeholder="Localidad de búsqueda..." class="me-5">
+      <!--Formulario de búsqueda de rutas-->
+      <form action="" class="d-flex flex-row align-items-center justify-content-evenly">
+        <label for="localidadBusqueda" class="me-2">Localidad:</label>
+        <!--Cambiar esto a un select?-->
+        <input type="text" name="localidadBusqueda" placeholder="Introduce una localidad" class="me-5">
 
-      <label for="fechaBusqueda" class="me-2">Fecha:</label>
-      <input type="date" name="fechaBusqueda">
+        <label for="fechaBusqueda" class="me-2">Fecha:</label>
+        <input type="date" name="fechaBusqueda">
+
+        <button class="btn ms-2 btnBusqueda" aria-label="Realizar búsqueda de rutas">
+          <i class="fa-solid fa-magnifying-glass"></i>
+        </button>
+
+      </form>
     </div>
     <Card :propRutas="rutas"></Card>
 
   </main>
 </template>
 
-<style scoped></style>
+<style scoped>
+input {
+  border-radius: 5px;
+}
+
+.btn {
+  color: rgb(22, 11, 11);
+  font-weight: bold;
+  background-color: rgb(236, 166, 177);
+  border: 1px solid rgb(236, 166, 177);
+}
+
+.btn:hover {
+  background-color: white;
+  border: 1px solid rgb(22, 11, 11);
+}
+</style>

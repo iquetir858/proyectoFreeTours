@@ -10,7 +10,7 @@
     background: rgb(22, 11, 11);
     color: white;
     text-align: center;
-    position: absolute;
+    position: fixed;
     padding: 0.2rem;
     bottom: 0;
     width: 100%;

@@ -11,7 +11,7 @@ const props = defineProps({
 </script>
 
 <template>
-    <div id="contedorTarjetas" class="d-flex flex-row flex-wrap bg-secondary m-5 p-2">
+    <div class="d-flex flex-row justify-content-center flex-wrap m-5 p-2 contenedorTarjetas">
         <div v-for="ruta in propRutas" class="card m-2 p-2" style="width: 18rem;">
             <img v-bind:src="ruta.imagen" class="card-img-top img-fluid" alt="Foto de la ruta">
             <div class="card-body">
@@ -28,14 +28,27 @@ const props = defineProps({
 </template>
 
 <style scoped>
-#contenedorTarjetas {
-    width: 100%;
+.contenedorTarjetas {
+    width: 70%;
     padding: 10px;
-    /*ESTO NO FUFAAAAAAAAA :( */
-    max-height: 500px;
+    background-color: rgb(209, 96, 113);
+    max-height: 900px;
     overflow-y: scroll;
 }
-img{
+
+img {
     height: 200px;
+}
+
+.btn {
+    color: rgb(22, 11, 11);
+    font-weight: bold;
+    background-color: rgb(236, 166, 177);
+    border: 1px solid rgb(236, 166, 177);
+}
+
+.btn:hover {
+    background-color: white;
+    border: 1px solid rgb(22, 11, 11);
 }
 </style>
