@@ -13,7 +13,7 @@
         y pensamos en lo cómodo que sería disponer de una plataforma que ponga en contacto a viajeros inteligentes con
         lugañeros, guías residentes y proveedores de tours económicos alrededor del mundo, de forma que cualquiera pueda
         disfrutar de experiencias auténticas y enriquecedoras sin preocuparse de gastar demasiado. ¡Y así nació
-        ----CAMBIAR ESTO AL NOMBRE DE MI PÁGINAAAA-------------!</p>
+        <span>PurrfectTours!</span></p>
     </div>
 
     <div class="video col-12 col-md-6">
@@ -33,16 +33,34 @@
 </template>
 
 <style scoped>
+/*Enlace del estilo: https://codepen.io/joshwcomeau/pen/VwRqQGP */
+.info {
+  --radius: 0.7em;
+
+  background-image:
+    radial-gradient(var(--radius),
+      transparent 98%,
+      rgb(233, 192, 201)),
+    linear-gradient(rgb(233, 192, 201) 0 0);
+  background-repeat:
+    round,
+    no-repeat;
+  background-position:
+    calc(var(--radius) * -1.5) calc(var(--radius) * -1.5),
+    40%;
+  background-size:
+    calc(var(--radius) * 3) calc(var(--radius) * 3),
+    calc(100% - var(--radius) * 3) calc(100% - var(--radius) * 3);
+}
+
+.info {
+  width: min(50%, 600px);
+  height: auto;
+  padding: 1.5em;
+  inset: 0;
+}
+
 p {
   word-wrap: break-word;
 }
-
-/*
-@media (min-width: 1024px) {
-  .about {
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
-  }
-}*/
 </style>
