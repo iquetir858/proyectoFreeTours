@@ -87,7 +87,7 @@ obtenerUsuariosBD();
 </script>
 
 <template>
-    <h2 class="text-center mb-5">Tabla principal de usuarios registrados</h2>
+    <h2 class="text-center mb-5">Usuarios Registrados</h2>
     <!--Meter aquí un modal de confirmación del guardado/borrado y hacer 
         que el mensaje de confirmación desaparezca al poco tiempo??-->
     <div v-if="exitoActualizacion != ''" class="text-success border border-3 border-success mb-3">{{ exitoActualizacion
@@ -95,7 +95,7 @@ obtenerUsuariosBD();
 
 
     <div v-if="error">{{ error }}</div>
-    <div v-else id="divTabla" class="m-3">
+    <div v-else id="divTabla" class="m-3 d-flex justify-content-center">
         <table class="table table-light table-striped table-hover text-center">
             <caption>Tabla de Usuarios Registrados</caption>
             <thead>
@@ -139,8 +139,17 @@ obtenerUsuariosBD();
 </template>
 
 <style scoped>
-table {
+h2,
+th {
+    color: rgb(22, 11, 11);
+}
 
+th {
+    text-transform: uppercase;
+}
+
+table {
+    max-width: 80%;
     overflow-y: scroll;
 }
 

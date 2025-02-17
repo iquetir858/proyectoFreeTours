@@ -3,7 +3,7 @@
 <template>
     <div>
         <input v-model="address" @keyup.enter="searchLocation" placeholder="Buscar dirección" class="input" />
-        <div id="map" style="height: 400px;"></div>
+        <div id="map" style="height: 150px; width: 400px;"></div>
     </div>
 </template>
 
@@ -33,7 +33,7 @@ const searchLocation = async () => {
         marker = L.marker([lat, lon]).addTo(map)
             .bindPopup(address.value)
             .openPopup();
-        map.setView([lat, lon], 13);
+        map.setView([lat, lon], 15);
     } else {
         alert('Dirección no encontrada');
     }
