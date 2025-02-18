@@ -18,7 +18,7 @@ function obtenerGuiasBD() {
             .then(response => response.json())
             .then(data => {
                 guiasDisponibles.value = data.filter(user => user.rol == 'guia');
-                console.log(JSON.stringify(guiasDisponibles.value));
+                //console.log(JSON.stringify(guiasDisponibles.value));
 
                 //console.log("Data: " + JSON.stringify(data));
                 //console.log("usuariosBD: " + JSON.stringify(usuariosBD));
@@ -40,6 +40,10 @@ function setLatitudLongitud(lat, lon) {
     nuevaRuta.value.longitud = lon;
 }
 
+//Función para almacenar el guía elegido (su id) para la ruta
+function actualizarGuia(id) {
+    nuevaRuta.value.guia_id = id;
+}
 
 function crearRuta() {
     //Primero HAY QUE COMPROBAR LOS DATOS
@@ -48,6 +52,16 @@ function crearRuta() {
 
     //Creación de la ruta
 
+    fetch('http://localhost/api/api.php/rutas', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(nuevaRuta.value)
+    })
+        .then(response => response.json())
+        .then(data => console.log('Respuesta:', data))
+        .catch(error => console.error('Error:', error));
 }
 
 </script>
@@ -69,23 +83,24 @@ function crearRuta() {
             <label for="foto">Foto:</label>
             <input type="text" name="foto" id="foto" v-model="nuevaRuta.foto" placeholder="URL">
 
-            <!--Asignación de guía: Cambiar a un componente ??-->
-            <label for="guia">Asignar guía:</label>
-            <select>
-                <option v-for="guia in guiasDisponibles" :key="guia.id" :value="guia.id">{{ guia.nombre }}</option>
-            </select>
-
             <label for="fecha">Fecha:</label>
             <input type="date" name="fecha" v-model="nuevaRuta.fecha">
 
             <label for="hora">Hora:</label>
             <input type="time" name="hora" v-model="nuevaRuta.hora">
 
+            <!--Asignación de guía: Cambiar a un componente ??-->
+            <label for="guia">Asignar guía:</label>
+            <select v-model="nuevaRuta.guia_id" >
+                <option v-for="guia in guiasDisponibles" :key="guia.id" :value="guia.id">{{ guia.nombre }}</option>
+            </select>
+
             <label for="mapa">Punto de encuentro</label>
             <!--Introducir aquí mapa de -->
             <Map @enviar-coordenadas="setLatitudLongitud"></Map>
 
-            <button aria-label="Crear la ruta" type="submit" class="btn" @click.prevent="crearRuta">Crear Ruta</button>
+            <button aria-label="Crear la ruta" type="submit" class="btn mt-3" @click.prevent="crearRuta">Crear
+                Ruta</button>
         </form>
     </div>
 </template>
