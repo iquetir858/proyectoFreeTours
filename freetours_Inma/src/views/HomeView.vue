@@ -21,8 +21,8 @@ function obtenerRutasDisponibles() {
   })
     .then(response => response.json())
     .then(data => {
-      console.log(data);
-      rutasDisponibles.value = data;
+      //Filtramos las rutas para que sólo salgan aquellas que sean de fechas futuras
+      rutasDisponibles.value = data.filter(ruta => new Date(ruta.fecha) > new Date());
     })
     .catch(error => console.error('Error:', error));
 }
