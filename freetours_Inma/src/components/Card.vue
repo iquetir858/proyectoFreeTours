@@ -13,9 +13,9 @@ const props = defineProps({
 <template>
     <div class="d-flex flex-row justify-content-center flex-wrap m-5 p-2 contenedorTarjetas">
         <div v-for="ruta in propRutas" class="card m-2 p-2" style="width: 18rem;">
-            <img v-bind:src="ruta.imagen" class="card-img-top img-fluid" alt="Foto de la ruta">
+            <img v-bind:src="ruta.foto" class="card-img-top img-fluid" :alt="ruta.titulo">
             <div class="card-body">
-                <h5 class="card-title">{{ ruta.nombre }}</h5>
+                <h5 class="card-title">{{ ruta.titulo }}</h5>
                 <h6 class="text-secondary">{{ ruta.localidad }}</h6>
                 <p class="card-text">
                     {{ ruta.fecha }}

@@ -68,7 +68,7 @@ function crearRuta() {
 
 
 <template>
-    <div id="divRuta">
+    <div id="divRuta" class="container">
         <form action="">
             <label for="titulo">Título de la Ruta:</label>
             <input type="text" name="titulo" v-model="nuevaRuta.titulo" placeholder="Escribe aquí el nombre...">
@@ -91,16 +91,17 @@ function crearRuta() {
 
             <!--Asignación de guía: Cambiar a un componente ??-->
             <label for="guia">Asignar guía:</label>
-            <select v-model="nuevaRuta.guia_id" >
+            <select v-model="nuevaRuta.guia_id">
                 <option v-for="guia in guiasDisponibles" :key="guia.id" :value="guia.id">{{ guia.nombre }}</option>
             </select>
 
-            <label for="mapa">Punto de encuentro</label>
+            <label for="mapa">Punto de encuentro:</label>
             <!--Introducir aquí mapa de -->
             <Map @enviar-coordenadas="setLatitudLongitud"></Map>
 
-            <button aria-label="Crear la ruta" type="submit" class="btn mt-3" @click.prevent="crearRuta">Crear
-                Ruta</button>
+            <button aria-label="Crear la ruta" type="submit" class="btn mt-3" @click.prevent="crearRuta">
+                Crear Ruta
+            </button>
         </form>
     </div>
 </template>
