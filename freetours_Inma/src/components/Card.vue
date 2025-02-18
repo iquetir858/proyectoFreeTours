@@ -21,7 +21,7 @@ const props = defineProps({
                     {{ ruta.fecha }}
                 </p>
                 <!--Este botón debería abrir un modal o vista que muestre la info de la ruta-->
-                <a href="#" class="btn btn-primary" title="Ver más información sobre la ruta">Más información</a>
+                <a href="#" class="btn btn-primary btnVerInfo" title="Ver más información sobre la ruta">Más información</a>
             </div>
         </div>
     </div>
@@ -40,15 +40,15 @@ img {
     height: 200px;
 }
 
-.btn {
-    color: rgb(22, 11, 11);
+.btnVerInfo {
+    color: rgb(32, 13, 13);
     font-weight: bold;
     background-color: rgb(236, 166, 177);
     border: 1px solid rgb(236, 166, 177);
 }
 
-.btn:hover {
+.btnVerInfo:hover {
     background-color: white;
-    border: 1px solid rgb(22, 11, 11);
+    border: 1px solid rgb(32, 13, 13);
 }
 </style>

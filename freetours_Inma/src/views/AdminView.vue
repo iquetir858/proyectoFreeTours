@@ -128,7 +128,7 @@ obtenerUsuariosBD();
                             <i class="fa-solid fa-check"></i>
                         </button>-->
                         <button aria-label="Botón para borrar al usuario" title="Borrar usuario" type="button"
-                            class="btn btn-danger" @click="borrarUsuario(usuario.id)">
+                            class="btn btn-danger btnBorrado" @click="borrarUsuario(usuario.id)">
                             <i class="fa-solid fa-trash"></i>
                         </button>
                     </td>
@@ -151,10 +151,22 @@ th {
 table {
     max-width: 80%;
     overflow-y: scroll;
+    border: 2px solid rgb(236, 166, 177);
 }
 
-.btn-danger:hover {
+/*tr{
+    border:white;
+}*/
+
+.btnBorrado {
+    color: white;
+    background-color: #DC4C64;
+    border: 1px solid #DC4C64;
+}
+
+.btnBorrado:hover {
     background-color: white;
     color: #DC4C64;
+    border: 1px solid #DC4C64;
 }
 </style>

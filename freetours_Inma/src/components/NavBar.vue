@@ -46,3 +46,13 @@ const props = defineProps({
         </div>
     </nav>
 </template>
+
+<style scoped>
+/*
+NO FUNCIONA EL CAMBIO DE ESTILO
+
+nav{
+    background-color: rgb(32, 13, 13);
+    font-weight: bold;
+}*/
+</style>

@@ -7,7 +7,7 @@
 
 <style scoped>
 .footer {
-    background: rgb(22, 11, 11);
+    background: rgb(32, 13, 13);
     color: white;
     text-align: center;
     position: fixed;

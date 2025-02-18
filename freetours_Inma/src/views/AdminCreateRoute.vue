@@ -79,7 +79,7 @@ textarea {
 }
 
 .btn {
-    color: rgb(22, 11, 11);
+    color: rgb(32, 13, 13);
     font-weight: bold;
     background-color: rgb(236, 166, 177);
     border: 1px solid rgb(236, 166, 177);
@@ -87,7 +87,7 @@ textarea {
 
 .btn:hover {
     background-color: white;
-    border: 1px solid rgb(22, 11, 11);
+    border: 1px solid rgb(32, 13, 13);
 }
 
 </style>

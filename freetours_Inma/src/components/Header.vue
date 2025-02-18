@@ -16,7 +16,7 @@ function logout() {
 </script>
 
 <template>
-    <header class="d-flex flex-wrap justify-content-center py-3 mb-4 border-bottom text-white">
+    <header class="d-flex flex-wrap justify-content-center py-3 border-bottom text-white">
         <RouterLink to="/"
             class="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-body-emphasis text-decoration-none text-white">
             <img src="../assets/logo.png" alt="(Logo)" title="Logo">
@@ -44,7 +44,7 @@ function logout() {
                 v-if="loggedUser && route.path != '/login' && route.path != '/register'">
                 <!--Intentar poner el nombre en mayúscula-->
                 <span>Bienvenid@, {{ loggedUser.nombre }} ({{ loggedUser.rol }})</span>
-                <button @click="logout" class="btn btn-danger">Cerrar Sesión</button>
+                <button @click="logout" class="btn btn-danger btnCerrarSesion">Cerrar Sesión</button>
             </li>
         </ul>
 
@@ -58,7 +58,7 @@ header {
 }
 
 .titlePage {
-    color: rgb(22, 11, 11);
+    color: rgb(32, 13, 13);
     font-weight: bold;
 }
 
@@ -72,14 +72,14 @@ img {
 }
 
 .nav-link {
-    color: rgb(22, 11, 11);
+    color: rgb(32, 13, 13);
     transition: 0.2 linear;
     margin: 0.2em;
     font-weight: bold;
 }
 
 .bienvenida {
-    color: rgb(22, 11, 11);
+    color: rgb(32, 13, 13);
 }
 
 .nav-link:hover {
@@ -87,9 +87,15 @@ img {
     text-decoration: underline;
 }
 
-.btn-danger:hover {
+.btnCerrarSesion {
+    color: white;
+    background-color: #DC4C64;
+}
+.btnCerrarSesion:hover {
     background-color: white;
     color: #DC4C64;
+    /* color: #bb2d3b; */
     font-weight: bold;
+    border: 1px solid #DC4C64;
 }
 </style>
