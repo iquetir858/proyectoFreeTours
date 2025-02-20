@@ -18,7 +18,7 @@ function obtenerGuiasBD() {
             .then(response => response.json())
             .then(data => {
                 guiasDisponibles.value = data.filter(user => user.rol == 'guia');
-                //console.log(JSON.stringify(guiasDisponibles.value));
+                console.log(JSON.stringify(guiasDisponibles.value));
 
                 //console.log("Data: " + JSON.stringify(data));
                 //console.log("usuariosBD: " + JSON.stringify(usuariosBD));
@@ -68,42 +68,66 @@ function crearRuta() {
 
 
 <template>
-    <div id="divRuta" class="container">
-        <form action="">
-            <label for="titulo">Título de la Ruta:</label>
-            <input type="text" name="titulo" v-model="nuevaRuta.titulo" placeholder="Escribe aquí el nombre...">
 
-            <label for="localidad">Localidad:</label>
-            <input type="text" name="localidad" v-model="nuevaRuta.localidad" placeholder="Indica la localidad...">
+    <div id="divRuta" class="container mt-4">
+        <form class="card p-4 shadow-lg mb-5">
 
-            <label for="descripcion">Descripción: </label>
-            <textarea name="descripcion" id="descripcionRuta" v-model="nuevaRuta.descripcion"
-                placeholder="Describe brevemente la ruta."></textarea>
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <label for="titulo" class="form-label">Título de la Ruta:</label>
+                    <input type="text" class="form-control" id="titulo" v-model="nuevaRuta.titulo"
+                        placeholder="Escribe aquí el nombre...">
+                </div>
+                <div class="col-md-6">
+                    <label for="localidad" class="form-label">Localidad:</label>
+                    <input type="text" class="form-control" id="localidad" v-model="nuevaRuta.localidad"
+                        placeholder="Indica la localidad...">
+                </div>
+            </div>
 
-            <label for="foto">Foto:</label>
-            <input type="text" name="foto" id="foto" v-model="nuevaRuta.foto" placeholder="URL">
+            <div class="mb-3">
+                <label for="descripcion" class="form-label">Descripción:</label>
+                <textarea class="form-control" id="descripcionRuta" v-model="nuevaRuta.descripcion" rows="3"
+                    placeholder="Describe brevemente la ruta."></textarea>
+            </div>
 
-            <label for="fecha">Fecha:</label>
-            <input type="date" name="fecha" v-model="nuevaRuta.fecha">
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <label for="fecha" class="form-label">Fecha:</label>
+                    <input type="date" class="form-control" id="fecha" v-model="nuevaRuta.fecha">
+                </div>
+                <div class="col-md-6">
+                    <label for="hora" class="form-label">Hora:</label>
+                    <input type="time" class="form-control" id="hora" v-model="nuevaRuta.hora">
+                </div>
+            </div>
 
-            <label for="hora">Hora:</label>
-            <input type="time" name="hora" v-model="nuevaRuta.hora">
+            <div class="row mb-3">
 
-            <!--Asignación de guía: Cambiar a un componente ??-->
-            <label for="guia">Asignar guía:</label>
-            <select v-model="nuevaRuta.guia_id">
-                <option v-for="guia in guiasDisponibles" :key="guia.id" :value="guia.id">{{ guia.nombre }}</option>
-            </select>
+                <div class="col-md-6">
+                    <label for="foto" class="form-label">Foto:</label>
+                    <input type="text" class="form-control" id="foto" v-model="nuevaRuta.foto" placeholder="URL">
+                </div>
+                <div class="col-md-6">
+                    <label for="guia" class="form-label">Asignar guía:</label>
+                    <select class="form-select" v-model="nuevaRuta.guia_id">
+                        <option v-for="guia in guiasDisponibles" :key="guia.id" :value="guia.id">{{ guia.nombre }}
+                        </option>
+                    </select>
+                </div>
+            </div>
 
-            <label for="mapa">Punto de encuentro:</label>
-            <!--Introducir aquí mapa de -->
-            <Map @enviar-coordenadas="setLatitudLongitud"></Map>
+            <div class="mb-3">
+                <label class="form-label">Punto de encuentro:</label>
+                <Map id="mapa" @enviar-coordenadas="setLatitudLongitud"></Map>
+            </div>
 
-            <button aria-label="Crear la ruta" type="submit" class="btn mt-3" @click.prevent="crearRuta">
+            <button type="submit" class="btn" @click.prevent="crearRuta">
                 Crear Ruta
             </button>
         </form>
     </div>
+
 </template>
 
 <style>

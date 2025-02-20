@@ -3,12 +3,14 @@
 <template>
     <div>
         <!--<input v-model="address" @keyup.enter="searchLocation" placeholder="Buscar dirección" class="input" />-->
-        <input v-model="address" @keyup.enter="searchLocation" placeholder="Buscar dirección" class="input" />
-        <button @click.prevent="searchLocation" class="btn btn-seconday"
-            aria-label="Realizar la búsqueda de la dirección">
-            <i class="fa-solid fa-magnifying-glass"></i>
-        </button>
-        <div id="map" style="height: 150px; width: 400px;"></div>
+        <div class="d-flex flex-row mb-2">
+            <input class="form-control" v-model="address" @keyup.enter="searchLocation"
+                placeholder="Buscar dirección" />
+            <button @click.prevent="searchLocation" class="btn ms-2" aria-label="Realizar la búsqueda de la dirección">
+                <i class="fa-solid fa-magnifying-glass"></i>
+            </button>
+        </div>
+        <div id="map" style="height: 200px; width:100%;"></div>
     </div>
 </template>
 
@@ -53,9 +55,7 @@ const searchLocation = async () => {
 </script>
 
 <style>
-.input {
-    width: 100%;
-    padding: 8px;
-    margin-bottom: 10px;
+#map {
+    z-index: 0;
 }
 </style>

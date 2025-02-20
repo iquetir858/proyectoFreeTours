@@ -52,7 +52,7 @@ obtenerRutasDisponibles();
 
       </form>
     </div>
-    <Card :propRutas="rutasDisponibles"></Card>
+    <Card v-if="rutasDisponibles" :propRutas="rutasDisponibles"></Card>
 
   </main>
 </template>
