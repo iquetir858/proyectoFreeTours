@@ -19,7 +19,7 @@ function logout() {
     <header class="d-flex flex-wrap justify-content-center py-3 border-bottom text-white">
         <RouterLink to="/"
             class="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-body-emphasis text-decoration-none text-white">
-            <img src="../assets/logo.png" alt="(Logo)" title="Logo">
+            <img src="../assets/logoGato.png" alt="(Logo)" title="Logo">
             <span class="fs-4 titlePage">{{ title }}</span>
         </RouterLink>
 
@@ -67,7 +67,8 @@ header {
 }
 
 img {
-    width: 35px;
+    width: 2.5em;
+    margin: 0 0.2em 0.8em 0.4em;
     height: auto;
 }
 
