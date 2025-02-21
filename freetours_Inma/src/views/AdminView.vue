@@ -90,8 +90,9 @@ obtenerUsuariosBD();
     <h2 class="text-center mb-5">Usuarios Registrados</h2>
     <!--Meter aquí un modal de confirmación del guardado/borrado y hacer 
         que el mensaje de confirmación desaparezca al poco tiempo??-->
-    <div v-if="exitoActualizacion != ''" class="text-success border border-3 border-success mb-3">{{ exitoActualizacion
-        }}</div>
+    <div v-if="exitoActualizacion != ''" class="text-success border border-3 border-success mb-3">
+        {{ exitoActualizacion }}
+    </div>
 
 
     <div v-if="error">{{ error }}</div>

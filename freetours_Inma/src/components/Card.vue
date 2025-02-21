@@ -63,7 +63,7 @@ const showInfo = (ruta, event) => {
     width: 70%;
     padding: 10px;
     background-color: rgb(209, 96, 113);
-    max-height: 900px;
+    max-height: 600px;
     overflow-y: scroll;
 }
 
