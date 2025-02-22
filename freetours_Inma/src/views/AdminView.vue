@@ -1,16 +1,23 @@
 <script setup>
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue';
+import { Modal } from 'bootstrap';
 
 //const session = ref(JSON.parse(localStorage.getItem('session')));
 
 const usuariosBD = ref(); //Para almacenar los usuarios de la petición
 const error = ref('');
 const exitoActualizacion = ref('');
+//DEfinición del modal 
+let modalConfirmacion = null;
+onMounted(() => {
+    modalConfirmacion = new bootstrap.Modal(document.getElementById('modalConfirmacion'));
+});
 
 
 function obtenerUsuariosBD() {
     try {
-        fetch('http://localhost/api/api.php/usuarios', {
+        //fetch('http://localhost/api/api.php/usuarios', {
+        fetch('api/api.php/usuarios', {
             method: 'GET'
         })
             .then(response => response.json())
@@ -33,7 +40,8 @@ function actualizarRol(id, nuevoRol) {
     console.log(id + "---" + nuevoRol);
 
     try {
-        fetch('http://localhost/api/api.php/usuarios?id=' + id, {
+        //fetch('http://localhost/api/api.php/usuarios?id=' + id, {
+        fetch('api/api.php/usuarios?id=' + id, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json'
@@ -45,6 +53,7 @@ function actualizarRol(id, nuevoRol) {
                 console.log("UPDATE:");
                 console.log(data);
                 exitoActualizacion.value = data.message;
+                modalConfirmacion.show();
                 error.value = '';
 
             })
@@ -59,7 +68,8 @@ function actualizarRol(id, nuevoRol) {
 
 function borrarUsuario(id) {
     try {
-        fetch('http://localhost/api/api.php/usuarios?id=' + id, {
+        //fetch('http://localhost/api/api.php/usuarios?id=' + id, {
+        fetch('api/api.php/usuarios?id=' + id, {
             method: 'DELETE'
         })
             .then(response => response.json())
@@ -90,8 +100,22 @@ obtenerUsuariosBD();
     <h2 class="text-center mb-5">Usuarios Registrados</h2>
     <!--Meter aquí un modal de confirmación del guardado/borrado y hacer 
         que el mensaje de confirmación desaparezca al poco tiempo??-->
-    <div v-if="exitoActualizacion != ''" class="text-success border border-3 border-success mb-3">
-        {{ exitoActualizacion }}
+    <div v-if="exitoActualizacion != ''" class="text-success bg-color-success text-black">
+        <!--MODAL-->
+        <div class="modal fade" id="modalConfirmacion" tabindex="-1" aria-labelledby="infoModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="infoModalLabel">Confirmación</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                    </div>
+                    <div class="modal-body">
+                        <p>{{ exitoActualizacion }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
 

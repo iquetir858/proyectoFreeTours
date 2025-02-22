@@ -10,11 +10,10 @@ const selectedRuta = ref(null);
 let modalInstance = null;
 
 onMounted(() => {
-    modalInstance = new Modal(document.getElementById('infoModal'));
+    modalInstance = new bootstrap.Modal(document.getElementById('infoModal'));
 });
 
-const showInfo = (ruta, event) => {
-    event.preventDefault(); // Evita que la página suba al inicio
+function showInfo (ruta) {
     selectedRuta.value = ruta;
     modalInstance.show();
 };
@@ -31,7 +30,7 @@ const showInfo = (ruta, event) => {
                     {{ ruta.fecha }}
                 </p>
                 <a href="#" class="btn btn-primary btnVerInfo" title="Ver más información sobre la ruta"
-                    @click="showInfo(ruta, $event)">
+                    @click.prevent="showInfo(ruta)">
                     Más información</a>
             </div>
         </div>

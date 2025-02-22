@@ -12,7 +12,8 @@ let nuevaRuta = ref({});
  */
 function obtenerGuiasBD() {
     try {
-        fetch('http://localhost/api/api.php/usuarios', {
+        //fetch('http://localhost/api/api.php/usuarios', {
+        fetch('api/api.php/usuarios', {
             method: 'GET'
         })
             .then(response => response.json())
@@ -52,7 +53,8 @@ function crearRuta() {
 
     //Creación de la ruta
 
-    fetch('http://localhost/api/api.php/rutas', {
+    //fetch('http://localhost/api/api.php/rutas', {
+    fetch('api/api.php/rutas', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'

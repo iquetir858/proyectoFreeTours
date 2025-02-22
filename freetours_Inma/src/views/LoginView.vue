@@ -29,7 +29,8 @@ function login() {
             },
             body: JSON.stringify(form.value)
         }
-        fetch('http://localhost/api/api.php/usuarios?login', options)
+        //fetch('http://localhost/api/api.php/usuarios?login', options)
+        fetch('api/api.php/usuarios?login', options)
             .then(response => response.json())
             .then(data => {
                 if (data.status === 'success') {
@@ -64,7 +65,8 @@ function userRegister() {
         if (regex.test(formRegistro.value.email)) {
             //Aquí ya estarían todos los datos correctos en el registro por lo que se haría el fetch
             //Hacemos la petición a la api
-            fetch('http://localhost/api/api.php/usuarios', {
+            //fetch('http://localhost/api/api.php/usuarios', {
+            fetch('api/api.php/usuarios', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
