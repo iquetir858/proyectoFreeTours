@@ -50,11 +50,19 @@ function actualizarRol(id, nuevoRol) {
         })
             .then(response => response.json())
             .then(data => {
-                console.log("UPDATE:");
                 console.log(data);
-                exitoActualizacion.value = data.message;
-                modalConfirmacion.show();
-                error.value = '';
+                if (data.status == 'success') {
+                    exitoActualizacion.value = data.message;
+
+                    //Mostramos el modal
+                    if (!modalConfirmacion) {
+                        modalConfirmacion = new bootstrap.Modal(document.getElementById('modalConfirmacion'));
+                    }
+
+                    modalConfirmacion.show();
+                } else {
+                    error.value = '';
+                }
 
             })
             .catch(errMsg => {
@@ -98,26 +106,6 @@ obtenerUsuariosBD();
 
 <template>
     <h2 class="text-center mb-5">Usuarios Registrados</h2>
-    <!--Meter aquí un modal de confirmación del guardado/borrado y hacer 
-        que el mensaje de confirmación desaparezca al poco tiempo??-->
-    <div v-if="exitoActualizacion != ''" class="text-success bg-color-success text-black">
-        <!--MODAL-->
-        <div class="modal fade" id="modalConfirmacion" tabindex="-1" aria-labelledby="infoModalLabel"
-            aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="infoModalLabel">Confirmación</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
-                    </div>
-                    <div class="modal-body">
-                        <p>{{ exitoActualizacion }}</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
 
     <div v-if="error">{{ error }}</div>
     <div v-else id="divTabla" class="m-3 d-flex justify-content-center">
@@ -161,6 +149,25 @@ obtenerUsuariosBD();
             </tbody>
         </table>
     </div>
+
+    <!--MODAL DE CONFIRMACIÓN-->
+    <div class="text-success bg-color-success text-black">
+        <div class="modal fade" id="modalConfirmacion" tabindex="-1" aria-labelledby="infoModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="infoModalLabel">Confirmación</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                    </div>
+                    <div class="modal-body">
+                        <p>{{ exitoActualizacion }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
 </template>
 
 <style scoped>
@@ -178,10 +185,6 @@ table {
     overflow-y: scroll;
     border: 2px solid rgb(236, 166, 177);
 }
-
-/*tr{
-    border:white;
-}*/
 
 .btnBorrado {
     color: white;
