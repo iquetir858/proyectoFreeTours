@@ -1,6 +1,6 @@
 <script setup>
 import router from '@/router';
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue';
 import { useRoute } from 'vue-router'
 
 //!!!!!!!!!!!!!!! IMPORTANTE
@@ -18,6 +18,13 @@ const errorLogin = ref('');
 const formRegistro = ref({ nombre: '', email: '', contraseña: '' });
 const errorRegistro = ref('');
 const exitoRegistro = ref('');
+
+//Modal para el resgitro 
+let modalRegistro = null;
+onMounted(() => {
+    modalRegistro = new bootstrap.Modal(document.getElementById('modalRegistro'));
+});
+
 
 //---------Función de login de usuario
 function login() {
@@ -38,7 +45,8 @@ function login() {
                     console.log("User logged: " + JSON.stringify(userLogged.value));
                     emit('loggedIn', userLogged.value);
                     errorLogin.value = '';
-                    //Redirigimos al login
+
+                    //Redirigimos al home (ya con ese usuario logeado)
                     router.push('/');
                 } else {
                     errorLogin.value = data.message;
@@ -78,6 +86,16 @@ function userRegister() {
                     if (data.status === 'success') {
                         errorRegistro.value = '';
                         exitoRegistro.value = data.message;
+                        //Mostramos el modal
+                        if (!modalRegistro) {
+                            modalRegistro = new bootstrap.Modal(document.getElementById('modalRegistro'));
+                        }
+                        modalRegistro.show();
+                        setTimeout(() => {
+                            modalRegistro.hide();
+                            exitoRegistro.value = '';
+                            router.push('/login')
+                        }, 3000);
                     } else {
                         exitoRegistro.value = '';
                         errorRegistro.value = data.message;
@@ -159,9 +177,27 @@ function userRegister() {
                             class="btn btn-danger">Cancelar</button></RouterLink>
                 </div>
             </form>
+
         </div>
     </div>
 
+
+    <!--MODAL DE CONFIRMACIÓN DE REGISTRO-->
+    <div class="text-success bg-color-success text-black">
+        <div class="modal fade" id="modalRegistro" tabindex="-1" aria-labelledby="infoModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="infoModalLabel">Registro</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                    </div>
+                    <div class="modal-body">
+                        <p>{{ exitoRegistro }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </template>
 
 <style>
