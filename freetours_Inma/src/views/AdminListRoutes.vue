@@ -1,21 +1,21 @@
 <script setup>
 import { ref } from 'vue';
 
-const rutasBD = ref();
+let rutasBD = ref();
 
 function obtenerRutas() {
     //Obtenemos todas las rutas
     //fetch('http://localhost/api/api.php/rutas', {
-    fetch('api/api.php/rutas', {
+    fetch('/api/api.php/rutas', {
         method: 'GET',
     })
         .then(response => response.json())
         .then(data => {
             //console.log('Rutas:', data);
+            console.log(data);
             rutasBD.value = data;
-
         })
-        .catch(error => console.error('Error:', error));
+        .catch(error => console.error('Error Listado Rutas:', error));
 
 }
 obtenerRutas();

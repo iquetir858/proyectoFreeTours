@@ -17,7 +17,7 @@ onMounted(() => {
 function obtenerUsuariosBD() {
     try {
         //fetch('http://localhost/api/api.php/usuarios', {
-        fetch('api/api.php/usuarios', {
+        fetch('/api/api.php/usuarios', {
             method: 'GET'
         })
             .then(response => response.json())
@@ -41,7 +41,7 @@ function actualizarRol(id, nuevoRol) {
 
     try {
         //fetch('http://localhost/api/api.php/usuarios?id=' + id, {
-        fetch('api/api.php/usuarios?id=' + id, {
+        fetch('/api/api.php/usuarios?id=' + id, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json'
@@ -77,7 +77,7 @@ function actualizarRol(id, nuevoRol) {
 function borrarUsuario(id) {
     try {
         //fetch('http://localhost/api/api.php/usuarios?id=' + id, {
-        fetch('api/api.php/usuarios?id=' + id, {
+        fetch('/api/api.php/usuarios?id=' + id, {
             method: 'DELETE'
         })
             .then(response => response.json())

@@ -17,7 +17,7 @@ let rutasDisponibles = ref();
 function obtenerRutasDisponibles() {
 
   //fetch('http://localhost/api/api.php/rutas', {
-  fetch('api/api.php/rutas', {
+  fetch('/api/api.php/rutas', {
     method: 'GET',
   })
     .then(response => response.json())
