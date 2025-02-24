@@ -1,22 +1,51 @@
 <script setup>
 import { ref, onMounted } from 'vue';
 import { Modal } from 'bootstrap';
+import router from '@/router';
 
+//PROPS
 const props = defineProps({
     propRutas: Object
 });
 
-const selectedRuta = ref(null);
-let modalInstance = null;
+//Variables:
+const rutaSeleccionada = ref(null);
+let modalInfo = null;
+let usuarioLogeado = ref(JSON.parse(localStorage.getItem('usuarioLogeado')));
+
 
 onMounted(() => {
-    modalInstance = new bootstrap.Modal(document.getElementById('infoModal'));
+    modalInfo = new bootstrap.Modal(document.getElementById('modalInfo'));
 });
 
-function showInfo (ruta) {
-    selectedRuta.value = ruta;
-    modalInstance.show();
+/**
+ * Función que muestra un modal con la información de la ruta
+ * @param ruta 
+ */
+function mostrarInfo(ruta) {
+    rutaSeleccionada.value = ruta;
+    modalInfo.show();
 };
+
+/**
+ * Función que cierra / oculta el modal de info de la ruta
+ */
+function cerrarModal() {
+    modalInfo.hide();
+}
+
+function reservarRuta(idRuta, idUsuario) {
+
+}
+
+/**
+ * Función que cierra el modal y reenvía a la página de registro desde el modal
+ */
+function enviarARegistro() {
+    cerrarModal();
+    router.push('/register');
+}
+
 </script>
 
 <template>
@@ -30,28 +59,40 @@ function showInfo (ruta) {
                     {{ ruta.fecha }}
                 </p>
                 <a href="#" class="btn btn-primary btnVerInfo" title="Ver más información sobre la ruta"
-                    @click.prevent="showInfo(ruta)">
+                    @click.prevent="mostrarInfo(ruta)">
                     Más información</a>
             </div>
         </div>
     </div>
 
     <!--MODAL (cambiarlo a componente????)-->
-    <div class="modal fade" id="infoModal" tabindex="-1" aria-labelledby="infoModalLabel" aria-hidden="true">
+    <div class="modal fade" id="modalInfo" tabindex="-1" aria-labelledby="modalInfoLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="infoModalLabel">{{ selectedRuta?.titulo }}</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                    <h5 class="modal-title" id="modalInfoLabel">{{ rutaSeleccionada?.titulo }}</h5>
+                    <button @click.prevent="cerrarModal" type="button" class="btn-close" data-bs-dismiss="modal"
+                        aria-label="Cerrar"></button>
                 </div>
                 <div class="modal-body">
-                    <p><strong>Localidad:</strong> {{ selectedRuta?.localidad }}</p>
-                    <p><strong>Fecha:</strong> {{ selectedRuta?.fecha }}</p>
-                    <p>{{ selectedRuta?.descripcion }}</p>
+                    <p><strong>Localidad:</strong> {{ rutaSeleccionada?.localidad }}</p>
+                    <p><strong>Fecha:</strong> {{ rutaSeleccionada?.fecha }}</p>
+                    <p><strong>Hora:</strong> {{ rutaSeleccionada?.hora }}</p>
+                    <img :src="rutaSeleccionada?.foto" :alt="rutaSeleccionada?.titulo"
+                        :title="rutaSeleccionada?.descripcion">
+                    <p>{{ rutaSeleccionada?.descripcion }}</p>
+                    <p>Punto de encuentro(?)</p>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                    <button @click.prevent="cerrarModal" type="button" class="btn btnBorrado"
+                        data-bs-dismiss="modal">Cerrar</button>
+                    <!--Si hay usuario registrado, se reserva-->
+                    <button v-if="usuarioLogeado" @click.prevent="reservarRuta(rutaSeleccionada.id, usuarioLogeado.id)"
+                        class="btn">Reservar</button>
+                    <!--Si no, se redirige al registro-->
+                    <button v-else class="btn btn-success" @click.prevent="enviarARegistro">Regístrate</button>
                 </div>
+
             </div>
         </div>
     </div>
@@ -80,5 +121,17 @@ img {
 .btnVerInfo:hover {
     background-color: white;
     border: 1px solid rgb(32, 13, 13);
+}
+
+.btnBorrado {
+    color: white;
+    background-color: #DC4C64;
+    border: 1px solid #DC4C64;
+}
+
+.btnBorrado:hover {
+    background-color: white;
+    color: #DC4C64;
+    border: 1px solid #DC4C64;
 }
 </style>
