@@ -7,11 +7,35 @@ import { Modal } from 'bootstrap';
 const usuariosBD = ref(); //Para almacenar los usuarios de la petición
 const error = ref('');
 const exitoActualizacion = ref('');
-//DEfinición del modal 
+//DEfinición del modal de cambio de rol 
 let modalConfirmacion = null;
 onMounted(() => {
     modalConfirmacion = new bootstrap.Modal(document.getElementById('modalConfirmacion'));
 });
+function cerrarModalConfirmacion() {
+    modalConfirmacion.hide();
+}
+
+//Modal para borrar el usuario
+let modalBorrarUsuario = null;
+onMounted(() => {
+    modalBorrarUsuario = new bootstrap.Modal(document.getElementById('modalBorrarUsuario'));
+});
+function cerrarModalBorrado() {
+    modalBorrarUsuario.hide();
+}
+
+//Función para establecer el usuario que se va a borrar
+let usuarioSeleccionado = ref(-1);
+
+function seleccionarUsuario(id) {
+    usuarioSeleccionado.value = id;
+    console.log("Id seleccionado:" + usuarioSeleccionado.value);
+
+    modalBorrarUsuario.show();
+}
+
+
 
 
 function obtenerUsuariosBD() {
@@ -37,8 +61,7 @@ function obtenerUsuariosBD() {
 }
 
 function actualizarRol(id, nuevoRol) {
-    console.log(id + "---" + nuevoRol);
-
+    // console.log(id + "---" + nuevoRol);
     try {
         //fetch('http://localhost/api/api.php/usuarios?id=' + id, {
         fetch('/api/api.php/usuarios?id=' + id, {
@@ -58,12 +81,12 @@ function actualizarRol(id, nuevoRol) {
                     if (!modalConfirmacion) {
                         modalConfirmacion = new bootstrap.Modal(document.getElementById('modalConfirmacion'));
                     }
-
                     modalConfirmacion.show();
+                    setTimeout(() => modalConfirmacion.hide(), 3000);
+
                 } else {
                     error.value = '';
                 }
-
             })
             .catch(errMsg => {
                 error.value = `Error al actualizar rol usuario: (${errMsg})`;
@@ -74,10 +97,10 @@ function actualizarRol(id, nuevoRol) {
     }
 }
 
-function borrarUsuario(id) {
+function borrarUsuario() {
     try {
         //fetch('http://localhost/api/api.php/usuarios?id=' + id, {
-        fetch('/api/api.php/usuarios?id=' + id, {
+        fetch('/api/api.php/usuarios?id=' + usuarioSeleccionado.value, {
             method: 'DELETE'
         })
             .then(response => response.json())
@@ -86,7 +109,7 @@ function borrarUsuario(id) {
                 console.log(data);
                 exitoActualizacion.value = data.message;
                 error.value = '';
-
+                cerrarModalBorrado(); //Para que se cierre automáticamente el modal
                 //Se vuelve a llamar a obtenerUsuarios para que la lista de
                 //usuarios que usa la tabla se actualice
                 obtenerUsuariosBD();
@@ -97,6 +120,8 @@ function borrarUsuario(id) {
             );
     } catch (err) {
         error.value = 'Error al obtener datos';
+        console.log(error.value);
+
     }
 }
 
@@ -141,7 +166,7 @@ obtenerUsuariosBD();
                             <i class="fa-solid fa-check"></i>
                         </button>-->
                         <button aria-label="Botón para borrar al usuario" title="Borrar usuario" type="button"
-                            class="btn btn-danger btnBorrado" @click="borrarUsuario(usuario.id)">
+                            class="btn btn-danger btnBorrado" @click="seleccionarUsuario(usuario.id)">
                             <i class="fa-solid fa-trash"></i>
                         </button>
                     </td>
@@ -158,11 +183,36 @@ obtenerUsuariosBD();
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title" id="infoModalLabel">Confirmación</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                        <button type="button" @click.prevent="cerrarModal" class="btn-close" data-bs-dismiss="modal"
+                            aria-label="Cerrar"></button>
                     </div>
                     <div class="modal-body">
                         <p>{{ exitoActualizacion }}</p>
                     </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--MODAL DE BORRADO DE UN USUARIO-->
+
+    <div class="modal fade" id="modalBorrarUsuario" tabindex="-1" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Borrar usuario</h5>
+                    <button type="button" @click.prevent="cerrarModalBorrado" class="btn-close" data-bs-dismiss="modal"
+                        aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    Vas a borrar el usuario ¿Estás seguro?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" @click.prevent="cerrarModalBorrado" class="btn"
+                        data-bs-dismiss="modal">Cancelar</button>
+                    <button type="button" @click.prevent="borrarUsuario" class="btn btnBorrado">
+                        Borrar usuario</button>
                 </div>
             </div>
         </div>

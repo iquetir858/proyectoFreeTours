@@ -95,7 +95,7 @@ function userRegister() {
                             modalRegistro.hide();
                             exitoRegistro.value = '';
                             router.push('/login')
-                        }, 3000);
+                        }, 2000);
                     } else {
                         exitoRegistro.value = '';
                         errorRegistro.value = data.message;
@@ -111,6 +111,7 @@ function userRegister() {
         //errorRegistro.value = 'El nombre y/o contraseña deben tener al menos 4 caracteres';
         exitoRegistro.value = '';
         errorRegistro.value = 'Formato nombre/contraseña incorrectos';
+        //setTimeout(()=> errorRegistro.value='', 5000);
     }
 }
 //HAY QUE HACER VALIDACIÓN DE LOS DATOS DEL FORM ANTES DEL REGISTRO
@@ -130,21 +131,20 @@ function userRegister() {
         <!-- --------- LOGIN -------------->
         <div v-if="route.path == '/login'" id="loginDiv"
             class="w-50 d-flex flex-column justify-content-center align-items-center bg-white m-2 p-5">
-            <!--<p>Aquí irá un flash message al completar registro??</p>-->
             <form action="POST">
                 <h2 class="h3 mb-3 fw-normal">LOGIN</h2>
-                <div class="form-floating">
+                <div class="form-floating p-1">
                     <input v-model="form.email" type="text" name="email" id="email" class="form-control">
                     <label for="email">Correo electrónico</label>
                 </div>
-                <div class="form-floating">
+                <div class="form-floating p-1">
                     <input v-model="form.contraseña" type="password" name='contraseña' id="contraseña"
                         class="form-control">
                     <label for='contraseña'>Contraseña</label>
                 </div>
                 <p v-if="errorLogin" class="text-danger mt-2">{{ errorLogin }}</p>
                 <div class="buttons mt-2 d-flex justify-content-evenly">
-                    <button type="submit" @click.prevent="login" class="btn btn-success">Iniciar Sesion</button>
+                    <button type="submit" @click.prevent="login" class="btn btn-success me-1">Iniciar Sesión</button>
                     <RouterLink class="text-black text-decoration-none" to="/"> <button
                             class="btn btn-danger">Cancelar</button></RouterLink>
                 </div>
@@ -153,8 +153,6 @@ function userRegister() {
         <!------------ REGISTRO -------------->
         <div v-if="route.path == '/register'" id="registerDiv"
             class="w-50 d-flex flex-column justify-content-center align-items-center bg-white m-2 p-5">
-            <p v-if="exitoRegistro" class="text-success mb-2">{{ exitoRegistro }}</p>
-            <!--MOSTRAR AQUÍ UN MODAL DE REGISTRO COMPLETADO-->
             <form action="">
                 <h2 class="h3 mb-3 fw-normal">REGISTRO</h2>
                 <div class="form-floating">

@@ -13,7 +13,7 @@ let nuevaRuta = ref({});
 function obtenerGuiasBD() {
     try {
         //fetch('http://localhost/api/api.php/usuarios', {
-        fetch('api/api.php/usuarios', {
+        fetch('/api/api.php/usuarios', {
             method: 'GET'
         })
             .then(response => response.json())
@@ -31,6 +31,8 @@ function obtenerGuiasBD() {
             );
     } catch (err) {
         //error.value = 'Error al cargar los datos';
+        console.log(err);
+        
     }
 }
 obtenerGuiasBD();
@@ -54,7 +56,7 @@ function crearRuta() {
     //Creación de la ruta
 
     //fetch('http://localhost/api/api.php/rutas', {
-    fetch('api/api.php/rutas', {
+    fetch('/api/api.php/rutas', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'

@@ -40,7 +40,7 @@ const props = defineProps({
 
             <ul v-if="usuario?.rol == 'cliente'" class="navbar-nav mr-auto">
                 <li class="nav-item">
-                    <RouterLink class="nav-link" to="/">Mis reservas</RouterLink>
+                    <RouterLink class="nav-link" to="/client">Mis reservas</RouterLink>
                 </li>
             </ul>
         </div>
