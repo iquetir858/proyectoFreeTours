@@ -12,10 +12,14 @@ const props = defineProps({
 const rutaSeleccionada = ref(null);
 let modalInfo = null;
 let usuarioLogeado = ref(JSON.parse(localStorage.getItem('usuarioLogeado')));
-
+let modalReserva = null;
+let asistentes = ref();
+let mensajeReserva = ref('');
+let errorReserva = ref('');
 
 onMounted(() => {
     modalInfo = new bootstrap.Modal(document.getElementById('modalInfo'));
+    modalReserva = new bootstrap.Modal(document.getElementById('modalReserva'));
 });
 
 /**
@@ -34,16 +38,49 @@ function cerrarModal() {
     modalInfo.hide();
 }
 
-function reservarRuta(idRuta, idUsuario) {
-
-}
-
 /**
  * Función que cierra el modal y reenvía a la página de registro desde el modal
  */
 function enviarARegistro() {
     cerrarModal();
     router.push('/register');
+}
+
+
+function reservarRuta(idRuta, emailUsuario) {
+    const reservaData = {
+        email: emailUsuario, // Email del cliente
+        ruta_id: idRuta,     // ID de la ruta
+        num_personas: asistentes.value // Número de personas para la reserva
+    };
+
+    console.log(reservaData);
+
+    if (asistentes.value >= 1 && asistentes.value <= 15) {
+        fetch('api/api.php/reservas', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(reservaData)
+        })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Respuesta:', data);
+                if (data.status == 'success') {
+                    mensajeReserva.value = data.message;
+                    errorReserva.value = '';
+                } else {
+                    errorReserva.value = data.message;
+                    mensajeReserva.value = '';
+                }
+                setTimeout(() => {
+                    modalReserva.hide();
+                    asistentes.value = '';
+                }, 5000);
+            })
+            .catch(error => console.error('Error reserva (card):', error));
+    }
 }
 
 </script>
@@ -58,7 +95,7 @@ function enviarARegistro() {
                 <p class="card-text">
                     {{ ruta.fecha }}
                 </p>
-                <a href="#" class="btn btn-primary btnVerInfo" title="Ver más información sobre la ruta"
+                <a href="#" class="btn btnVerInfo" title="Ver más información sobre la ruta"
                     @click.prevent="mostrarInfo(ruta)">
                     Más información</a>
             </div>
@@ -87,12 +124,45 @@ function enviarARegistro() {
                     <button @click.prevent="cerrarModal" type="button" class="btn btnBorrado"
                         data-bs-dismiss="modal">Cerrar</button>
                     <!--Si hay usuario registrado, se reserva-->
-                    <button v-if="usuarioLogeado" @click.prevent="reservarRuta(rutaSeleccionada.id, usuarioLogeado.id)"
+                    <button v-if="usuarioLogeado" @click.prevent="modalReserva.show(); modalInfo.hide()"
                         class="btn">Reservar</button>
                     <!--Si no, se redirige al registro-->
                     <button v-else class="btn btn-success" @click.prevent="enviarARegistro">Regístrate</button>
                 </div>
 
+            </div>
+        </div>
+    </div>
+
+    <!--MODAL RESERVA-->
+    <div class="modal fade" id="modalReserva" tabindex="-1" aria-labelledby="modalInfoLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalInReservaLabel">Reserva</h5>
+                    <button @click.prevent="modalReserva.hide()" type="button" class="btn-close" data-bs-dismiss="modal"
+                        aria-label="Cerrar"></button>
+                </div>
+                <div class="modal-body">
+                    <p><strong>Reserva de la ruta "{{ rutaSeleccionada?.titulo }}"</strong></p>
+                    <label for="numPersonas">Número de asistentes: </label>
+                    <input v-model="asistentes" type="number" min="1" max="15" name="numPersonas" id="asistentes"
+                        placeholder="1">
+                    <!--Mensaje de confirmación/error-->
+                    <div>
+                        <p v-if="mensajeReserva != ''" class="text-success text-center">{{ mensajeReserva }}</p>
+                        <p v-else-if="mensajeReserva == '' && errorReserva != ''" class="text-success text-danger">
+                            {{ errorReserva }}</p>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button @click.prevent="modalReserva.hide()" type="button" class="btn btnBorrado"
+                        data-bs-dismiss="modal">Cerrar</button>
+                    <!--Si hay usuario registrado, se reserva-->
+                    <button v-if="usuarioLogeado"
+                        @click.prevent="reservarRuta(rutaSeleccionada.id, usuarioLogeado.email)"
+                        class="btn">Confirmar</button>
+                </div>
             </div>
         </div>
     </div>
@@ -121,6 +191,7 @@ img {
 .btnVerInfo:hover {
     background-color: white;
     border: 1px solid rgb(32, 13, 13);
+    color: rgb(32, 13, 13);
 }
 
 .btnBorrado {
