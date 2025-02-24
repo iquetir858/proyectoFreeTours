@@ -13,7 +13,7 @@ const rutaSeleccionada = ref(null);
 let modalInfo = null;
 let usuarioLogeado = ref(JSON.parse(localStorage.getItem('usuarioLogeado')));
 let modalReserva = null;
-let asistentes = ref();
+let asistentes = ref(1);
 let mensajeReserva = ref('');
 let errorReserva = ref('');
 
@@ -57,7 +57,7 @@ function reservarRuta(idRuta, emailUsuario) {
     console.log(reservaData);
 
     if (asistentes.value >= 1 && asistentes.value <= 15) {
-        fetch('api/api.php/reservas', {
+        fetch('/api/api.php/reservas', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -76,10 +76,18 @@ function reservarRuta(idRuta, emailUsuario) {
                 }
                 setTimeout(() => {
                     modalReserva.hide();
-                    asistentes.value = '';
-                }, 5000);
+                    asistentes.value = 1; // Reset input field
+                    mensajeReserva.value = '';
+                    errorReserva.value = '';
+                }, 3000);
             })
-            .catch(error => console.error('Error reserva (card):', error));
+            .catch(error => {
+                console.error('Error reserva (card):', error);
+                errorReserva.value = 'Error al procesar la reserva. Inténtalo de nuevo.';
+                setTimeout(() => {
+                    errorReserva.value = '';
+                }, 3000);
+            });
     }
 }
 
@@ -103,7 +111,8 @@ function reservarRuta(idRuta, emailUsuario) {
     </div>
 
     <!--MODAL (cambiarlo a componente????)-->
-    <div class="modal fade" id="modalInfo" tabindex="-1" aria-labelledby="modalInfoLabel" aria-hidden="true">
+    <div role="dialog" class="modal fade" id="modalInfo" tabindex="-1" aria-labelledby="modalInfoLabel"
+        aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -135,7 +144,8 @@ function reservarRuta(idRuta, emailUsuario) {
     </div>
 
     <!--MODAL RESERVA-->
-    <div class="modal fade" id="modalReserva" tabindex="-1" aria-labelledby="modalInfoLabel" aria-hidden="true">
+    <div role="dialog" class="modal fade" id="modalReserva" tabindex="-1" aria-labelledby="modalInfoLabel"
+        aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -146,12 +156,12 @@ function reservarRuta(idRuta, emailUsuario) {
                 <div class="modal-body">
                     <p><strong>Reserva de la ruta "{{ rutaSeleccionada?.titulo }}"</strong></p>
                     <label for="numPersonas">Número de asistentes: </label>
-                    <input v-model="asistentes" type="number" min="1" max="15" name="numPersonas" id="asistentes"
+                    <input v-model.number="asistentes" type="number" min="1" max="15" name="numPersonas" id="asistentes"
                         placeholder="1">
                     <!--Mensaje de confirmación/error-->
                     <div>
-                        <p v-if="mensajeReserva != ''" class="text-success text-center">{{ mensajeReserva }}</p>
-                        <p v-else-if="mensajeReserva == '' && errorReserva != ''" class="text-success text-danger">
+                        <p v-if="mensajeReserva != ''" class="text-success">{{ mensajeReserva }}</p>
+                        <p v-else-if="mensajeReserva == '' && errorReserva != ''" class="text-success">
                             {{ errorReserva }}</p>
                     </div>
                 </div>
