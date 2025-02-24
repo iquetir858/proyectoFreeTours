@@ -5,7 +5,7 @@ import { ref } from 'vue';
 let rutasDisponibles = ref([]);
 let localidad = ref();
 let fecha = ref();
-
+let mensajeFecha = ref();
 
 //Función que hace la petición a la base de datos para obtener
 //las rutas generales
@@ -29,20 +29,25 @@ obtenerRutasDisponibles();
  * Función que realiza la búsqueda de una ruta según una fecha y/o localidad
  */
 function busquedaFiltro() {
+  //En caso de que no haya localidad, establecemos su valor a '' para evitar el undefined
+  if (!localidad.value) { localidad.value = ''; }
+  console.log("Fecha: " + fecha.value);
 
-  if (fecha) {
+  if (fecha.value) {
+    mensajeFecha.value = ''; //Eliminamos el mensaje 
+
     fetch(`/api/api.php/rutas?fecha=${fecha.value}&localidad=${localidad.value}`, {
       method: 'GET',
     })
       .then(response => response.json())
       .then(data => {
-        console.log(fecha.value);
-
+        console.log(`/api/api.php/rutas?fecha=${fecha.value}&localidad=${localidad.value}`);
         console.log('Rutas filtradas:', data);
         rutasDisponibles.value = data;
       })
       .catch(error => console.error('Error en búsqueda de ruta con filtro:', error));
-
+  } else {
+    mensajeFecha.value = 'Por favor, indica una fecha para realizar el filtrado';
   }
 }
 
@@ -54,6 +59,7 @@ function borrarFiltros() {
   obtenerRutasDisponibles();
   fecha.value = '';
   localidad.value = '';
+  mensajeFecha.value = '';
 }
 
 </script>
@@ -78,13 +84,15 @@ function borrarFiltros() {
         <button @click.prevent="busquedaFiltro" class="btn ms-2 btnBusqueda" aria-label="Realizar búsqueda de rutas">
           <i class="fa-solid fa-magnifying-glass"></i>
         </button>
-        <button @click.prevent="borrarFiltros" class="btn btnBusqueda ms-2"
+        <button @click.prevent="borrarFiltros" class="btn btnBorrado ms-2"
           aria-label="Eliminar filtros aplicados">X</button>
 
       </form>
+      <div v-if="mensajeFecha != ''" class="text-danger text-center">{{ mensajeFecha }}</div>
     </div>
     <Card v-if="rutasDisponibles.length > 0" :propRutas="rutasDisponibles"></Card>
-    <div v-else class="container bg-secondary text-white mt-2">No existen rutas para dicha fecha</div>
+    <!--Clase 'lead': https://getbootstrap.com/docs/5.0/content/typography/ -->
+    <div v-else class="container lead bg-secondary text-white mt-2 text-center">No existen rutas para dicha fecha</div>
 
   </main>
 </template>
@@ -106,4 +114,18 @@ input {
   color: rgb(236, 166, 177);
   border: 1px solid white;
 }
+
+
+.btnBorrado {
+    color: white;
+    background-color: #DC4C64;
+    border: 1px solid #DC4C64;
+}
+
+.btnBorrado:hover {
+    background-color: white;
+    color: #DC4C64;
+    border: 1px solid #DC4C64;
+}
+
 </style>
