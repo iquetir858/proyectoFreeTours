@@ -20,7 +20,9 @@ function obtenerRutas() {
 }
 obtenerRutas();
 
+function borrarRuta(id){
 
+}
 
 
 
@@ -36,9 +38,9 @@ obtenerRutas();
                 <tr>
                     <th scope="col">ID</th>
                     <th scope="col">Ruta</th> <!--Poner en esta columna el titulo y un modal de info??-->
-                    <th scope="col">Participantes</th>
-                    <th scope="col">Límite</th>
+                    <th scope="col">Asistentes</th> <!--Si es menor de 10, salta warning-->
                     <th scope="col">Guía</th>
+                    <th scope="col">Duplicado</th>
                     <th scope="col">Cancelación</th>
                 </tr>
             </thead>
@@ -47,16 +49,21 @@ obtenerRutas();
                 <tr v-for="ruta in rutasBD" :key="ruta.id">
                     <td>{{ ruta.id }}</td>
                     <td>{{ ruta.titulo }}</td>
-                    <td>{{ ruta.asistentes }}</td> <!--Hay que contar el num de reservas y tal-->
-                    <td>10</td>
+                    <td>{{ ruta.asistentes }}</td>
                     <td>
                         {{ ruta.guia_nombre }} +
                         <!--Meter aquí un el guía según la ruta-->
-                        <!--Añadir un + que lleve a un componente para el cambio o reselección del guía-->
+                        <!--ESTO HAY QUE IMPLEMENTARLO-->
+                        <select v-model="ruta.guia_nombre" @focus="alert('hola')" @change="cambiarGuia(ruta.id)">
+                            <option value="admin">Admin</option><!--Aquídeberían ser los guias disponibles en esa fecha-->
+                        </select>
+                    </td>
+                    <td>
+                        <button class="btn" aria-label="Duplicar la ruta actual en otra fecha">Duplicar</button>
                     </td>
                     <td>
                         <!--Mostrar modal de confirmación de la cancelación-->
-                        <button class="btn btnBorrado" aria-label="Cancelar la ruta">Cancelar</button>
+                        <button @click.prevent="borrarRuta(ruta.id)" class="btn btnBorrado" aria-label="Cancelar la ruta">Cancelar</button>
                     </td>
                 </tr>
             </tbody>

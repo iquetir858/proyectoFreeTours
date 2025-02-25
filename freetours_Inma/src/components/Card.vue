@@ -161,7 +161,7 @@ function reservarRuta(idRuta, emailUsuario) {
                     <!--Mensaje de confirmación/error-->
                     <div>
                         <p v-if="mensajeReserva != ''" class="text-success">{{ mensajeReserva }}</p>
-                        <p v-else-if="mensajeReserva == '' && errorReserva != ''" class="text-success">
+                        <p v-else-if="mensajeReserva == '' && errorReserva != ''" class="text-danger">
                             {{ errorReserva }}</p>
                     </div>
                 </div>
