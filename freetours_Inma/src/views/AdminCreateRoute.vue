@@ -1,41 +1,43 @@
 <script setup>
-import { ref } from 'vue';
+import { ref, computed } from 'vue';
 import Map from '@/components/Map.vue';
 
 let guiasDisponibles = ref(); //Se cogen mediante una llamada a la api
 let nuevaRuta = ref({});
+let fechaSeleccionada = computed(() => !!nuevaRuta.value.fecha); //Variable que comprueba si ya se ha seleccionado una fecha
+//!!-> convierte el valor en su equivalente booleano (si hay fecha válida -> true, si no, false)
 
 /**
  * Función para obtener los guías almacenados, filtrando los usuarios 
- * de la Base de Datos por rol
- * -----ARREGLAR EL MOSTRAR ERRORES!!! IMPLEMENTARLO -----
+ * de la Base de Datos por rol  y según la fecha indicada en el formulario
+ * ----IMPLEMENTAR EL MOSTRAR ERRORES!!!!!
  */
 function obtenerGuiasBD() {
+    let fecha = nuevaRuta.value.fecha;
     try {
         //fetch('http://localhost/api/api.php/usuarios', {
-        fetch('/api/api.php/usuarios', {
+        fetch(`/api/api.php/asignaciones?fecha=${fecha}`, {
             method: 'GET'
         })
             .then(response => response.json())
             .then(data => {
-                guiasDisponibles.value = data.filter(user => user.rol == 'guia');
-                console.log(JSON.stringify(guiasDisponibles.value));
+                guiasDisponibles.value = data;
+                console.log("Guías disponibles en esa fecha: " + JSON.stringify(guiasDisponibles.value));
 
-                //console.log("Data: " + JSON.stringify(data));
-                //console.log("usuariosBD: " + JSON.stringify(usuariosBD));
                 //error.value = '';
             })
             .catch(errMsg => {
                 //error.value = errMsg;
+                console.log("Error (obtención asignaciones): " + errMsg);
+
             }
             );
     } catch (err) {
         //error.value = 'Error al cargar los datos';
-        console.log(err);
-        
+        console.log("Error Obtención Guías: " + err);
+
     }
 }
-obtenerGuiasBD();
 
 //Función que almacena los valores de latitud y longitud del emit del mapa
 function setLatitudLongitud(lat, lon) {
@@ -53,8 +55,7 @@ function crearRuta() {
     console.log(nuevaRuta.value);
 
 
-    //Creación de la ruta
-
+    //-------------Creación de la ruta
     //fetch('http://localhost/api/api.php/rutas', {
     fetch('/api/api.php/rutas', {
         method: 'POST',
@@ -92,7 +93,8 @@ function crearRuta() {
             <div class="row mb-3">
                 <div class="col-md-6">
                     <label for="fecha" class="form-label">Fecha:</label>
-                    <input type="date" class="form-control" id="fecha" v-model="nuevaRuta.fecha">
+                    <input type="date" class="form-control" id="fecha" v-model="nuevaRuta.fecha"
+                        @change="obtenerGuiasBD">
                 </div>
                 <div class="col-md-6">
                     <label for="hora" class="form-label">Hora:</label>
@@ -106,8 +108,9 @@ function crearRuta() {
                     <input type="text" class="form-control" id="foto" v-model="nuevaRuta.foto" placeholder="URL">
                 </div>
                 <div class="col-md-6">
-                    <label for="guia" class="form-label">Asignar guía:</label>
-                    <select class="form-select" v-model="nuevaRuta.guia_id">
+                    <label for="guia" class="form-label">Asignar guía: <span class="text-danger">(Tras seleccionar
+                            fecha)</span></label>
+                    <select class="form-select" v-model="nuevaRuta.guia_id" :disabled="!fechaSeleccionada">
                         <option value="" disabled>Selecciona un guía</option>
                         <option v-for="guia in guiasDisponibles" :key="guia.id" :value="guia.id">{{ guia.nombre }}
                         </option>
