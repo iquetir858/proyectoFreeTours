@@ -1,12 +1,23 @@
 <script setup>
-import { ref, computed } from 'vue';
+import { ref, computed, onMounted } from 'vue';
 import Map from '@/components/Map.vue';
 
 let guiasDisponibles = ref(); //Se cogen mediante una llamada a la api
 let nuevaRuta = ref({});
 let fechaSeleccionada = computed(() => !!nuevaRuta.value.fecha); //Variable que comprueba si ya se ha seleccionado una fecha
 //!!-> convierte el valor en su equivalente booleano (si hay fecha válida -> true, si no, false)
+let exitoCreacion = ref('');
+let errorCreacion = ref('');
+let modalConfirmacion = null;
+onMounted(() => {
+    modalConfirmacion = new bootstrap.Modal(document.getElementById('modalConfirmacion'));
+});
+function cerrarModal() {
+    modalConfirmacion.hide();
+}
 
+
+//-------------------------- FUNCIONES --------------------------------------
 /**
  * Función para obtener los guías almacenados, filtrando los usuarios 
  * de la Base de Datos por rol  y según la fecha indicada en el formulario
@@ -56,8 +67,8 @@ function crearRuta() {
 
 
     //-------------Creación de la ruta
-    //fetch('http://localhost/api/api.php/rutas', {
-    fetch('/api/api.php/rutas', {
+    fetch('http://localhost/api/api.php/rutas', {
+        // fetch('/api/api.php/rutas', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -65,7 +76,20 @@ function crearRuta() {
         body: JSON.stringify(nuevaRuta.value)
     })
         .then(response => response.json())
-        .then(data => console.log('Respuesta:', data))
+        .then(data => {
+            console.log('Respuesta:', data);
+            if (data.status == 'success') {
+                exitoCreacion.value = data.message;
+                errorCreacion.value = '';
+            } else {
+                errorCreacion.value = data.message;
+                exitoCreacion.value = '';
+            }
+            modalConfirmacion.show();
+            setTimeout(() => {
+                modalConfirmacion.hide();
+            }, 2000);
+        })
         .catch(error => console.error('Error:', error));
 }
 
@@ -135,6 +159,25 @@ function crearRuta() {
         </form>
     </div>
 
+    <!--MODAL DE CONFIRMACIÓN DE CREACIÓN-->
+    <div class="text-success bg-color-success text-black">
+        <div class="modal fade" id="modalConfirmacion" tabindex="-1" aria-labelledby="infoModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="infoModalLabel">Creación de ruta</h5>
+                        <button type="button" @click.prevent="cerrarModal" class="btn-close" data-bs-dismiss="modal"
+                            aria-label="Cerrar"></button>
+                    </div>
+                    <div class="modal-body">
+                        <p v-if="exitoCreacion != ''" class="text-success">{{ exitoCreacion }}</p>
+                        <p v-else class="text-danger">{{ errorCreacion }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </template>
 
 <style>
