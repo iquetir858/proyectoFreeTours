@@ -44,6 +44,7 @@ function obtenerGuiasFecha(fechaRuta) {
         })
             .then(response => response.json())
             .then(data => {
+                console.log(data);
                 guiasDisponiblesPorFecha.value[fechaRuta] = data;
                 console.log("Guías disponibles en esa fecha: " + JSON.stringify(guiasDisponiblesPorFecha.value));
                 //error.value = '';
@@ -100,21 +101,30 @@ function cambiarGuia(ruta) {
             if (data.status == 'success') {
                 exitoActualizacion.value = data.message;
                 errorActualizacion.value = '';
+
+                //Se actualiza también el nombre del guía
+                const guiaSeleccionado = (guiasDisponiblesPorFecha.value[ruta.fecha] || []).find(guia => guia.id === ruta.guia_id);
+                if (guiaSeleccionado) {
+                    ruta.guia_nombre = guiaSeleccionado.nombre;
+                }
+
+                //Luego vuelve a cargar los guias por fecha para que se actualice el valor por defecto del select
+                cargarGuiasPorFecha();
+
             } else {
                 exitoActualizacion.value = '';
                 errorActualizacion.value = data.message;
             }
 
+            modalConfirmacion.show();
             setTimeout(() => {
                 modalConfirmacion.hide();
                 errorActualizacion.value = '';
                 exitoActualizacion.value = '';
-            })
+            }, 4000)
         })
         .catch(error => console.error('Error:', error));
 
-    //Luego vuelve a cargar los guias por fecha para que se actualice el valor por defecto del select
-   // cargarGuiasPorFecha();
 }
 
 function borrarRuta(id) {
@@ -150,7 +160,12 @@ obtenerRutas();
                         <!--Meter aquí un el guía según la ruta-->
                         <!--ESTO HAY QUE IMPLEMENTARLO-->
                         <select v-model="ruta.guia_id" @change="cambiarGuia(ruta)">
-                            <option :value="ruta.guia_id">{{ ruta.guia_nombre }}</option>
+                            <!-- Opción por defecto en caso de que a la ruta no se le haya asignado un guía-->
+                            <option v-if="!ruta.guia_id" :value="null" disabled selected>Sin guía</option>
+
+                            <option v-if="ruta.guia_id" :value="ruta.guia_id || 'Sin guía'">
+                                {{ ruta.guia_nombre || 'Sin guía' }}
+                            </option>
                             <option v-for="guia in (guiasDisponiblesPorFecha[ruta.fecha] || [])" :key="guia.id"
                                 :value="guia.id"> {{ guia.nombre }}</option>
                             <!--Aquí deberían ser los guias disponibles en esa fecha-->
