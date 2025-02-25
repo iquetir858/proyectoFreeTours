@@ -1,4 +1,5 @@
 <script setup>
+import Cat from '@/components/Cat.vue';
 
 </script>
 
@@ -15,8 +16,8 @@
         disfrutar de experiencias auténticas y enriquecedoras sin preocuparse de gastar demasiado. ¡Y así nació
         <span>PurrfectTours!</span>
       </p>
+      <Cat></Cat>
     </div>
-
     <div class="video col-12 col-md-6">
       <video id="media" width="500" height="350" controls>
         <source src="../assets/videos/video.mp4" type="video/mp4">
@@ -37,7 +38,6 @@
 /*Enlace del estilo: https://codepen.io/joshwcomeau/pen/VwRqQGP */
 .info {
   --radius: 0.7em;
-
   background-image:
     radial-gradient(var(--radius),
       transparent 98%,
