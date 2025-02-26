@@ -3,18 +3,25 @@ import { ref, onMounted } from 'vue';
 
 let rutasBD = ref();
 let guiasDisponiblesPorFecha = ref({});
-//----------------MODAL
+//----------------MODALES
 let exitoActualizacion = ref('');
 let errorActualizacion = ref('');
 let modalConfirmacion = null;
+let modalBorrado = null;
+let exitoBorrado = ref('');
+let errorBorrado = ref('');
+let rutaSeleccionada = ref(''); //Id de la ruta seleccionada para borrar
+
 onMounted(() => {
     modalConfirmacion = new bootstrap.Modal(document.getElementById('modalConfirmacion'));
+    modalBorrado = new bootstrap.Modal(document.getElementById('modalBorrado'));
 });
 function cerrarModal() {
     modalConfirmacion.hide();
+    modalBorrado.hide();
 }
 
-//----------------FUNCIONES PARA OBTENER RUTAS/GUÍAS
+//------------------------------ FUNCIONES SOBRE RUTAS
 function obtenerRutas() {
     //Obtenemos todas las rutas
     //fetch('http://localhost/api/api.php/rutas', {
@@ -127,7 +134,38 @@ function cambiarGuia(ruta) {
 
 }
 
-function borrarRuta(id) {
+function borrarRuta() {
+    let rutaId = rutaSeleccionada.value;
+    fetch(`/api/api.php/rutas?id=${rutaId}`, {
+        method: 'DELETE',
+    })
+        .then(response => response.json())
+        .then(data => {
+            console.log('Respuesta:', data)
+            if (data.status == 'success') {
+                exitoBorrado.value = data.message;
+                errorBorrado = '';
+                obtenerRutas();
+                cargarGuiasPorFecha();
+
+            } else {
+                exitoBorrado.value = '';
+                errorBorrado = data.message;
+            }
+            setTimeout(() => {
+                modalBorrado.hide();
+                exitoBorrado.value = '';
+                errorBorrado = '';
+            }, 3000);
+        })
+        .catch(error => console.error('Error:', error));
+}
+
+function mostrarModalBorrado(rutaId) {
+    modalBorrado.show();
+    rutaSeleccionada.value = rutaId;
+    console.log("Selecc--> " + rutaSeleccionada.value);
+
 }
 
 //------------LLAMADAS AL CARGAR LA VISTA
@@ -176,7 +214,7 @@ obtenerRutas();
                     </td>
                     <td>
                         <!--Mostrar modal de confirmación de la cancelación-->
-                        <button @click.prevent="borrarRuta(ruta.id)" class="btn btnBorrado"
+                        <button @click.prevent="mostrarModalBorrado(ruta.id)" class="btn btnBorrado"
                             aria-label="Cancelar la ruta">Cancelar</button>
                     </td>
                 </tr>
@@ -198,6 +236,31 @@ obtenerRutas();
                     <div class="modal-body">
                         <p v-if="exitoActualizacion != ''" class="text-success">{{ exitoActualizacion }}</p>
                         <p v-else class="text-danger">{{ errorActualizacion }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--MODAL BORRADO-->
+    <div class="text-success bg-color-success text-black">
+        <div class="modal fade" id="modalBorrado" tabindex="-1" aria-labelledby="infoModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered ">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="infoModalLabel">Borrado de ruta</h5>
+                        <button type="button" @click.prevent="cerrarModal" class="btn-close" data-bs-dismiss="modal"
+                            aria-label="Cerrar"></button>
+                    </div>
+                    <div class="modal-body">
+                        <p>Vas a borrar esta ruta. ¿Estás seguro?</p>
+                        <p v-if="exitoBorrado != ''" class="text-success">{{ exitoBorrado }}</p>
+                        <p v-else-if="errorBorrado != ''" class="text-danger">{{ errorBorrado }}</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn" type="button" @click.prevent="cerrarModal" data-bs-dismiss="modal"
+                            aria-label="Cancelar borrado">Cancelar</button>
+                        <button class="btn btnBorrado" type="button" @click="borrarRuta">Borrar ruta</button>
                     </div>
                 </div>
             </div>
