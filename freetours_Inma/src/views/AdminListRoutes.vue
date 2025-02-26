@@ -1,4 +1,5 @@
 <script setup>
+import DuplicatedRoute from '@/components/DuplicatedRoute.vue';
 import { ref, onMounted } from 'vue';
 
 let rutasBD = ref();
@@ -8,17 +9,25 @@ let exitoActualizacion = ref('');
 let errorActualizacion = ref('');
 let modalConfirmacion = null;
 let modalBorrado = null;
+let modalDuplicar = null;
 let exitoBorrado = ref('');
 let errorBorrado = ref('');
 let rutaSeleccionada = ref(''); //Id de la ruta seleccionada para borrar
+//Variable para duplicar ruta
+let rutaSeleccionadaDuplicar = ref(null);
+
 
 onMounted(() => {
     modalConfirmacion = new bootstrap.Modal(document.getElementById('modalConfirmacion'));
     modalBorrado = new bootstrap.Modal(document.getElementById('modalBorrado'));
+    modalDuplicar = new bootstrap.Modal(document.getElementById('modalDuplicar'));
+
 });
 function cerrarModal() {
     modalConfirmacion.hide();
     modalBorrado.hide();
+    modalDuplicar.hide();
+    rutaSeleccionadaDuplicar.value = null; //Para eliminar el valor que tenía antes
 }
 
 //------------------------------ FUNCIONES SOBRE RUTAS
@@ -134,6 +143,9 @@ function cambiarGuia(ruta) {
 
 }
 
+/**
+ * Función para borrar la ruta seleccionada
+ */
 function borrarRuta() {
     let rutaId = rutaSeleccionada.value;
     fetch(`/api/api.php/rutas?id=${rutaId}`, {
@@ -161,11 +173,29 @@ function borrarRuta() {
         .catch(error => console.error('Error:', error));
 }
 
+/**
+ * Función que muestra el modal de borrado de la ruta seleccionada
+ * @param rutaId 
+ */
 function mostrarModalBorrado(rutaId) {
     modalBorrado.show();
     rutaSeleccionada.value = rutaId;
     console.log("Selecc--> " + rutaSeleccionada.value);
 
+}
+
+/**
+ * Función para abrir el modal de duplicado (componente) y pasar la ruta seleccionada
+ * @param ruta 
+ */
+function mostrarModalDuplicado(ruta) {
+    rutaSeleccionadaDuplicar.value = ruta;
+    //console.log("Estado modal: " + JSON.stringify(modalDuplicar.value));
+
+    if (!modalDuplicar) {
+        modalDuplicar = new bootstrap.Modal(document.getElementById('modalDuplicar'));
+        modalDuplicar.show();
+    }
 }
 
 //------------LLAMADAS AL CARGAR LA VISTA
@@ -210,7 +240,8 @@ obtenerRutas();
                         </select>
                     </td>
                     <td>
-                        <button class="btn" aria-label="Duplicar la ruta actual en otra fecha">Duplicar</button>
+                        <button class="btn" aria-label="Duplicar la ruta actual en otra fecha"
+                            @click.prevent="mostrarModalDuplicado(ruta)">Duplicar</button>
                     </td>
                     <td>
                         <!--Mostrar modal de confirmación de la cancelación-->
@@ -266,6 +297,10 @@ obtenerRutas();
             </div>
         </div>
     </div>
+
+    <!--MODAL DUPLICADO (Componente)-->
+    <DuplicatedRoute v-if="rutaSeleccionadaDuplicar" :ruta="rutaSeleccionadaDuplicar" @cerrarModal="cerrarModal">
+    </DuplicatedRoute>
 </template>
 
 <style scoped>
