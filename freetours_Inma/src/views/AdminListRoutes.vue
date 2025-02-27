@@ -5,29 +5,37 @@ import { ref, onMounted } from 'vue';
 let rutasBD = ref();
 let guiasDisponiblesPorFecha = ref({});
 //----------------MODALES
-let exitoActualizacion = ref('');
-let errorActualizacion = ref('');
 let modalConfirmacion = null;
 let modalBorrado = null;
 let modalDuplicar = null;
+let modalInfo = null;
+
+//--------------Mensajes éxito/error
+let exitoActualizacion = ref('');
+let errorActualizacion = ref('');
 let exitoBorrado = ref('');
 let errorBorrado = ref('');
+
+//--------------Variables ruta seleccionada (según botón pulsado)
+let rutaSeleccionadaInfo = ref(''); //Id de la ruta seleccionada para mostrar su info
 let rutaSeleccionada = ref(''); //Id de la ruta seleccionada para borrar
-//Variable para duplicar ruta
-let rutaSeleccionadaDuplicar = ref(null);
+let rutaSeleccionadaDuplicar = ref(null); //Variable para duplicar ruta
 
 
 onMounted(() => {
     modalConfirmacion = new bootstrap.Modal(document.getElementById('modalConfirmacion'));
     modalBorrado = new bootstrap.Modal(document.getElementById('modalBorrado'));
     modalDuplicar = new bootstrap.Modal(document.getElementById('modalDuplicar'));
+    modalInfo = new bootstrap.Modal(document.getElementById('modalInfo'));
 
 });
 function cerrarModal() {
     modalConfirmacion.hide();
     modalBorrado.hide();
     modalDuplicar.hide();
+    modalInfo.hide();
     rutaSeleccionadaDuplicar.value = null; //Para eliminar el valor que tenía antes
+    rutaSeleccionadaInfo.value = null; //Para eliminar el valor que tenía antes
 }
 
 //------------------------------ FUNCIONES SOBRE RUTAS
@@ -198,6 +206,10 @@ function mostrarModalDuplicado(ruta) {
     }
 }
 
+function mostrarModalInfo(){
+    
+}
+
 //------------LLAMADAS AL CARGAR LA VISTA
 obtenerRutas(); 
 </script>
@@ -222,11 +234,14 @@ obtenerRutas();
                 <!--HACER QUE NO SE PUEDA MODIFICAR EL ADMIN-->
                 <tr v-for="ruta in rutasBD" :key="ruta.id">
                     <td>{{ ruta.id }}</td>
-                    <td>{{ ruta.titulo }}</td>
+                    <td>
+                        {{ ruta.titulo }}
+                        <button @click.prevent="mostrarModalInfo()" class="btn btnMasInfo"  aria-label="Información de la ruta">
+                            <i class="fa-solid fa-circle-info"></i>
+                        </button>
+                    </td>
                     <td>{{ ruta.asistentes }}</td>
                     <td>
-                        <!--Meter aquí un el guía según la ruta-->
-                        <!--ESTO HAY QUE IMPLEMENTARLO-->
                         <select v-model="ruta.guia_id" @change="cambiarGuia(ruta)">
                             <!-- Opción por defecto en caso de que a la ruta no se le haya asignado un guía-->
                             <option v-if="!ruta.guia_id" :value="null" disabled selected>Sin guía</option>
@@ -301,6 +316,40 @@ obtenerRutas();
     <!--MODAL DUPLICADO (Componente)-->
     <DuplicatedRoute v-if="rutaSeleccionadaDuplicar" :ruta="rutaSeleccionadaDuplicar" @cerrarModal="cerrarModal">
     </DuplicatedRoute>
+
+    <!--MODAL INFORMACIÓN RUTA-->
+    <div role="dialog" class="modal fade" id="modalInfo" tabindex="-1" aria-labelledby="modalInfoLabel">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalInfoLabel">{{ rutaSeleccionadaInfo?.titulo }}</h5>
+                    <button @click.prevent="cerrarModal" type="button" class="btn-close" data-bs-dismiss="modal"
+                        aria-label="Cerrar"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-4 d-flex flex-column justify-content-evenly  col-sm-12">
+                            <p><strong>Localidad:</strong> {{ rutaSeleccionadaInfo?.localidad }}</p>
+                            <p><strong>Fecha:</strong> {{ rutaSeleccionadaInfo?.fecha }}</p>
+                            <p><strong>Hora:</strong> {{ rutaSeleccionadaInfo?.hora }}</p>
+                        </div>
+                        <div class="col-md-8 col-sm-12"><img :src="rutaSeleccionadaInfo?.foto"
+                                :alt="rutaSeleccionadaInfo?.titulo" :title="rutaSeleccionadaInfo?.descripcion">
+                            <p>{{ rutaSeleccionadaInfo?.descripcion }}</p>
+                        </div>
+                    </div>
+
+
+                    <p><strong>Punto de encuentro:</strong> </p>
+                    <Map v-if="rutaSeleccionadaInfo" :ruta="rutaSeleccionadaInfo"></Map>
+                </div>
+                <div class="modal-footer">
+                    <button @click.prevent="cerrarModal" type="button" class="btn btnBorrado"
+                        data-bs-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
 </template>
 
 <style scoped>
@@ -313,6 +362,14 @@ table {
     max-width: 80%;
     overflow-y: scroll;
     border: 2px solid rgb(236, 166, 177);
+}
+
+.btnMasInfo {
+    background: transparent;
+    border: none;
+    padding: 0;
+    color: palevioletred;
+    font-size: 1.5em;
 }
 
 
