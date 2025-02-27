@@ -178,7 +178,7 @@ function reservarRuta(idRuta, emailUsuario) {
                         data-bs-dismiss="modal">Cerrar</button>
                     <!--Si hay usuario registrado, se reserva-->
                     <button v-if="usuarioLogeado"
-                        @click.prevent="reservarRuta(rutaSeleccionada.id, usuarioLogeado.value.email)"
+                        @click.prevent="reservarRuta(rutaSeleccionada.id, usuarioLogeado.email)"
                         class="btn">Confirmar</button>
                 </div>
             </div>
