@@ -18,7 +18,7 @@ let errorDuplicar = ref('');
 
 onMounted(() => {
     //(Pongo , { backdrop: 'static' } para evitar que al clickar fuera del modal no funcione)
-    if (!modalDuplicar) modalDuplicar = new bootstrap.Modal(document.getElementById('modalDuplicar'),{ backdrop: 'static' });
+    if (!modalDuplicar) modalDuplicar = new bootstrap.Modal(document.getElementById('modalDuplicar'), { backdrop: 'static' });
     modalDuplicar.show();
 });
 
@@ -60,7 +60,7 @@ function obtenerGuiasBD() {
     } else {
         errorDuplicar.value = `La fecha no puede ser la original (${props.ruta.fecha})`;
         exitoDuplicar.value = '';
-        nuevaFecha.value=null;
+        nuevaFecha.value = null;
     }
 }
 
@@ -73,24 +73,48 @@ function duplicarRuta() {
 
     console.log(props.ruta);
 
-    /*
-        if (!nuevaFecha.value || !guiaSeleccionado.value) {
-            console.log("Debe seleccionar una fecha y un guía");
-            errorDuplicar.value = "Seleccione una fecha y un guía";
-            return;
-        } else {
-    
-            //Creamos una nueva ruta
-            let nuevaRuta = {
-                ...props.ruta,
-            };
-            nuevaRuta.fecha = nuevaFecha;
-    
-            //SE hace el fetch de creación de nueva ruta
-            //emit("duplicarRuta", nuevaRuta);
-            cerrarModal();
-        }
-    */
+    if (!nuevaFecha.value || !idGuiaSeleccionado.value) {
+        console.log("Debe seleccionar una fecha y un guía");
+        errorDuplicar.value = "Seleccione una fecha y un guía";
+    } else {
+
+        //Creamos una nueva ruta (copia de la anterior) cambiando la fecha y el guía
+        let nuevaRuta = {
+            ...props.ruta,
+            fecha: nuevaFecha.value,
+            guia_id: idGuiaSeleccionado.value
+        };
+
+        //SE hace el fetch de creación de nueva ruta
+        fetch('/api/api.php/rutas', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(nuevaRuta)
+        })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Respuesta:', data);
+                if (data.status == 'success') {
+                    exitoDuplicar.value = data.message;
+                    errorDuplicar.value = '';
+                } else {
+                    errorDuplicar.value = data.message;;
+                    exitoDuplicar.value = '';
+                }
+                setTimeout(() => {
+                    exitoDuplicar.value = '';
+                    errorDuplicar.value = '';
+                    cerrarModal();
+                }, 3000);
+            })
+            .catch(error => {
+                console.error('Error (Duplicar ruta):', error);
+                errorDuplicar.value = data.message;
+                exitoDuplicar.value = '';
+            });
+    }
 }
 
 function cerrarModal() {
@@ -111,24 +135,25 @@ function cerrarModal() {
                 <div class="modal-body">
                     <p>Duplicando la ruta: <strong>{{ props.ruta.titulo }}</strong></p>
 
-                    <label for="fechaNueva" class="form-label">Nueva Fecha</label>
+                    <label for="fechaNueva" class="form-label">Nueva Fecha:
+                        <span>(Debe ser distinta a <strong>{{ props.ruta.fecha }}</strong>)</span>
+                    </label>
                     <input type="date" id="fechaNueva" class="form-control" v-model="nuevaFecha" required
                         @change="obtenerGuiasBD">
 
                     <label for="selectGuia" class="form-label mt-2">
-                        Asignar guía: <span class="text-danger">(Tras seleccionar fecha)</span>
+                        Asignar guía: <span>(Tras seleccionar fecha)</span>
                     </label>
-                    <select id="selectGuia" class="form-select" v-model="idGuiaSeleccionado"
-                        :disabled="!nuevaFecha">
+                    <select id="selectGuia" class="form-select" v-model="idGuiaSeleccionado" :disabled="!nuevaFecha">
                         <option value="" disabled>Selecciona un guía</option>
                         <option v-for="guia in guiasDisponibles" :key="guia.id" :value="guia.id">{{ guia.nombre }}
                         </option>
                     </select>
 
                     <!--Mensaje éxito/error-->
-                    <div>
-                        <p v-if="exitoDuplicar != ''">{{ exitoDuplicar }}</p>
-                        <p v-if="errorDuplicar != ''">{{ errorDuplicar }}</p>
+                    <div class="mt-2 mensaje">
+                        <p v-if="exitoDuplicar != ''" class="text-success">{{ exitoDuplicar }}</p>
+                        <p v-if="errorDuplicar != ''" class="text-danger">{{ errorDuplicar }}</p>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -143,5 +168,14 @@ function cerrarModal() {
 <style scoped>
 .modal-content {
     padding: 1rem;
+}
+
+span {
+    color: palevioletred;
+    font-style: italic;
+}
+
+.mensaje {
+    font-weight: 600;
 }
 </style>

@@ -39,7 +39,7 @@ function obtenerRutas() {
     })
         .then(response => response.json())
         .then(data => {
-            console.log('Rutas:', data);
+            //console.log('Rutas:', data);
             rutasBD.value = data;
             cargarGuiasPorFecha();
         })
@@ -60,9 +60,9 @@ function obtenerGuiasFecha(fechaRuta) {
         })
             .then(response => response.json())
             .then(data => {
-                console.log(data);
+                //console.log(data);
                 guiasDisponiblesPorFecha.value[fechaRuta] = data;
-                console.log("Guías disponibles en esa fecha: " + JSON.stringify(guiasDisponiblesPorFecha.value));
+                //console.log("Guías disponibles en esa fecha: " + JSON.stringify(guiasDisponiblesPorFecha.value));
                 //error.value = '';
             })
             .catch(errMsg => {
