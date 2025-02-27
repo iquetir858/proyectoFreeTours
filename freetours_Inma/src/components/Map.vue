@@ -79,6 +79,9 @@ function crearMapaUbicacion() {
         if (marcadorUbicacion) marcadorUbicacion.remove();
         marcadorUbicacion = L.marker([props.ruta.latitud, props.ruta.longitud])
             .addTo(mapaUbicacion);
+            //No coloca bien la localidad
+            //.bindPopup(props.ruta.localidad)
+            //.openPopup();
     }
     ajustarMapa(mapaUbicacion);
 }

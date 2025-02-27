@@ -1,5 +1,6 @@
 <script setup>
 import DuplicatedRoute from '@/components/DuplicatedRoute.vue';
+import Map from '@/components/Map.vue';
 import { ref, onMounted } from 'vue';
 
 let rutasBD = ref();
@@ -206,13 +207,21 @@ function mostrarModalDuplicado(ruta) {
     }
 }
 
-function mostrarModalInfo(){
-    
+/**
+ * Función que muestra el modal con la información de la ruta elegida
+ */
+function mostrarModalInfo(ruta) {
+    rutaSeleccionadaInfo.value = ruta;
+    modalInfo.show();
 }
 
 //------------LLAMADAS AL CARGAR LA VISTA
 obtenerRutas(); 
 </script>
+
+
+
+
 
 <template>
     <h2 class="text-center m-2">Listado de todas las rutas</h2>
@@ -236,7 +245,8 @@ obtenerRutas();
                     <td>{{ ruta.id }}</td>
                     <td>
                         {{ ruta.titulo }}
-                        <button @click.prevent="mostrarModalInfo()" class="btn btnMasInfo"  aria-label="Información de la ruta">
+                        <button @click.prevent="mostrarModalInfo(ruta)" class="btn btnMasInfo"
+                            aria-label="Información de la ruta">
                             <i class="fa-solid fa-circle-info"></i>
                         </button>
                     </td>
@@ -333,8 +343,9 @@ obtenerRutas();
                             <p><strong>Fecha:</strong> {{ rutaSeleccionadaInfo?.fecha }}</p>
                             <p><strong>Hora:</strong> {{ rutaSeleccionadaInfo?.hora }}</p>
                         </div>
-                        <div class="col-md-8 col-sm-12"><img :src="rutaSeleccionadaInfo?.foto"
-                                :alt="rutaSeleccionadaInfo?.titulo" :title="rutaSeleccionadaInfo?.descripcion">
+                        <div class="col-md-8 col-sm-12">
+                            <img :src="rutaSeleccionadaInfo?.foto" :alt="rutaSeleccionadaInfo?.titulo"
+                                :title="rutaSeleccionadaInfo?.descripcion">
                             <p>{{ rutaSeleccionadaInfo?.descripcion }}</p>
                         </div>
                     </div>
@@ -372,6 +383,10 @@ table {
     font-size: 1.5em;
 }
 
+
+img {
+    width: 100%;
+}
 
 .btnBorrado {
     color: white;
