@@ -42,7 +42,7 @@ function login() {
             .then(data => {
                 if (data.status === 'success') {
                     userLogged.value = data.user;
-                    console.log("User logged: " + JSON.stringify(userLogged.value));
+                  //  console.log("User logged: " + JSON.stringify(userLogged.value));
                     emit('loggedIn', userLogged.value);
                     errorLogin.value = '';
 

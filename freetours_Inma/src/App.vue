@@ -5,6 +5,7 @@ import NavBar from './components/NavBar.vue';
 import Footer from './components/Footer.vue';
 import { ref } from 'vue';
 import { useRoute } from 'vue-router'
+import router from './router';
 const route = useRoute();
 
 //Habría que controlar cuando se inicia sesión y se cierra con un emit desde el hijo y tener un dato
@@ -16,8 +17,13 @@ const usuarioLogeado = ref(JSON.parse(localStorage.getItem('usuarioLogeado')));
 
 function updateSessionData(user) {
   usuarioLogeado.value = user;
-  if (usuarioLogeado.value) localStorage.setItem('usuarioLogeado', JSON.stringify(user));
-  else localStorage.removeItem('usuarioLogeado');
+  if (usuarioLogeado.value) {
+    localStorage.setItem('usuarioLogeado', JSON.stringify(user));
+  }
+  else {
+    localStorage.removeItem('usuarioLogeado');
+    router.push('/');
+  }
 }
 </script>
 
@@ -43,6 +49,4 @@ function updateSessionData(user) {
   min-width: 100vh;
   height: 120vh;
 }
-
-
 </style>

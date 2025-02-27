@@ -6,7 +6,7 @@ import AdminView from '@/views/AdminView.vue'
 import AdminCreateRoute from '@/views/AdminCreateRoute.vue'
 import AdminListRoutes from '@/views/AdminListRoutes.vue'
 import Client from '@/views/Client.vue'
-
+import Guide from '@/views/Guide.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -50,6 +50,11 @@ const router = createRouter({
       path: '/client',
       name: 'client',
       component: Client,
+    },
+    {
+      path: '/guide',
+      name: 'guide',
+      component: Guide,
     },
   ],
 })
