@@ -280,8 +280,7 @@ obtenerRutas();
 
     <!--MODAL DE CONFIRMACIÓN DE ACTUALIZACIÓN-->
     <div class="text-success bg-color-success text-black">
-        <div class="modal fade" id="modalConfirmacion" tabindex="-1" aria-labelledby="infoModalLabel"
-            aria-hidden="true">
+        <div class="modal fade" id="modalConfirmacion" tabindex="-1" aria-labelledby="infoModalLabel">
             <div class="modal-dialog modal-dialog-centered ">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -300,7 +299,7 @@ obtenerRutas();
 
     <!--MODAL BORRADO-->
     <div class="text-success bg-color-success text-black">
-        <div class="modal fade" id="modalBorrado" tabindex="-1" aria-labelledby="infoModalLabel" aria-hidden="true">
+        <div class="modal fade" id="modalBorrado" tabindex="-1" aria-labelledby="infoModalLabel">
             <div class="modal-dialog modal-dialog-centered ">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -324,7 +323,8 @@ obtenerRutas();
     </div>
 
     <!--MODAL DUPLICADO (Componente)-->
-    <DuplicatedRoute v-if="rutaSeleccionadaDuplicar" :ruta="rutaSeleccionadaDuplicar" @cerrarModal="cerrarModal">
+    <DuplicatedRoute v-if="rutaSeleccionadaDuplicar" :ruta="rutaSeleccionadaDuplicar" @cerrarModal="cerrarModal"
+        @actualizarRutas="obtenerRutas">
     </DuplicatedRoute>
 
     <!--MODAL INFORMACIÓN RUTA-->

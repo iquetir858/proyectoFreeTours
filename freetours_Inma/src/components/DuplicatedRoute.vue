@@ -5,7 +5,7 @@ import { ref, onMounted } from 'vue';
 const props = defineProps({
     ruta: Object, //Ruta que se envía para duplicar
 });
-const emit = defineEmits(["cerrarModal"]);
+const emit = defineEmits(["cerrarModal", "actualizarRutas"]);
 //const emit = defineEmits(["duplicarRuta", "cerrarModal"]);
 
 //-------------------------------VARIABLES
@@ -99,6 +99,7 @@ function duplicarRuta() {
                 if (data.status == 'success') {
                     exitoDuplicar.value = data.message;
                     errorDuplicar.value = '';
+                    emit('actualizarRutas');
                 } else {
                     errorDuplicar.value = data.message;;
                     exitoDuplicar.value = '';
