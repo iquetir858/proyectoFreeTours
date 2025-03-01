@@ -47,6 +47,9 @@ function updateSessionData(user) {
   display: flex;
   flex-direction: column;
   min-width: 100vh;
-  height: 120vh;
+}
+
+main{
+  min-height: 72.5vh;
 }
 </style>

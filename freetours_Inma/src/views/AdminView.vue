@@ -154,8 +154,9 @@ obtenerUsuariosBD();
                     <td>{{ usuario.email }}</td>
                     <td>{{ usuario.contraseña }}</td>
                     <td>
-                        <select v-model="usuario.rol" @change="actualizarRol(usuario.id, usuario.rol)">
-                            <option value="admin">Admin</option>
+                        <p v-if="usuario.rol == 'admin'">Admin</p>
+                        <select v-else v-model="usuario.rol" @change="actualizarRol(usuario.id, usuario.rol)">
+                            <!-- <option value="admin">Admin</option> (Sólo puede haber 1 admin)-->
                             <option value="guia">Guía</option>
                             <option value="cliente">Cliente</option>
                         </select>

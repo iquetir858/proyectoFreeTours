@@ -42,7 +42,6 @@ function login() {
             .then(data => {
                 if (data.status === 'success') {
                     userLogged.value = data.user;
-                  //  console.log("User logged: " + JSON.stringify(userLogged.value));
                     emit('loggedIn', userLogged.value);
                     errorLogin.value = '';
 
@@ -50,6 +49,7 @@ function login() {
                     router.push('/');
                 } else {
                     errorLogin.value = data.message;
+                    form.value = { email: '', contraseña: '' }; //Para vaciar los inputs en caso de error
                     //console.error(data.message);
                 }
             })

@@ -28,18 +28,20 @@ const props = defineProps({
 
             <ul v-if="usuario?.rol == 'guia'" class="navbar-nav mr-auto">
                 <li class="nav-item">
-                    <RouterLink class="nav-link" to="/guide">Mis asignaciones</RouterLink>
+                    <RouterLink class="nav-link" to="/guide">Mis Asignaciones</RouterLink>
                 </li>
             </ul>
-
+            <!--Vistas del cliente-->
             <ul v-if="usuario?.rol == 'cliente'" class="navbar-nav mr-auto">
                 <li class="nav-item">
-                    <RouterLink class="nav-link" to="/client">Mis reservas</RouterLink>
+                    <RouterLink class="nav-link" to="/client">Mis Reservas</RouterLink>
+                </li>
+                <li class="nav-item">
+                    <RouterLink class="nav-link" to="/client/rutas-pasadas">Rutas Pasadas</RouterLink>
                 </li>
             </ul>
         </div>
     </nav>
 </template>
 
-<style scoped>
-</style>
+<style scoped></style>

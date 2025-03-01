@@ -16,39 +16,43 @@ function logout() {
 </script>
 
 <template>
-    <header class="d-flex flex-wrap justify-content-center py-3 border-bottom text-white">
-        <RouterLink to="/"
-            class="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-body-emphasis text-decoration-none text-white">
-            <img src="../assets/logoGato.png" alt="(Logo)" title="Logo">
-            <span class="fs-4 titlePage">{{ title }}</span>
-        </RouterLink>
-
-        <ul class="nav nav-pills">
-            <li class="nav-item">
-                <!--RouterLink a la vista de AboutView.vue-->
-                <RouterLink to="/about" class="nav-link">
-                    Sobre Nosotros
-                </RouterLink>
-            </li>
-            <li class="nav-item" v-if="!loggedUser && route.path != '/login' && route.path != '/register'">
-                <RouterLink to="/login" class="nav-link">
-                    Iniciar Sesión
-                </RouterLink>
-            </li>
-            <li class="nav-item" v-if="!loggedUser && route.path != '/login' && route.path != '/register'">
-                <RouterLink to="/register" class="nav-link">
-                    Registrarse
-                </RouterLink>
-            </li>
-            <li class="bienvenida nav-item d-flex flex-column"
-                v-if="loggedUser && route.path != '/login' && route.path != '/register'">
-                <!--Intentar poner el nombre en mayúscula-->
-                <span>Bienvenid@, {{ loggedUser.nombre }} ({{ loggedUser.rol }})</span>
-                <button @click="logout" class="btn btn-danger btnCerrarSesion">Cerrar Sesión</button>
-            </li>
-        </ul>
-
-
+    <header class="navbar navbar-expand-sm">
+        <div class="container-fluid">
+            <RouterLink to="/" class="navbar-brand">
+                <img src="../assets/logoGato.png" alt="(Logo)" title="Logo">
+                <span class="fs-4 titlePage">{{ title }}</span>
+            </RouterLink>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarToggler"
+                aria-controls="navbarToggler" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse flex-row-reverse" id="navbarToggler">
+                <ul class="navbar-nav ms-auto mb-2 mb-lg-0 nav-pills">
+                    <li class="nav-item">
+                        <!--RouterLink a la vista de AboutView.vue-->
+                        <RouterLink to="/about" class="nav-link">
+                            Sobre Nosotros
+                        </RouterLink>
+                    </li>
+                    <li class="nav-item" v-if="!loggedUser && route.path != '/login' && route.path != '/register'">
+                        <RouterLink to="/login" class="nav-link">
+                            Iniciar Sesión
+                        </RouterLink>
+                    </li>
+                    <li class="nav-item" v-if="!loggedUser && route.path != '/login' && route.path != '/register'">
+                        <RouterLink to="/register" class="nav-link">
+                            Registrarse
+                        </RouterLink>
+                    </li>
+                    <li class="bienvenida nav-item d-flex flex-column"
+                        v-if="loggedUser && route.path != '/login' && route.path != '/register'">
+                        <!--Intentar poner el nombre en mayúscula-->
+                        <span>Bienvenid@, {{ loggedUser.nombre }} ({{ loggedUser.rol }})</span>
+                        <button @click="logout" class="btn btn-danger btnCerrarSesion">Cerrar Sesión</button>
+                    </li>
+                </ul>
+            </div>
+        </div>
     </header>
 </template>
 
@@ -92,6 +96,7 @@ img {
     color: white;
     background-color: #DC4C64;
 }
+
 .btnCerrarSesion:hover {
     background-color: white;
     color: #DC4C64;

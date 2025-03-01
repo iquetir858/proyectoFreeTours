@@ -6,6 +6,7 @@ import AdminView from '@/views/AdminView.vue'
 import AdminCreateRoute from '@/views/AdminCreateRoute.vue'
 import AdminListRoutes from '@/views/AdminListRoutes.vue'
 import Client from '@/views/Client.vue'
+import ClientValoration from '@/views/ClientValoration.vue'
 import Guide from '@/views/Guide.vue'
 
 const router = createRouter({
@@ -50,6 +51,11 @@ const router = createRouter({
       path: '/client',
       name: 'client',
       component: Client,
+    },
+    {
+      path: '/client/rutas-pasadas',
+      name: 'clientRutasPasadas',
+      component: ClientValoration,
     },
     {
       path: '/guide',

@@ -12,14 +12,15 @@ const emit = defineEmits(["actualizarReservas"]);
 
 //Variables:
 let reservaSeleccionada = ref(null);
-let modalPersonas = null;
+let modalNumPersonas = null;
 let modalCancelacion = null;
-let modificacionPersonas = ref(''); //Mensaje al modificar el num de personas que asisten
+let exitoModificacionPersonas = ref(''); //Mensaje de éxito modificar el num de personas que asisten
+let errorModificacionPersonas = ref(''); //Mensaje de éxito modificar el num de personas que asisten
 let errorCancelacion = ref(''); //Mensaje de error al cancelar reserva
 let exitoCancelacion = ref(''); //Mensaje de éxito al cancelar reserva
 
 onMounted(() => {
-    modalPersonas = new bootstrap.Modal(document.getElementById('modalPersonas'));
+    modalNumPersonas = new bootstrap.Modal(document.getElementById('modalNumPersonas'));
     modalCancelacion = new bootstrap.Modal(document.getElementById('modalCancelacionReserva'));
 });
 
@@ -27,7 +28,7 @@ onMounted(() => {
  * Función que oculta/cierra los modales
  */
 function cerrarModal() {
-    modalPersonas.hide();
+    modalNumPersonas.hide();
     modalCancelacion.hide();
     reservaSeleccionada.value = null;
 }
@@ -74,6 +75,30 @@ function cancelarReserva() {
         .catch(error => console.error('Error:', error));
 }
 
+/**
+ * Función que muestra el modal para cambiar el número de personas y llama a la función del fetch 
+ * o muestra un error
+ * @param reserva 
+ */
+function mostrarModalNumPersonas(reserva) {
+    modalNumPersonas.show();
+    let inputNumPersonas = document.getElementById('numPersonas');
+    //Se comprueba el input
+    if (!inputNumPersonas.value || isNaN(inputNumPersonas.value) || inputNumPersonas.value < 1) {
+        //Hay un error con el número de personas y no debe actualizarse
+        errorModificacionPersonas.value = "Número de personas no válido.";
+        exitoModificacionPersonas.value = '';
+    }else{
+        errorModificacionPersonas.value=''; //REseteamos el error
+        cambiarNumPersonas(reserva, inputNumPersonas.value); //Intentamos actualizar el valor
+    }
+}
+
+
+function cambiarNumPersonas(reserva, numPersonas) {
+
+}
+
 </script>
 
 <template>
@@ -101,8 +126,9 @@ function cancelarReserva() {
                                         {{ reserva.num_personas }}
                                     </p>
                                     <button v-if="valoracion" class="btn btn-sm btn-primary"
-                                        aria-label="Modificar número de personas"><i
-                                            class="fa-solid fa-pen-to-square"></i>
+                                        aria-label="Modificar número de personas"
+                                        @click.prevent="cambiarNumPersonas(reserva)">
+                                        <i class="fa-solid fa-pen-to-square"></i>
                                     </button>
                                 </div>
                                 <button @click.prevent="mostrarModalCancelacion(reserva)"
@@ -126,6 +152,32 @@ function cancelarReserva() {
                 </div>
                 <div class="modal-body">
                     <p>La reserva de la ruta se cancelará. ¿Estás seguro?</p>
+                    <p v-if="exitoCancelacion.value != ''" class="text-success">{{ exitoCancelacion }}</p>
+                    <p v-else-if="errorCancelacion.value != ''" class="text-danger">{{ errorCancelacion }}</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" @click.prevent="cerrarModal" class="btn"
+                        data-bs-dismiss="modal">Cerrar</button>
+                    <button type="button" @click.prevent="cancelarReserva" class="btn btnBorrado">
+                        Cancelar Reserva
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--Modal de MODIFICACIÓN DEL NÚMERO DE PERSONAS de la reserva-->
+    <div class="modal fade" id="modalNumPersonas" tabindex="-1" aria-labelledby="exampleModalLabel">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Cambiar número asistentes</h5>
+                    <button type="button" @click.prevent="cerrarModal" class="btn-close" data-bs-dismiss="modal"
+                        aria-label="Cerrar modal"></button>
+                </div>
+                <div class="modal-body">
+                    <label for="numPersonas">Selecciona el número de asistentes: </label>
+                    <input type="number" id="numPersonas" aria-label="Nuevo número de asistentes a la ruta">
                     <p v-if="exitoCancelacion.value != ''" class="text-success">{{ exitoCancelacion }}</p>
                     <p v-else-if="errorCancelacion.value != ''" class="text-danger">{{ errorCancelacion }}</p>
                 </div>
