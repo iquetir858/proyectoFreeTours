@@ -1,7 +1,7 @@
 <script setup>
 import DuplicatedRoute from '@/components/DuplicatedRoute.vue';
 import Map from '@/components/Map.vue';
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, computed } from 'vue';
 
 let rutasBD = ref();
 let guiasDisponiblesPorFecha = ref({});
@@ -22,6 +22,38 @@ let rutaSeleccionadaInfo = ref(''); //Id de la ruta seleccionada para mostrar su
 let rutaSeleccionada = ref(''); //Id de la ruta seleccionada para borrar
 let rutaSeleccionadaDuplicar = ref(null); //Variable para duplicar ruta
 
+// Variables paginación
+const paginaActual = ref(1);
+const rutasPorPagina = ref(10);
+
+// Se calculan las rutas que se mostrarán en la tabla en función de la página actual
+const rutasPaginadas = computed(() => {
+  const inicio = (paginaActual.value - 1) * rutasPorPagina.value;
+  const fin = inicio + rutasPorPagina.value;
+  return rutasBD.value ? rutasBD.value.slice(inicio, fin) : [];
+});
+
+// Se calcula el número total de páginas en función del número de rutas y las rutas por página
+const totalPaginas = computed(() => {
+  return rutasBD.value ? Math.ceil(rutasBD.value.length / rutasPorPagina.value) : 0;
+});
+
+
+function pagSiguiente() {
+  if (paginaActual.value < totalPaginas.value) {
+    paginaActual.value++;
+  }
+}
+
+function pagAnterior() {
+  if (paginaActual.value > 1) {
+    paginaActual.value--;
+  }
+}
+
+function setPagina(pagina) {
+  paginaActual.value = pagina;
+}
 
 onMounted(() => {
     modalConfirmacion = new bootstrap.Modal(document.getElementById('modalConfirmacion'));
@@ -220,14 +252,11 @@ obtenerRutas();
 </script>
 
 
-
-
-
 <template>
     <h2 class="text-center m-2">Listado de todas las rutas</h2>
 
-    <div id="divTabla" class="m-3 d-flex justify-content-center">
-        <table class="table table-light table-striped table-hover text-center">
+    <div id="divTabla" class="m-3 d-flex flex-column align-items-center">
+        <table class="table table-light table-striped table-hover text-center mb-3">
             <caption class="text-center">Listado de rutas</caption>
             <thead>
                 <tr>
@@ -241,7 +270,7 @@ obtenerRutas();
             </thead>
             <tbody>
                 <!--HACER QUE NO SE PUEDA MODIFICAR EL ADMIN-->
-                <tr v-for="ruta in rutasBD" :key="ruta.id">
+                <tr v-for="ruta in rutasPaginadas" :key="ruta.id">
                     <td>{{ ruta.id }}</td>
                     <td>
                         {{ ruta.titulo }}
@@ -276,6 +305,37 @@ obtenerRutas();
                 </tr>
             </tbody>
         </table>
+
+        <nav aria-label="Navegación de páginas" class="mt-3">
+            <ul class="pagination">
+                <li class="page-item" :class="{ disabled: paginaActual === 1 }">
+                    <button class="page-link" @click="pagAnterior" :disabled="paginaActual === 1">
+                        <span aria-hidden="true">&laquo;</span>
+                    </button>
+                </li>
+                
+                <li v-for="page in totalPaginas" 
+                    :key="page" 
+                    class="page-item"
+                    :class="{ active: page === paginaActual }">
+                    <button class="page-link" @click="setPagina(page)">{{ page }}</button>
+                </li>
+                
+                <li class="page-item" :class="{ disabled: paginaActual === totalPaginas }">
+                    <button class="page-link" @click="pagSiguiente" :disabled="paginaActual === totalPaginas">
+                        <span aria-hidden="true">&raquo;</span>
+                    </button>
+                </li>
+            </ul>
+        </nav>
+
+        <div class="mt-2">
+            <select v-model="rutasPorPagina" class="form-select form-select-sm" style="width: auto;">
+                <option :value="5">5 por página</option>
+                <option :value="10">10 por página</option>
+                <option :value="15">15 por página</option>
+            </select>
+        </div>
     </div>
 
     <!--MODAL DE CONFIRMACIÓN DE ACTUALIZACIÓN-->
@@ -398,5 +458,40 @@ img {
     background-color: white;
     color: #DC4C64;
     border: 1px solid #DC4C64;
+}
+
+/* Estilo de paginación. Los nombres no se pueden cambiar porque se aprovechan las clases de bootstrap */
+.pagination {
+  margin-bottom: 0;
+}
+
+.page-link {
+  color: #DC4C64;
+  cursor: pointer;
+}
+
+.page-item.active .page-link {
+  background-color: #DC4C64;
+  border-color: #DC4C64;
+  color: white;
+}
+
+.page-link:hover {
+  color: #DC4C64;
+  background-color: #f8f9fa;
+}
+
+.page-item.active .page-link:hover {
+  color: white;
+}
+
+.form-select {
+  border-color: #DC4C64;
+  color: #DC4C64;
+}
+
+.form-select:focus {
+  border-color: #DC4C64;
+  box-shadow: 0 0 0 0.25rem rgba(220, 76, 100, 0.25);
 }
 </style>

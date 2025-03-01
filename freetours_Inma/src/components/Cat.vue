@@ -95,7 +95,7 @@
 
 .cat {
     margin-top: 30px;
-    animation: purr 5s infinite cubic-bezier(0, .75, 1, .25);
+    animation: purr 0.5s infinite ease-in-out;
 }
 
 .head {
@@ -135,12 +135,24 @@
 }
 
 .eye {
+    position: relative;
     width: 16px;
     height: 16px;
     border-radius: 50%;
     background-color: #FFD700;
-    animation: eye-blink 5s infinite;
-    text-align: center;
+    overflow: hidden;
+}
+
+.eye::after {
+    content: '';
+    position: absolute;
+    width: 6px;
+    height: 16px;
+    background: #000;
+    border-radius: 50%;
+    top: 0;
+    left: 5px;
+    animation: pupil-move 5s infinite;
 }
 
 .muzzle {
@@ -243,158 +255,54 @@
 }
 
 @keyframes eye-blink {
-    0% {
-        transform: scaleY(0);
-    }
+     0%, 100% { transform: scaleY(1); }
+     95% { transform: scaleY(1); }
+     97.5% { transform: scaleY(0.1); }
+}
 
-    10% {
-        transform: scaleY(0);
-    }
-
-    15% {
-        transform: scaleY(1);
-    }
-
-    48% {
-        transform: scaleY(1);
-    }
-
-    50% {
-        transform: scaleY(0);
-    }
-
-    52% {
-        transform: scaleY(1);
-    }
-
-    90% {
-        transform: scaleY(1);
-    }
-
-    95% {
-        transform: scaleY(0);
-    }
-
-    100% {
-        transform: scaleY(0);
-    }
+@keyframes pupil-move {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-1px) scaleY(1.2); }
 }
 
 @keyframes purr {
-    0% {
-        left: -1px;
-    }
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-1px); }
+  75% { transform: translateX(1px); }
+}
 
-    1% {
-        left: 0px;
-    }
+.cat::after {
+  content: '';
+  position: absolute;
+  bottom: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80%;
+  height: 10px;
+  background: rgba(0, 0, 0, 0.1);
+  border-radius: 50%;
+  animation: shadow-move 5s infinite ease-in-out;
+}
 
-    2% {
-        left: -1px;
-    }
+@keyframes shadow-move {
+  0%, 100% { transform: translateX(-50%) scale(1); opacity: 0.3; }
+  50% { transform: translateX(-50%) scale(1.2); opacity: 0.2; }
+}
 
-    3% {
-        left: 0px;
-    }
+.cat:hover {
+  animation-play-state: paused;
+}
 
-    4% {
-        left: -1px;
-    }
+.cat:hover .tail-segment {
+  animation-duration: 2s;
+}
 
-    5% {
-        left: 0px;
-    }
+.cat:hover .eye::after {
+  animation: hover-pupil 1s infinite;
+}
 
-    6% {
-        left: -1px;
-    }
-
-    7% {
-        left: 0px;
-    }
-
-    8% {
-        left: -1px;
-    }
-
-    9% {
-        left: 0px;
-    }
-
-    10% {
-        left: -1px;
-    }
-
-    11% {
-        left: 0px;
-    }
-
-    12% {
-        left: -1px;
-    }
-
-    13% {
-        left: 0px;
-    }
-
-    14% {
-        left: -1px;
-    }
-
-    15% {
-        left: 0px;
-    }
-
-    16% {
-        left: -1px;
-    }
-
-    17% {
-        left: 0px;
-    }
-
-    18% {
-        left: -1px;
-    }
-
-    19% {
-        left: 0px;
-    }
-
-    20% {
-        left: -1px;
-    }
-
-    21% {
-        left: 0px;
-    }
-
-    94% {
-        left: 0px;
-    }
-
-    95% {
-        left: -1px;
-    }
-
-    96% {
-        left: 0px;
-    }
-
-    97% {
-        left: -1px;
-    }
-
-    98% {
-        left: 0px;
-    }
-
-    99% {
-        left: -1px;
-    }
-
-    100% {
-        left: 0px;
-    }
+@keyframes hover-pupil {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.2); }
 }
 </style>

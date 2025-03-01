@@ -32,24 +32,35 @@ function updateSessionData(user) {
     <Header :loggedUser="usuarioLogeado" @logout="updateSessionData" title="PurrfectTours"></Header>
     <!--Si la página es el home o login, no debería haber navbar??-->
     <NavBar v-if="usuarioLogeado" :usuario="usuarioLogeado"> </NavBar>
-
-    <RouterView @loggedIn="updateSessionData" />
+    <main>
+      <RouterView @loggedIn="updateSessionData" />
+    </main>
     <Footer />
   </div>
 </template>
 
 <style scoped>
-:global(body) {
-  background-color: rgb(250, 244, 246);
+:root {
+  --primary-color: #eca6b1;
+  --secondary-color: #200d0d;
+  --background-color: #faf4f6;
+  --text-color: #333;
+  --accent-color: #DC4C64;
+  --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+html {
+  scroll-behavior: smooth;
 }
 
 .layout {
   display: flex;
   flex-direction: column;
-  min-width: 100vh;
+  min-width: min-content;
+  min-height: auto;
 }
 
-main{
+main {
   min-height: 72.5vh;
 }
 </style>

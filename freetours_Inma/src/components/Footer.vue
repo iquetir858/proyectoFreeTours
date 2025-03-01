@@ -47,6 +47,10 @@
 
 <style scoped>
 .footer {
+    position: relative;
+    bottom: 0;
+    width: 100%;
+    z-index: 1000;
     background: linear-gradient(45deg, #1a0808, #2d1010);
 }
 
