@@ -4,7 +4,7 @@ import { ref, onMounted } from 'vue';
 //PROPS
 const props = defineProps({
     reservas: Object,
-    valoracion: Boolean //Valor para 
+    valoracion: Boolean,
 });
 
 //EMITs 
@@ -47,7 +47,7 @@ function mostrarModalCancelacion(reserva) {
  */
 function cancelarReserva() {
     let reservaId = reservaSeleccionada.value.reserva_id;
-    console.log("ReservaId: " + reservaId);
+    //console.log("ReservaId: " + reservaId);
 
     fetch(`/api/api.php/reservas?id=${reservaId}`, {
         method: 'DELETE',
@@ -69,7 +69,7 @@ function cancelarReserva() {
                 errorCancelacion.value = '';
                 exitoCancelacion.value = '';
                 reservaSeleccionada.value = null; //Eliminamos la ruta seleccionada 
-                modalCancelacion.hide();
+                cerrarModal();
             }, 3000);
         })
         .catch(error => console.error('Error:', error));
@@ -82,21 +82,61 @@ function cancelarReserva() {
  */
 function mostrarModalNumPersonas(reserva) {
     modalNumPersonas.show();
+    reservaSeleccionada.value = reserva;
+    console.log(reserva);
+    console.log(reservaSeleccionada.value);
+
+
+}
+
+/**
+ * Función que realiza la petición a la base de datos para cambiar el número de asistentes a una ruta
+ * según la reserva del cliente registrado.
+ * Obtiene el nuevo valor del input 
+ */
+function cambiarNumPersonas() {
     let inputNumPersonas = document.getElementById('numPersonas');
     //Se comprueba el input
-    if (!inputNumPersonas.value || isNaN(inputNumPersonas.value) || inputNumPersonas.value < 1) {
+    if (!inputNumPersonas.value || isNaN(inputNumPersonas.value) || inputNumPersonas.value < 1 || inputNumPersonas.value > 8) {
         //Hay un error con el número de personas y no debe actualizarse
         errorModificacionPersonas.value = "Número de personas no válido.";
         exitoModificacionPersonas.value = '';
-    }else{
-        errorModificacionPersonas.value=''; //REseteamos el error
-        cambiarNumPersonas(reserva, inputNumPersonas.value); //Intentamos actualizar el valor
+    } else {
+        errorModificacionPersonas.value = ''; //REseteamos el error
+
+        //Actualizamos los datos de la reserva a modificar
+        let idReserva = reservaSeleccionada.value.reserva_id;
+        let num_personas = { num_personas: inputNumPersonas.value };
+
+        fetch(`/api/api.php/reservas?id=${idReserva}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(num_personas)
+        })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Respuesta:', data);
+                if (data.status == 'success') {
+                    exitoModificacionPersonas.value = data.message;
+                    errorModificacionPersonas.value = '';
+                    emit('actualizarReservas');
+
+                } else {
+                    exitoModificacionPersonas.value = '';
+                    errorModificacionPersonas.value = data.message;
+                }
+                setTimeout(() => {
+                    exitoModificacionPersonas.value = '';
+                    errorModificacionPersonas.value = '';
+                    cerrarModal();
+                    reservaSeleccionada.value = null;
+                    inputNumPersonas.value = 1; //Valor por defecto
+                }, 3000);
+            })
+            .catch(error => console.error('Error:', error));
     }
-}
-
-
-function cambiarNumPersonas(reserva, numPersonas) {
-
 }
 
 </script>
@@ -125,14 +165,19 @@ function cambiarNumPersonas(reserva, numPersonas) {
                                     <p class="mb-0 me-2"><strong>Número de personas:</strong>
                                         {{ reserva.num_personas }}
                                     </p>
-                                    <button v-if="valoracion" class="btn btn-sm btn-primary"
+                                    <button v-if="!valoracion" class="btn btn-sm btn-primary"
                                         aria-label="Modificar número de personas"
-                                        @click.prevent="cambiarNumPersonas(reserva)">
+                                        @click.prevent="mostrarModalNumPersonas(reserva)">
                                         <i class="fa-solid fa-pen-to-square"></i>
                                     </button>
+
                                 </div>
-                                <button @click.prevent="mostrarModalCancelacion(reserva)"
+                                <button v-if="!valoracion" @click.prevent="mostrarModalCancelacion(reserva)"
                                     class="btn btn-danger w-100 mt-3">Cancelar Reserva</button>
+                                <div v-else>
+                                    <!--Meter aquí lógica de la valoración-->
+                                    <p>Valoración : </p>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -177,15 +222,20 @@ function cambiarNumPersonas(reserva, numPersonas) {
                 </div>
                 <div class="modal-body">
                     <label for="numPersonas">Selecciona el número de asistentes: </label>
-                    <input type="number" id="numPersonas" aria-label="Nuevo número de asistentes a la ruta">
-                    <p v-if="exitoCancelacion.value != ''" class="text-success">{{ exitoCancelacion }}</p>
-                    <p v-else-if="errorCancelacion.value != ''" class="text-danger">{{ errorCancelacion }}</p>
+                    <input type="number" id="numPersonas" aria-label="Nuevo número de asistentes a la ruta" min="1"
+                        max="8" value="1">
+                    <p v-if="exitoModificacionPersonas.value != ''" class="text-success">
+                        {{ exitoModificacionPersonas }}
+                    </p>
+                    <p v-else-if="errorModificacionPersonas.value != ''" class="text-danger">
+                        {{ errorModificacionPersonas }}
+                    </p>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" @click.prevent="cerrarModal" class="btn"
+                    <button type="button" @click.prevent="cerrarModal" class="btn btnBorrado"
                         data-bs-dismiss="modal">Cerrar</button>
-                    <button type="button" @click.prevent="cancelarReserva" class="btn btnBorrado">
-                        Cancelar Reserva
+                    <button type="button" @click.prevent="cambiarNumPersonas()" class="btn">
+                        Actualizar
                     </button>
                 </div>
             </div>

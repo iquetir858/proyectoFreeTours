@@ -2,15 +2,12 @@
 import { ref } from 'vue';
 import Reservations from '@/components/Reservations.vue';
 
-/*
-Rutas reservadas --> obtener todas las reservas del usuario con fecha >= actual
-Rutas pasadas --> Reserva del usuario cuya fecha sea < actual
-
-*/
+//-------------VARIABLES
 let cliente = ref(JSON.parse(localStorage.getItem('usuarioLogeado'))); //cliente logeado
 let reservasActuales = ref(null);
-let reservasPasadas = ref(null);
+let email = cliente.value.email;
 
+//-------------FUNCIONES
 function obtenerReservas(emailUsuario) {
 
     fetch(`/api/api.php/reservas?email=${emailUsuario}`, {
@@ -22,10 +19,8 @@ function obtenerReservas(emailUsuario) {
             let fechaActual = new Date();
             //Primero ordenamos las reservas de data según la fecha más próxima a la actual
             data.sort((a, b) => new Date(a.ruta_fecha) - new Date(b.ruta_fecha));
-            //Ahora filtramos las reservas según si ya han ocurrido, para poder diferenciar
-            //entre aquellas que podemos modificar el num de personas y las que se pueden valorar
+            //Ahora filtramos las reservas actuales (cuya fecha es superior a la actual)
             reservasActuales.value = data.filter(elem => new Date(elem.ruta_fecha) >= fechaActual);
-            reservasPasadas.value = data.filter(elem => new Date(elem.ruta_fecha) < fechaActual);
         })
         .catch(error => console.error('Error:', error));
 
@@ -47,7 +42,7 @@ obtenerReservas(cliente.value.email);
 <template>
     <h2 class="text-center mt-2">Rutas reservadas</h2>
     <Reservations v-if="reservasActuales" @actualizar-reservas="actualizarReservasActuales" :reservas="reservasActuales"
-        :valoracion="true"></Reservations>
+        :valoracion="false"></Reservations>
 
 </template>
 
