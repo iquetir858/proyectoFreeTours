@@ -6,6 +6,7 @@ import Rating from '@/components/Rating.vue';
 const props = defineProps({
     reservas: Object,
     valoracion: Boolean,
+    usuarioActual: Object,
 });
 
 //EMITs 
@@ -177,7 +178,8 @@ function cambiarNumPersonas() {
                                     class="btn btn-danger w-100 mt-3">Cancelar Reserva</button>
                                 <div v-else>
                                     <!--Meter aquí lógica de la valoración-->
-                                    <Rating></Rating>
+                                    <Rating :idRuta="reserva.ruta_id" :usuarioActual="props.usuarioActual"
+                                        @actualizar-reservas="emit('actualizarReservas');"></Rating>
                                 </div>
                             </div>
                         </div>

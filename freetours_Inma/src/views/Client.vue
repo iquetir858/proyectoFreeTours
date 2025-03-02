@@ -81,7 +81,6 @@ obtenerReservas(cliente.value.email);
                 :valoracion="false">
             </Reservations>
 
-            <!-- Pagination controls -->
             <div class="d-flex flex-column align-items-center gap-3 mt-4" v-if="reservasActuales.length > 0">
                 <nav aria-label="Navegación de páginas">
                     <ul class="pagination mb-0">
