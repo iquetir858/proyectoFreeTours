@@ -28,31 +28,31 @@ const rutasPorPagina = ref(10);
 
 // Se calculan las rutas que se mostrarán en la tabla en función de la página actual
 const rutasPaginadas = computed(() => {
-  const inicio = (paginaActual.value - 1) * rutasPorPagina.value;
-  const fin = inicio + rutasPorPagina.value;
-  return rutasBD.value ? rutasBD.value.slice(inicio, fin) : [];
+    const inicio = (paginaActual.value - 1) * rutasPorPagina.value;
+    const fin = inicio + rutasPorPagina.value;
+    return rutasBD.value ? rutasBD.value.slice(inicio, fin) : [];
 });
 
 // Se calcula el número total de páginas en función del número de rutas y las rutas por página
 const totalPaginas = computed(() => {
-  return rutasBD.value ? Math.ceil(rutasBD.value.length / rutasPorPagina.value) : 0;
+    return rutasBD.value ? Math.ceil(rutasBD.value.length / rutasPorPagina.value) : 0;
 });
 
 
 function pagSiguiente() {
-  if (paginaActual.value < totalPaginas.value) {
-    paginaActual.value++;
-  }
+    if (paginaActual.value < totalPaginas.value) {
+        paginaActual.value++;
+    }
 }
 
 function pagAnterior() {
-  if (paginaActual.value > 1) {
-    paginaActual.value--;
-  }
+    if (paginaActual.value > 1) {
+        paginaActual.value--;
+    }
 }
 
 function setPagina(pagina) {
-  paginaActual.value = pagina;
+    paginaActual.value = pagina;
 }
 
 onMounted(() => {
@@ -313,14 +313,12 @@ obtenerRutas();
                         <span aria-hidden="true">&laquo;</span>
                     </button>
                 </li>
-                
-                <li v-for="page in totalPaginas" 
-                    :key="page" 
-                    class="page-item"
-                    :class="{ active: page === paginaActual }">
-                    <button class="page-link" @click="setPagina(page)">{{ page }}</button>
+
+                <li v-for="pagina in totalPaginas" :key="pagina" class="page-item"
+                    :class="{ active: pagina === paginaActual }">
+                    <button class="page-link" @click="setPagina(pagina)">{{ pagina }}</button>
                 </li>
-                
+
                 <li class="page-item" :class="{ disabled: paginaActual === totalPaginas }">
                     <button class="page-link" @click="pagSiguiente" :disabled="paginaActual === totalPaginas">
                         <span aria-hidden="true">&raquo;</span>
@@ -462,36 +460,36 @@ img {
 
 /* Estilo de paginación. Los nombres no se pueden cambiar porque se aprovechan las clases de bootstrap */
 .pagination {
-  margin-bottom: 0;
+    margin-bottom: 0;
 }
 
 .page-link {
-  color: #DC4C64;
-  cursor: pointer;
+    color: #DC4C64;
+    cursor: pointer;
 }
 
 .page-item.active .page-link {
-  background-color: #DC4C64;
-  border-color: #DC4C64;
-  color: white;
+    background-color: #DC4C64;
+    border-color: #DC4C64;
+    color: white;
 }
 
 .page-link:hover {
-  color: #DC4C64;
-  background-color: #f8f9fa;
+    color: #DC4C64;
+    background-color: #f8f9fa;
 }
 
 .page-item.active .page-link:hover {
-  color: white;
+    color: white;
 }
 
 .form-select {
-  border-color: #DC4C64;
-  color: #DC4C64;
+    border-color: #DC4C64;
+    color: #DC4C64;
 }
 
 .form-select:focus {
-  border-color: #DC4C64;
-  box-shadow: 0 0 0 0.25rem rgba(220, 76, 100, 0.25);
+    border-color: #DC4C64;
+    box-shadow: 0 0 0 0.25rem rgba(220, 76, 100, 0.25);
 }
 </style>

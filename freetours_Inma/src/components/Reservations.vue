@@ -1,5 +1,6 @@
 <script setup>
 import { ref, onMounted } from 'vue';
+import Rating from '@/components/Rating.vue';
 
 //PROPS
 const props = defineProps({
@@ -176,7 +177,7 @@ function cambiarNumPersonas() {
                                     class="btn btn-danger w-100 mt-3">Cancelar Reserva</button>
                                 <div v-else>
                                     <!--Meter aquí lógica de la valoración-->
-                                    <p>Valoración : </p>
+                                    <Rating></Rating>
                                 </div>
                             </div>
                         </div>

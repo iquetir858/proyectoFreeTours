@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, computed } from 'vue';
 import { Modal } from 'bootstrap';
 
 //const session = ref(JSON.parse(localStorage.getItem('session')));
@@ -35,8 +35,34 @@ function seleccionarUsuario(id) {
     modalBorrarUsuario.show();
 }
 
+const paginaActual = ref(1);
+const usuariosPorPagina = ref(5);
 
+const usuariosPaginados = computed(() => {
+    const inicio = (paginaActual.value - 1) * usuariosPorPagina.value;
+    const final = inicio + usuariosPorPagina.value;
+    return usuariosBD.value ? usuariosBD.value.slice(inicio, final) : [];
+});
 
+const totalPaginas = computed(() => {
+    return usuariosBD.value ? Math.ceil(usuariosBD.value.length / usuariosPorPagina.value) : 0;
+});
+
+function pagSiguiente() {
+    if (paginaActual.value < totalPaginas.value) {
+        paginaActual.value++;
+    }
+}
+
+function pagAnterior() {
+    if (paginaActual.value > 1) {
+        paginaActual.value--;
+    }
+}
+
+function setPagina(pagina) {
+    paginaActual.value = pagina;
+}
 
 function obtenerUsuariosBD() {
     try {
@@ -133,7 +159,7 @@ obtenerUsuariosBD();
     <h2 class="text-center mb-5">Usuarios Registrados</h2>
 
     <div v-if="error">{{ error }}</div>
-    <div v-else id="divTabla" class="m-3 d-flex justify-content-center">
+    <div v-else id="divTabla" class="m-3 d-flex flex-column align-items-center">
         <table class="table table-light table-striped table-hover text-center">
             <caption>Tabla de Usuarios Registrados</caption>
             <thead>
@@ -148,7 +174,7 @@ obtenerUsuariosBD();
             </thead>
             <tbody>
                 <!--HACER QUE NO SE PUEDA MODIFICAR EL ADMIN-->
-                <tr v-for="usuario in usuariosBD" :key="usuario.id">
+                <tr v-for="usuario in usuariosPaginados" :key="usuario.id">
                     <td>{{ usuario.id }}</td>
                     <td>{{ usuario.nombre }}</td>
                     <td>{{ usuario.email }}</td>
@@ -174,6 +200,35 @@ obtenerUsuariosBD();
                 </tr>
             </tbody>
         </table>
+
+        <nav aria-label="Navegación de páginas" class="mt-3">
+            <ul class="pagination">
+                <li class="page-item" :class="{ disabled: paginaActual === 1 }">
+                    <button class="page-link" @click="pagAnterior" :disabled="paginaActual === 1">
+                        <span aria-hidden="true">&laquo;</span>
+                    </button>
+                </li>
+
+                <li v-for="pagina in totalPaginas" :key="pagina" class="page-item"
+                    :class="{ active: pagina === paginaActual }">
+                    <button class="page-link" @click="setPagina(pagina)">{{ pagina }}</button>
+                </li>
+
+                <li class="page-item" :class="{ disabled: paginaActual === totalPaginas }">
+                    <button class="page-link" @click="pagSiguiente" :disabled="paginaActual === totalPaginas">
+                        <span aria-hidden="true">&raquo;</span>
+                    </button>
+                </li>
+            </ul>
+        </nav>
+
+        <div class="mt-2">
+            <select v-model="usuariosPorPagina" class="form-select form-select-sm" style="width: auto;">
+                <option :value="5">5 por página</option>
+                <option :value="10">10 por página</option>
+                <option :value="15">15 por página</option>
+            </select>
+        </div>
     </div>
 
     <!--MODAL DE CONFIRMACIÓN-->
@@ -247,5 +302,41 @@ table {
     background-color: white;
     color: #DC4C64;
     border: 1px solid #DC4C64;
+}
+
+.pagination {
+    margin-bottom: 0;
+}
+
+.page-link {
+    color: #DC4C64;
+    cursor: pointer;
+}
+
+.page-item.active .page-link {
+    background-color: #DC4C64;
+    border-color: #DC4C64;
+    color: white;
+}
+
+.page-link:hover {
+    color: #DC4C64;
+    background-color: #f8f9fa;
+}
+
+.page-item.disabled .page-link {
+    color: #6c757d;
+    pointer-events: none;
+}
+
+.form-select {
+    border-color: #DC4C64;
+    color: #DC4C64;
+    width: 120px !important;
+}
+
+.form-select:focus {
+    border-color: #DC4C64;
+    box-shadow: 0 0 0 0.25rem rgba(220, 76, 100, 0.25);
 }
 </style>

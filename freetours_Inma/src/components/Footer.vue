@@ -4,7 +4,7 @@
             <div class="row gy-4">
                 <!-- Brand Section -->
                 <div class="col-12 col-md-4 text-center text-md-start">
-                    <h5 class="brand-name display-6 mb-2">PurrfectTours</h5>
+                    <p class="brand-name display-6 mb-2">PurrfectTours</p>
                     <p class="mb-1">&copy; {{ new Date().getFullYear() }} - Todos los derechos reservados.</p>
                     <p>Desarrolladora - Inmaculada Quesada Tirado</p>
                 </div>

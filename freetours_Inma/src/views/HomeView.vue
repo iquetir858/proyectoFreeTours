@@ -18,12 +18,12 @@ const rutasPaginadas = computed(() => {
 });
 
 // Calculamos el total de páginas que habrá
-const numPaginas = computed(() => {
+const totalPaginas = computed(() => {
   return Math.ceil(rutasDisponibles.value.length / rutasPorPagina.value);
 });
 
 function pagSiguiente() {
-  if (paginaActual.value < numPaginas.value) {
+  if (paginaActual.value < totalPaginas.value) {
     paginaActual.value++;
   }
 }
@@ -133,10 +133,10 @@ function borrarFiltros() {
             <span aria-hidden="true">&laquo;</span>
           </a>
         </li>
-        <li v-for="page in numPaginas" :key="page" class="page-item" :class="{ active: paginaActual === page }">
-          <a class="page-link" href="#" @click.prevent="setPagina(page)">{{ page }}</a>
+        <li v-for="pagina in totalPaginas" :key="pagina" class="page-item" :class="{ active: paginaActual === pagina }">
+          <a class="page-link" href="#" @click.prevent="setPagina(pagina)">{{ pagina }}</a>
         </li>
-        <li class="page-item" :class="{ disabled: paginaActual === numPaginas }">
+        <li class="page-item" :class="{ disabled: paginaActual === totalPaginas }">
           <a class="page-link" href="#" @click.prevent="pagSiguiente" aria-label="Siguiente">
             <span aria-hidden="true">&raquo;</span>
           </a>
@@ -166,15 +166,15 @@ input {
 
 
 .btnBorrado {
-    color: white;
-    background-color: #DC4C64;
-    border: 1px solid #DC4C64;
+  color: white;
+  background-color: #DC4C64;
+  border: 1px solid #DC4C64;
 }
 
 .btnBorrado:hover {
-    background-color: white;
-    color: #DC4C64;
-    border: 1px solid #DC4C64;
+  background-color: white;
+  color: #DC4C64;
+  border: 1px solid #DC4C64;
 }
 
 .pagination .page-link {
