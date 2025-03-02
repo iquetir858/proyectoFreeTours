@@ -99,11 +99,23 @@ function borrarFiltros() {
 
 <template>
   <div class="text-black d-flex flex-column align-items-center justify-content-center">
-    <!--Meter aquí un carrusel o algo así-->
+    <div class="hero-section container-fluid mb-5">
+      <div class="overlay"></div>
+      <video autoplay muted loop playsinline class="hero-video">
+        <source src="../assets/videos/flow.mp4" type="video/mp4">
+        <source src="../assets/videos/flow.ogv" type="video/ogv">
+        Tu navegador no soporta este video
+      </video>
+      <div class="hero-content text-center">
+        <h1 class="display-4 fw-bold">Descubre el mundo con PurrfectTours</h1>
+        <p class="lead">Explora destinos únicos con guías locales apasionados</p>
+      </div>
+    </div>
+
     <div id="divBusqueda">
       <h3>¡Realiza una búsqueda para ver nuestras rutas disponibles!</h3>
       <!--Formulario de búsqueda de rutas-->
-      <form action="" class="d-flex flex-row align-items-center justify-content-evenly">
+      <form action="" class="d-flex flex-row align-items-center justify-content-evenly m-4">
         <label for="localidadBusqueda" class="me-2">Localidad:</label>
         <!--Cambiar esto a un select?-->
         <input v-model="localidad" type="text" name="localidadBusqueda" placeholder="Introduce una localidad"
@@ -125,7 +137,6 @@ function borrarFiltros() {
     <!--Clase 'lead': https://getbootstrap.com/docs/5.0/content/typography/ -->
     <div v-else class="container lead bg-secondary text-white mt-2 text-center">No existen rutas para dicha fecha</div>
 
-    <!-- Pagination controls -->
     <nav v-if="rutasDisponibles.length > rutasPorPagina" aria-label="Navegación de páginas" class="mt-4">
       <ul class="pagination">
         <li class="page-item" :class="{ disabled: paginaActual === 1 }">
@@ -194,5 +205,67 @@ input {
 
 .pagination .page-item.disabled .page-link {
   color: #6c757d;
+}
+
+.hero-section {
+  position: relative;
+  height: 60vh;
+  overflow: hidden;
+}
+
+.hero-video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 0;
+}
+
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.4);
+  z-index: 1;
+}
+
+.hero-content {
+  position: relative;
+  z-index: 2;
+  color: white;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem;
+}
+
+.hero-content h1 {
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+  margin-bottom: 1rem;
+}
+
+.hero-content p {
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+  font-size: 1.25rem;
+}
+
+@media (max-width: 768px) {
+  .hero-section {
+    height: 50vh;
+  }
+  
+  .hero-content h1 {
+    font-size: 2rem;
+  }
+  
+  .hero-content p {
+    font-size: 1.1rem;
+  }
 }
 </style>

@@ -78,7 +78,7 @@ function reservarRuta(idRuta, emailUsuario) {
                 }
                 setTimeout(() => {
                     modalReserva.hide();
-                    asistentes.value = 1; // Reset input field
+                    asistentes.value = 1; 
                     mensajeReserva.value = '';
                     errorReserva.value = '';
                 }, 3000);
@@ -99,7 +99,7 @@ function reservarRuta(idRuta, emailUsuario) {
     <div class="container-fluid">
         <div class="row justify-content-center">
             <div class="col-12 col-lg-10 cards-container p-4">
-                <div class="row row-cols-1 row-cols-md-2 row-cols-xl-3 g-4">
+                <div class="row row-cols-1 row-cols-md-2 row-cols-xl-4 g-4">
                     <div v-for="ruta in propRutas" :key="ruta.id" class="col">
                         <div class="card h-100 shadow-sm hover-card">
                             <div class="card-img-wrapper">
@@ -204,23 +204,10 @@ function reservarRuta(idRuta, emailUsuario) {
     background: rgba(209, 96, 113, 0.1);
     border-radius: 1rem;
     backdrop-filter: blur(10px);
-    max-height: 80vh;
-    overflow-y: auto;
-    scrollbar-width: thin;
-}
-
-.cards-container::-webkit-scrollbar {
-    width: 6px;
-}
-
-.cards-container::-webkit-scrollbar-track {
-    background: rgba(0, 0, 0, 0.1);
-    border-radius: 3px;
-}
-
-.cards-container::-webkit-scrollbar-thumb {
-    background: rgba(209, 96, 113, 0.5);
-    border-radius: 3px;
+    min-height: fit-content;
+    height: auto;
+    padding: 2rem;
+    margin: 2rem 0;
 }
 
 .card {
@@ -271,7 +258,6 @@ function reservarRuta(idRuta, emailUsuario) {
     background-color: rgb(209, 96, 113) !important;
 }
 
-/* Modal improvements */
 .modal-content {
     border-radius: 1rem;
     border: none;
@@ -306,12 +292,12 @@ function reservarRuta(idRuta, emailUsuario) {
 }
 
 @media (max-width: 768px) {
-    .modal-dialog {
-        margin: 1rem;
-    }
-    
-    .modal-body {
+    .cards-container {
+        min-height: fit-content;
+        height: auto;
+        border-radius: 0;
         padding: 1rem;
+        margin: 1rem 0;
     }
 }
 

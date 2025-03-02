@@ -119,129 +119,258 @@ function userRegister() {
 </script>
 
 <template>
-    <div id="generalDiv" class="d-flex flex-column justify-content-center align-items-center mt-5">
-        <div id="botonesCambio" class="d-flex justify-content-evenly w-50">
-            <RouterLink class="text-white" to="/login">
-                <button class="btn btn-primary text-decoration-none">Login</button>
-            </RouterLink>
-            <RouterLink class="text-white text-decoration-none" to="/register">
-                <button class="btn btn-primary">Registro</button>
-            </RouterLink>
-        </div>
-        <!-- --------- LOGIN -------------->
-        <div v-if="route.path == '/login'" id="loginDiv"
-            class="w-50 d-flex flex-column justify-content-center align-items-center bg-white m-2 p-5">
+  <div id="generalDiv" class="d-flex flex-column justify-content-center align-items-center mt-5">
+    <div id="botonesCambio" class="d-flex justify-content-evenly w-100">
+      <RouterLink class="text-white" to="/login">
+        <button class="btn btn-primary text-decoration-none">Login</button>
+      </RouterLink>
+      <RouterLink class="text-white text-decoration-none" to="/register">
+        <button class="btn btn-primary">Registro</button>
+      </RouterLink>
+    </div>
+
+    <div class="flip-container" :class="{ 'flipped': route.path === '/register' }">
+      <div class="flipper">
+        <!-- Parte del login -->
+        <div class="front">
+          <div id="loginDiv">
             <form action="POST">
-                <h2 class="h3 mb-3 fw-normal">LOGIN</h2>
-                <div class="form-floating p-1">
-                    <input v-model="form.email" type="text" name="email" id="email" class="form-control">
-                    <label for="email">Correo electrónico</label>
-                </div>
-                <div class="form-floating p-1">
-                    <input v-model="form.contraseña" type="password" name='contraseña' id="contraseña"
-                        class="form-control">
-                    <label for='contraseña'>Contraseña</label>
-                </div>
-                <p v-if="errorLogin" class="text-danger mt-2">{{ errorLogin }}</p>
-                <div class="buttons mt-2 d-flex justify-content-evenly">
-                    <button type="submit" @click.prevent="login" class="btn btn-success me-1">Iniciar Sesión</button>
-                    <RouterLink class="text-black text-decoration-none" to="/"> <button
-                            class="btn btn-danger">Cancelar</button></RouterLink>
-                </div>
+              <h2 class="h3 mb-3 fw-normal">LOGIN</h2>
+              <div class="form-floating p-1">
+                <input v-model="form.email" type="text" name="email" id="email" class="form-control">
+                <label for="email">Correo electrónico</label>
+              </div>
+              <div class="form-floating p-1">
+                <input v-model="form.contraseña" type="password" name='contraseña' id="contraseña" class="form-control">
+                <label for='contraseña'>Contraseña</label>
+              </div>
+              <p v-if="errorLogin" class="text-danger mt-2">{{ errorLogin }}</p>
+              <div class="buttons mt-2 d-flex justify-content-evenly">
+                <button type="submit" @click.prevent="login" class="btn btn-success me-1">Iniciar Sesión</button>
+                <RouterLink class="text-black text-decoration-none" to="/"> <button class="btn btn-danger">Cancelar</button></RouterLink>
+              </div>
             </form>
+          </div>
         </div>
-        <!------------ REGISTRO -------------->
-        <div v-if="route.path == '/register'" id="registerDiv"
-            class="w-50 d-flex flex-column justify-content-center align-items-center bg-white m-2 p-5">
+
+        <!-- Parte del registro -->
+        <div class="back">
+          <div id="registerDiv">
             <form action="">
-                <h2 class="h3 mb-3 fw-normal">REGISTRO</h2>
-                <div class="form-floating">
-                    <input v-model="formRegistro.nombre" type="text" name="nombre" id="nombre" class="form-control">
-                    <label for="nombre">Nombre</label>
-                </div>
+              <h2 class="h3 mb-3 fw-normal">REGISTRO</h2>
+              <div class="form-floating">
+                <input v-model="formRegistro.nombre" type="text" name="nombre" id="nombre" class="form-control">
+                <label for="nombre">Nombre</label>
+              </div>
 
-                <div class="form-floating">
-                    <input v-model="formRegistro.email" type="text" name="email" class="form-control">
-                    <label for="email">Correo</label>
-                </div>
-                <div class="form-floating">
-                    <input v-model="formRegistro.contraseña" type="text" name="contraseña" class="form-control">
-                    <label for="pass">Contraseña</label>
-                </div>
-                <p v-if="errorRegistro" class="text-danger mt-2">{{ errorRegistro }}</p>
-                <div class="buttons mt-2 d-flex justify-content-evenly">
-                    <button @click.prevent="userRegister" class="btn btn-success">Registrarse</button>
-                    <RouterLink class="text-black text-decoration-none" to="/"> <button
-                            class="btn btn-danger">Cancelar</button></RouterLink>
-                </div>
+              <div class="form-floating">
+                <input v-model="formRegistro.email" type="text" name="email" class="form-control">
+                <label for="email">Correo</label>
+              </div>
+              <div class="form-floating">
+                <input v-model="formRegistro.contraseña" type="text" name="contraseña" class="form-control">
+                <label for="pass">Contraseña</label>
+              </div>
+              <p v-if="errorRegistro" class="text-danger mt-2">{{ errorRegistro }}</p>
+              <div class="buttons mt-2 d-flex justify-content-evenly">
+                <button @click.prevent="userRegister" class="btn btn-success">Registrarse</button>
+                <RouterLink class="text-black text-decoration-none" to="/"> <button class="btn btn-danger">Cancelar</button></RouterLink>
+              </div>
             </form>
-
+          </div>
         </div>
+      </div>
     </div>
+  </div>
 
-
-    <!--MODAL DE CONFIRMACIÓN DE REGISTRO-->
-    <div class="text-success bg-color-success text-black">
-        <div class="modal fade" id="modalRegistro" tabindex="-1" aria-labelledby="infoModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="infoModalLabel">Registro</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
-                    </div>
-                    <div class="modal-body">
-                        <p>{{ exitoRegistro }}</p>
-                    </div>
-                </div>
-            </div>
+  <!--MODAL DE CONFIRMACIÓN DE REGISTRO-->
+  <div class="text-success bg-color-success text-black">
+    <div class="modal fade" id="modalRegistro" tabindex="-1" aria-labelledby="infoModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="infoModalLabel">Registro</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+          </div>
+          <div class="modal-body">
+            <p>{{ exitoRegistro }}</p>
+          </div>
         </div>
+      </div>
     </div>
+  </div>
 </template>
 
 <style>
 #generalDiv {
-    height: 50vh;
-    /* Ocupará toda la pantalla */
+    padding: 2rem 1rem;
+    background: linear-gradient(135deg, #fce8ec 0%, #ffe9e9 100%);
+}
+
+#botonesCambio {
+    width: 90%;
+    max-width: 400px;
+    margin-bottom: 2rem;
 }
 
 #botonesCambio button {
-    font-size: 1.3em;
-    font-weight: bold;
-    background-color: rgb(236, 166, 177);
-    border: 1px solid rgb(22, 11, 11);
-    color: rgb(22, 11, 11);
+    font-size: clamp(1rem, 2vw, 1.3rem);
+    font-weight: 600;
+    padding: 0.8rem 2rem;
+    background-color: #ff8ba7;
+    border: none;
+    color: #33272a;
+    border-radius: 25px;
+    transition: all 0.3s ease;
+    width: 140px;
 }
 
 #botonesCambio button:hover {
-    background-color: rgb(22, 11, 11);
-    color: rgb(238, 182, 191);
+    background-color: #33272a;
+    color: #ff8ba7;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
 }
-
 
 #loginDiv,
 #registerDiv {
     width: 100%;
-    max-width: 400px;
-    /* Para que no sean demasiado anchos */
-    text-align: center;
-    box-shadow: 5px 5px 10px #a58e92;
-    border-radius: 10px;
+    padding: 2rem;
+    background: rgba(255, 255, 255, 0.95);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    border-radius: 20px;
+    backdrop-filter: blur(10px);
 }
 
-form {
-    display: flex;
-    flex-direction: column;
-    margin-left: 20px;
-    color: black;
+.form-floating {
+    margin-bottom: 1rem;
 }
 
-input {
-    max-width: 300px;
-    margin: 0.2em;
+.form-control {
+    border-radius: 12px;
+    border: 2px solid #fce8ec;
+    padding: 0.8rem 1rem;
+    transition: all 0.3s ease;
 }
 
-/*FOCUS DE INPUTS
-:focus-visible{
-    outline: 1px solid purple;
-}*/
+.form-control:focus {
+    border-color: #ff8ba7;
+    box-shadow: 0 0 0 0.2rem rgba(255, 139, 167, 0.25);
+}
+
+.form-floating label {
+    color: #666;
+}
+
+.buttons {
+    margin-top: 1.5rem;
+}
+
+.buttons button {
+    padding: 0.8rem 1.5rem;
+    border-radius: 25px;
+    border: none;
+    transition: all 0.3s ease;
+    min-width: 120px;
+}
+
+.btn-success {
+    background-color: #ff8ba7 !important;
+    border: none !important;
+    color: #33272a !important;
+}
+
+.btn-danger {
+    background-color: #fce8ec !important;
+    border: none !important;
+    color: #33272a !important;
+}
+
+.btn-success:hover {
+    background-color: #33272a !important;
+    color: #ff8ba7 !important;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+.btn-danger:hover {
+    background-color: #33272a !important;
+    color: #fce8ec !important;
+    transform: translateY(-2px);
+}
+
+/* Ajustes de estilo del modal*/
+.modal-content {
+    border-radius: 20px;
+    border: none;
+}
+
+.modal-header {
+    background-color: #fce8ec;
+    border-radius: 20px 20px 0 0;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    #loginDiv,
+    #registerDiv {
+        width: 95%;
+        padding: 1.5rem;
+    }
+
+    .buttons button {
+        padding: 0.6rem 1.2rem;
+    }
+}
+
+@media (max-width: 480px) {
+    #botonesCambio button {
+        font-size: 1rem;
+        padding: 0.6rem 1.2rem;
+        width: 120px;
+    }
+}
+
+/* Estilos para la transición 3D */
+.flip-container {
+  perspective: 500px;
+  width: 90%;
+  max-width: 50vh;
+  height: 55vh; 
+}
+
+.flip-container.flipped .flipper {
+  transform: rotateY(180deg);
+}
+
+.flipper {
+  transition: 0.8s;
+  transform-style: preserve-3d;
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transition: all 1.0s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.front, .back {
+  backface-visibility: hidden; /*Esto es para que no se vea el contenido cuando está "detras"*/
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}
+
+.front {
+  z-index: 2;
+  transform: rotateY(0deg);
+}
+
+.back {
+  transform: rotateY(180deg);
+}
+
+
+#loginDiv, #registerDiv {
+  max-height: 100%;
+  overflow-y: auto;
+}
 </style>
