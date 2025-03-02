@@ -1,6 +1,7 @@
 <script setup>
 import DuplicatedRoute from '@/components/DuplicatedRoute.vue';
 import Map from '@/components/Map.vue';
+import InfoRoute from '@/components/InfoRoute.vue';
 import { ref, onMounted, computed } from 'vue';
 
 let rutasBD = ref();
@@ -386,46 +387,13 @@ obtenerRutas();
     </DuplicatedRoute>
 
     <!--MODAL INFORMACIÓN RUTA-->
-    <div role="dialog" class="modal fade" id="modalInfo" tabindex="-1" aria-labelledby="modalInfoLabel">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="modalInfoLabel">{{ rutaSeleccionadaInfo?.titulo }}</h5>
-                    <button @click.prevent="cerrarModal" type="button" class="btn-close" data-bs-dismiss="modal"
-                        aria-label="Cerrar"></button>
-                </div>
-                <div class="modal-body">
-                    <div class="row">
-                        <div class="col-md-4 d-flex flex-column justify-content-evenly  col-sm-12">
-                            <p><strong>Localidad:</strong> {{ rutaSeleccionadaInfo?.localidad }}</p>
-                            <p><strong>Fecha:</strong> {{ rutaSeleccionadaInfo?.fecha }}</p>
-                            <p><strong>Hora:</strong> {{ rutaSeleccionadaInfo?.hora }}</p>
-                        </div>
-                        <div class="col-md-8 col-sm-12">
-                            <img :src="rutaSeleccionadaInfo?.foto" :alt="rutaSeleccionadaInfo?.titulo"
-                                :title="rutaSeleccionadaInfo?.descripcion">
-                            <p>{{ rutaSeleccionadaInfo?.descripcion }}</p>
-                        </div>
-                    </div>
-
-
-                    <p><strong>Punto de encuentro:</strong> </p>
-                    <Map v-if="rutaSeleccionadaInfo" :ruta="rutaSeleccionadaInfo"></Map>
-                </div>
-                <div class="modal-footer">
-                    <button @click.prevent="cerrarModal" type="button" class="btn btnBorrado"
-                        data-bs-dismiss="modal">Cerrar</button>
-                </div>
-            </div>
-        </div>
-    </div>
+    <InfoRoute :ruta-seleccionada="rutaSeleccionadaInfo" @cerrar-modal="cerrarModal()"></InfoRoute>
 </template>
 
 <style scoped>
 th {
     text-transform: uppercase;
 }
-
 
 table {
     max-width: 80%;
@@ -440,7 +408,6 @@ table {
     color: palevioletred;
     font-size: 1.5em;
 }
-
 
 img {
     width: 100%;

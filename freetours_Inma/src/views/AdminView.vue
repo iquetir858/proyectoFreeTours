@@ -233,8 +233,7 @@ obtenerUsuariosBD();
 
     <!--MODAL DE CONFIRMACIÓN-->
     <div class="text-success bg-color-success text-black">
-        <div class="modal fade" id="modalConfirmacion" tabindex="-1" aria-labelledby="infoModalLabel"
-            aria-hidden="true">
+        <div class="modal fade" id="modalConfirmacion" tabindex="-1" aria-labelledby="infoModalLabel">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -252,8 +251,7 @@ obtenerUsuariosBD();
 
     <!--MODAL DE BORRADO DE UN USUARIO-->
 
-    <div class="modal fade" id="modalBorrarUsuario" tabindex="-1" aria-labelledby="exampleModalLabel"
-        aria-hidden="true">
+    <div class="modal fade" id="modalBorrarUsuario" tabindex="-1" aria-labelledby="exampleModalLabel">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
