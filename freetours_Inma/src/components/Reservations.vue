@@ -20,7 +20,7 @@ let exitoModificacionPersonas = ref(''); //Mensaje de éxito modificar el num de
 let errorModificacionPersonas = ref(''); //Mensaje de éxito modificar el num de personas que asisten
 let errorCancelacion = ref(''); //Mensaje de error al cancelar reserva
 let exitoCancelacion = ref(''); //Mensaje de éxito al cancelar reserva
-
+let inputNumPersonas = ref(1);
 onMounted(() => {
     modalNumPersonas = new bootstrap.Modal(document.getElementById('modalNumPersonas'));
     modalCancelacion = new bootstrap.Modal(document.getElementById('modalCancelacionReserva'));
@@ -97,9 +97,9 @@ function mostrarModalNumPersonas(reserva) {
  * Obtiene el nuevo valor del input 
  */
 function cambiarNumPersonas() {
-    let inputNumPersonas = document.getElementById('numPersonas');
+    //let inputNumPersonas = document.getElementById('numPersonas');
     //Se comprueba el input
-    if (!inputNumPersonas.value || isNaN(inputNumPersonas.value) || inputNumPersonas.value < 1 || inputNumPersonas.value > 8) {
+    if (!inputNumPersonas.value || !Number.isInteger(Number(inputNumPersonas.value)) || inputNumPersonas.value < 1 || inputNumPersonas.value > 8) {
         //Hay un error con el número de personas y no debe actualizarse
         errorModificacionPersonas.value = "Número de personas no válido.";
         exitoModificacionPersonas.value = '';
@@ -225,8 +225,8 @@ function cambiarNumPersonas() {
                 </div>
                 <div class="modal-body">
                     <label for="numPersonas">Selecciona el número de asistentes: </label>
-                    <input type="number" id="numPersonas" aria-label="Nuevo número de asistentes a la ruta" min="1"
-                        max="8" value="1">
+                    <input v-model="inputNumPersonas" type="number" aria-label="Nuevo número de asistentes a la ruta"
+                        min="1" max="8" value="1">
                     <p v-if="exitoModificacionPersonas.value != ''" class="text-success">
                         {{ exitoModificacionPersonas }}
                     </p>

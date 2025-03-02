@@ -19,10 +19,19 @@ let modalRef = ref(null); //Referencia al modal (porque no se puede usar id)
 let errorValoracion = ref('');
 let exitoValoracion = ref('');
 
+//Variable computada que representa las estrellas de la tarjeta principal
+//Separadas de las del modal para que sólo se actualicen cuando cambie el valor de la valoración
+let estrellasTarjeta = computed(() => {
+    if (!valoracion.value || !valoracion.value.puntuacion) {
+        return '<i class="fa-regular fa-star text-warning"></i>'.repeat(5);
+    }
+    let estrellasRellenas = '<i class="fa-solid fa-star text-warning"></i>'.repeat(valoracion.value.puntuacion);
+    let estrellasVacias = '<i class="fa-regular fa-star text-warning"></i>'.repeat(5 - valoracion.value.puntuacion);
+    return estrellasRellenas + estrellasVacias;
+});
 
-
-//Variable computada Función para actualizar la visualización de estrellas
-let estrellas = computed(() => {
+//Variable computada Función para actualizar la visualización de estrellas en el modal
+let estrellasModal = computed(() => {
     let estrellasRellenas = '<i class="fa-solid fa-star text-warning"></i>'.repeat(copiaValoracion.value.puntuacion);
     let estrellasVacias = '<i class="fa-regular fa-star text-warning"></i>'.repeat(5 - copiaValoracion.value.puntuacion);
     return estrellasRellenas + estrellasVacias;
@@ -42,11 +51,9 @@ onMounted(() => {
  * cambien los datos principales hasta que se actualice/cree la valoración en el modal
  */
 function abrirModal() {
-    if (valoracion.value) {
-        copiaValoracion.value = { ...valoracion.value }; //se clonan los valores
-    } else {
-        copiaValoracion.value = { puntuacion: 1, comentario: '' };//se inician por defecto
-    }
+    copiaValoracion.value = valoracion.value
+        ? { ...valoracion.value }
+        : { puntuacion: 1, comentario: '' };
 
     //Se muestra el modal
     if (modalValoracion.value) {
@@ -63,6 +70,11 @@ function cerrarModal() {
 
 //-----------------------Funciones
 function obtenerValoracionRuta(idRuta) {
+    //Reseteamos los valores de valoracion y existeValoracion antes de obtener nueva info
+    //para evitar que se retengan valores de tarjetas anteriores
+    valoracion.value = null;
+    existeValoracion.value = false;
+
     fetch(`/api/api.php/valoraciones?ruta_id=${idRuta}`)
         .then(response => {
             if (!response.ok) {
@@ -134,6 +146,7 @@ function actualizarValoracion() {
                 exitoValoracion.value = data.message;
                 errorValoracion.value = '';
                 emit('actualizarReservas');
+                obtenerValoracionRuta(props.idRuta);
             } else {
                 exitoValoracion.value = '';
                 errorValoracion.value = data.message;
@@ -150,6 +163,57 @@ function actualizarValoracion() {
 
 }
 
+
+function crearNuevaValoracion() {
+
+
+    const nuevaValoracion = {
+        user_id: props.usuarioActual.id, // ID del usuario que realiza la valoración
+        ruta_id: props.idRuta, // ID de la ruta valorada
+        estrellas: copiaValoracion.value.puntuacion, // Puntuación de 1 a 5
+        comentario: copiaValoracion.value.comentario //Este campo es opcional
+    };
+
+    fetch('/api/api.php/valoraciones', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(nuevaValoracion)
+    })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Error en la solicitud: ' + response.status);
+            }
+            return response.json();
+        })
+        .then(data => {
+            console.log('Valoración creada:', data);
+
+            if (data.status == 'success') {
+                exitoValoracion.value = data.message;
+                errorValoracion.value = '';
+                emit('actualizarReservas');
+                obtenerValoracionRuta(props.idRuta);
+            } else {
+                exitoValoracion.value = '';
+                errorValoracion.value = data.message;
+            }
+
+            setTimeout(() => {
+                exitoValoracion.value = '';
+                errorValoracion.value = '';
+                cerrarModal();
+            }, 3000);
+
+        })
+        .catch(error => {
+            console.error('Error al crear la valoración:', error);
+        });
+
+
+}
+
 //----------------Llamada principal
 obtenerValoracionRuta(props.idRuta);
 </script>
@@ -159,8 +223,9 @@ obtenerValoracionRuta(props.idRuta);
     <div id="divValoracion">
         <!--Si ya existe una valoración para esa ruta, se muestra y se podrá modificar-->
         <div v-if="existeValoracion" id="divValoracionActual">
-            <p class="mb-0 me-2"><strong>Valoración:</strong></p>
-            <div id="estrellas" v-html="estrellas"></div>
+            <p class="mb-0 me-2"><strong>Valoración:</strong><span id="estrellas" v-html="estrellasTarjeta"></span></p>
+            <p><strong>Comentario:</strong></p>
+            <p>{{ valoracion.comentario }}</p>
             <!--Botón para actualizar valoración existente (sólo puede haber 1 valoración por ruta-cliente pero se puede modificar)-->
             <button @click="abrirModal()" aria-label="Editar valoración actual">Editar</button>
         </div>
@@ -185,7 +250,7 @@ obtenerValoracionRuta(props.idRuta);
                     <p>Nueva valoración:</p>
                     <div class="d-flex flex-row justify-content-center">
                         <button class="btn" @click="restarEstrella"><i class="fa-solid fa-minus"></i></button>
-                        <span v-html="estrellas"></span>
+                        <span v-html="estrellasModal"></span>
                         <button class="btn" @click="sumarEstrella"><i class="fa-solid fa-plus"></i></button>
                     </div>
                     <div class="d-flex flex-column">
@@ -202,6 +267,7 @@ obtenerValoracionRuta(props.idRuta);
                         Cerrar
                     </button>
                     <button class="btn" v-if="existeValoracion" @click.prevent="actualizarValoracion()">Guardar</button>
+                    <button class="btn" v-else @click.prevent="crearNuevaValoracion()">Crear</button>
                 </div>
             </div>
         </div>
