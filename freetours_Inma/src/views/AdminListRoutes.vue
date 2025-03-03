@@ -23,23 +23,23 @@ let rutaSeleccionadaInfo = ref(''); //Id de la ruta seleccionada para mostrar su
 let rutaSeleccionada = ref(''); //Id de la ruta seleccionada para borrar
 let rutaSeleccionadaDuplicar = ref(null); //Variable para duplicar ruta
 
-// Variables paginación
+//Variables paginación
 const paginaActual = ref(1);
 const rutasPorPagina = ref(10);
 
-// Se calculan las rutas que se mostrarán en la tabla en función de la página actual
+//Se calculan las rutas que se mostrarán en la tabla en función de la página actual
 const rutasPaginadas = computed(() => {
     const inicio = (paginaActual.value - 1) * rutasPorPagina.value;
     const fin = inicio + rutasPorPagina.value;
     return rutasBD.value ? rutasBD.value.slice(inicio, fin) : [];
 });
 
-// Se calcula el número total de páginas en función del número de rutas y las rutas por página
+//Se calcula el número total de páginas en función del número de rutas y las rutas por página
 const totalPaginas = computed(() => {
     return rutasBD.value ? Math.ceil(rutasBD.value.length / rutasPorPagina.value) : 0;
 });
 
-
+//-------------------Funciones de paginación
 function pagSiguiente() {
     if (paginaActual.value < totalPaginas.value) {
         paginaActual.value++;
@@ -56,6 +56,7 @@ function setPagina(pagina) {
     paginaActual.value = pagina;
 }
 
+
 onMounted(() => {
     modalConfirmacion = new bootstrap.Modal(document.getElementById('modalConfirmacion'));
     modalBorrado = new bootstrap.Modal(document.getElementById('modalBorrado'));
@@ -63,6 +64,10 @@ onMounted(() => {
     modalInfo = new bootstrap.Modal(document.getElementById('modalInfo'));
 
 });
+
+/**
+ * Función que cierra todos los modales y resetea los valores de las rutas seleccionadas
+ */
 function cerrarModal() {
     modalConfirmacion.hide();
     modalBorrado.hide();
@@ -280,7 +285,11 @@ obtenerRutas();
                             <i class="fa-solid fa-circle-info"></i>
                         </button>
                     </td>
-                    <td>{{ ruta.asistentes }}</td>
+                    <td>{{ ruta.asistentes }}
+                        <span v-if="ruta.asistentes < 10" title="Menos de 10 asistentes">
+                            <i class="fa-solid fa-triangle-exclamation text-danger"></i>
+                        </span>
+                    </td>
                     <td>
                         <select v-model="ruta.guia_id" @change="cambiarGuia(ruta)">
                             <!-- Opción por defecto en caso de que a la ruta no se le haya asignado un guía-->
