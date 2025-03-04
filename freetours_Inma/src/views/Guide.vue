@@ -8,16 +8,30 @@ let asignacionesGuia = ref(null);
 //console.log(guiaLogueado.value);
 let rutaSeleccionada = ref(null);
 let modalInfo = null;
+let asignacionSeleccionada = ref(null);
+let modalPasarLista = null;
+let errorCambio = ref('');
+let exitoCambio = ref('');
+let reservasEditadas = ref({});
 
 //-------------------FUNCIONES MODALES
 onMounted(() => {
     modalInfo = new bootstrap.Modal(document.getElementById('modalInfo'));
+    modalPasarLista = new bootstrap.Modal(document.getElementById('modalPasarLista'));
 
 });
 
+/**
+ * Función que cierra los modales y elimina los valores asignados a ruta/asignación seleccionadas
+ */
 function cerrarModal() {
     modalInfo.hide();
+    modalPasarLista.hide();
     rutaSeleccionada.value = null; //Para eliminar el valor que tenía antes
+    asignacionSeleccionada.value = null;
+    errorCambio.value = '';
+    exitoCambio.value = '';
+    reservasEditadas.value = {};
 }
 
 /**
@@ -63,11 +77,66 @@ function calcularTotalPersonas(asignacion) {
     return asignacion.reservas.reduce((total, reserva) => total + reserva.num_personas, 0);
 }
 
-
+/**
+ * FUNCIÓN PARA PASAR LISTA DEL GUÍA
+ * Muestra el modal de pasar lista, que enseñará todas las reservas con inputs numéricos
+ * para cambiar el número de asistentes (fetch a reservas con PUT)
+ * @param asignacion Asignación del guía a modificar
+ */
 function pasarLista(asignacion) {
-    //Por ahora nada 
+    asignacionSeleccionada.value = asignacion;
+    reservasEditadas.value = {};
+    modalPasarLista.show();
 }
 
+/**
+ * Función que realiza una petición a la api para cambiar el número de asistentes en la reserva de un cliente
+ * @param reserva 
+ * @param numPersonas 
+ */
+function cambiarAsistentes(reserva, numPersonas) {
+
+    fetch('/api/api.php/reservas?id=' + reserva.reserva_id, {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ num_personas: numPersonas })
+    })
+        .then(response => response.json())
+        .then(data => {
+            // console.log('Respuesta:', data);
+            if (data.status == 'success') {
+                exitoCambio.value = data.message;
+                errorCambio.value = '';
+                obtenerRutasGuia(guiaLogueado.value.id); //Actualizamos la tabla para mostrar los cambios
+            } else {
+                exitoCambio.value = '';
+                errorCambio.value = data.message;
+            }
+            setTimeout(() => {
+                exitoCambio.value = '';
+                errorCambio.value = '';
+            }, 3000);
+        })
+        .catch(error => console.error('Error:', error));
+
+}
+
+/**
+ * Función que cambia los asistentes de las reservas editadas (según los cambios de v-model del modalPasarLista)
+ */
+function guardarCambios() {
+    for (let [id, numPersonas] of Object.entries(reservasEditadas.value)) {
+        if (isNaN(numPersonas) || numPersonas < 1 || numPersonas > 8) {
+            errorCambio.value = 'Se han introducido valores erróneos';
+        } else {
+            const reserva = asignacionSeleccionada.value.reservas.find(reserva => reserva.reserva_id == id);
+            if (reserva) cambiarAsistentes(reserva, numPersonas);
+        }
+    }
+    //cerrarModal();
+}
 
 //----------LLAMADA PRINCIPAL
 obtenerRutasGuia(guiaLogueado.value.id);
@@ -126,8 +195,8 @@ obtenerRutasGuia(guiaLogueado.value.id);
                         </div>
                     </td>
                     <td>
-                        <button class="btn btn-sm btn-warning" @click="pasarLista(asignacion)">
-                            Cambiar Asistentes
+                        <button class="btn btn-warning" @click="pasarLista(asignacion)">
+                            Pasar Lista
                         </button>
                     </td>
                 </tr>
@@ -136,6 +205,39 @@ obtenerRutasGuia(guiaLogueado.value.id);
     </div>
 
     <InfoRoute :ruta-seleccionada="rutaSeleccionada" @cerrar-modal="cerrarModal()"></InfoRoute>
+    <!--------------------------------------------------------------------------------------------------->
+    <!--MODAL DE PASAR LISTA (Cambiar número de asistentes en una ruta, como guía)-->
+    <div class="modal fade" id="modalPasarLista" tabindex="-1" aria-labelledby="modalPasarListaLabel">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Asignación: {{ asignacionSeleccionada?.ruta_titulo }}</h5>
+                    <button type="button" class="btn-close" @click="cerrarModal"></button>
+                </div>
+                <div class="modal-body">
+                    <ul class="list-group">
+                        <li v-for="reserva in asignacionSeleccionada?.reservas" :key="reserva.reserva_id"
+                            class="list-group-item d-flex justify-content-between align-items-center">
+                            <div>
+                                <strong>{{ reserva.cliente.email }}</strong>
+                            </div>
+                            <input type="number" min="1" max="8" class="form-control w-25"
+                                v-model="reservasEditadas[reserva.reserva_id]" :placeholder="reserva.num_personas">
+                        </li>
+                    </ul>
+                    <div class="mt-2">
+                        <p v-if="exitoCambio != ''" class="text-success">{{ exitoCambio }}</p>
+                        <p v-if="errorCambio != ''" class="text-danger">{{ errorCambio }}</p>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" @click="cerrarModal">Cancelar</button>
+                    <button type="button" class="btn btn-success" @click="guardarCambios">Guardar cambios</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
 </template>
 
 
