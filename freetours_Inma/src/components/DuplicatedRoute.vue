@@ -125,7 +125,7 @@ function cerrarModal() {
 </script>
 
 <template>
-    <div class="modal fade" id="modalDuplicar" tabindex="-1" aria-labelledby="duplicarModalLabel" aria-hidden="true">
+    <div class="modal fade" id="modalDuplicar" tabindex="-1" aria-labelledby="duplicarModalLabel">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">

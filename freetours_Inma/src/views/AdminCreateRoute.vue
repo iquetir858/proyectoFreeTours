@@ -161,8 +161,7 @@ function crearRuta() {
 
     <!--MODAL DE CONFIRMACIÓN DE CREACIÓN-->
     <div class="text-success bg-color-success text-black">
-        <div class="modal fade" id="modalConfirmacion" tabindex="-1" aria-labelledby="infoModalLabel"
-            aria-hidden="true">
+        <div class="modal fade" id="modalConfirmacion" tabindex="-1" aria-labelledby="infoModalLabel">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">

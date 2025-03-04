@@ -141,7 +141,7 @@ function borrarFiltros() {
       <ul class="pagination">
         <li class="page-item" :class="{ disabled: paginaActual === 1 }">
           <a class="page-link" href="#" @click.prevent="pagAnterior" aria-label="Anterior">
-            <span aria-hidden="true">&laquo;</span>
+            <span>&laquo;</span>
           </a>
         </li>
         <li v-for="pagina in totalPaginas" :key="pagina" class="page-item" :class="{ active: paginaActual === pagina }">
@@ -149,7 +149,7 @@ function borrarFiltros() {
         </li>
         <li class="page-item" :class="{ disabled: paginaActual === totalPaginas }">
           <a class="page-link" href="#" @click.prevent="pagSiguiente" aria-label="Siguiente">
-            <span aria-hidden="true">&raquo;</span>
+            <span>&raquo;</span>
           </a>
         </li>
       </ul>

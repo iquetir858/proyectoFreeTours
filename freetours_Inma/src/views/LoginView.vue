@@ -185,7 +185,7 @@ function userRegister() {
 
   <!--MODAL DE CONFIRMACIÓN DE REGISTRO-->
   <div class="text-success bg-color-success text-black">
-    <div class="modal fade" id="modalRegistro" tabindex="-1" aria-labelledby="infoModalLabel" aria-hidden="true">
+    <div class="modal fade" id="modalRegistro" tabindex="-1" aria-labelledby="infoModalLabel">
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">

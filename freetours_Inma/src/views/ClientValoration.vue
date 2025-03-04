@@ -73,7 +73,7 @@ obtenerReservas(email);
                 <ul class="pagination mb-0">
                     <li class="page-item" :class="{ disabled: paginaActual === 1 }">
                         <button class="page-link" @click="pagAnterior" :disabled="paginaActual === 1">
-                            <span aria-hidden="true">&laquo;</span>
+                            <span>&laquo;</span>
                         </button>
                     </li>
                     
@@ -86,7 +86,7 @@ obtenerReservas(email);
                     
                     <li class="page-item" :class="{ disabled: paginaActual === totalPaginas }">
                         <button class="page-link" @click="pagSiguiente" :disabled="paginaActual === totalPaginas">
-                            <span aria-hidden="true">&raquo;</span>
+                            <span>&raquo;</span>
                         </button>
                     </li>
                 </ul>
