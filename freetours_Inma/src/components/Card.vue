@@ -154,11 +154,11 @@ function reservarRuta(idRuta, emailUsuario) {
                 <div class="modal-footer">
                     <button @click.prevent="cerrarModal" type="button" class="btn btnBorrado"
                         data-bs-dismiss="modal">Cerrar</button>
-                    <!--Si hay usuario registrado, se reserva-->
-                    <button v-if="usuarioLogeado" @click.prevent="modalReserva.show(); modalInfo.hide()"
+                    <!--Si hay usuario registrado (SOLO CLIENTES), se reserva-->
+                    <button v-if="usuarioLogeado && usuarioLogeado.rol=='cliente'" @click.prevent="modalReserva.show(); modalInfo.hide()"
                         class="btn">Reservar</button>
                     <!--Si no, se redirige al registro-->
-                    <button v-else class="btn btn-success" @click.prevent="enviarARegistro">Regístrate</button>
+                    <button v-else-if="!usuarioLogeado" class="btn btn-success" @click.prevent="enviarARegistro">Regístrate</button>
                 </div>
 
             </div>

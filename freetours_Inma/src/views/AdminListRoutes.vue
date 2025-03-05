@@ -5,7 +5,7 @@ import InfoRoute from '@/components/InfoRoute.vue';
 import { ref, onMounted, computed } from 'vue';
 import router from '@/router';
 
-let usuarioLogueado = ref(JSON.parse(localStorage.getItem('usuarioLogeado'))); //Obtener guía del localStorage
+let usuarioLogueado = ref(JSON.parse(localStorage.getItem('usuarioLogeado')));
 //Primero comprobamos que no se pueda entrar a esta vista si no es ADMIN
 if (!usuarioLogueado.value || usuarioLogueado.value.rol != 'admin') {
     router.push('/');

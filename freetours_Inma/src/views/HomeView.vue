@@ -135,7 +135,7 @@ function borrarFiltros() {
     </div>
     <Card v-if="rutasDisponibles.length > 0" :propRutas="rutasPaginadas"></Card>
     <!--Clase 'lead': https://getbootstrap.com/docs/5.0/content/typography/ -->
-    <div v-else class="container lead bg-secondary text-white mt-2 text-center">No existen rutas para dicha fecha</div>
+    <div v-else class="container lead bg-secondary text-white mt-2 mb-4 text-center">No existen rutas para dicha fecha</div>
 
     <nav v-if="rutasDisponibles.length > rutasPorPagina" aria-label="Navegación de páginas" class="mt-4">
       <ul class="pagination">
