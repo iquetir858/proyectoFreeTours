@@ -1,19 +1,22 @@
 <script setup>
-//Datos del usuario que vendrían del padre, para mostrar unas opciones
-//u otras según el rol del usuario
+import { useRoute } from 'vue-router'
+
+const route = useRoute()
 const props = defineProps({
     usuario: Object
 });
 </script>
 
 <template>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <nav v-if="usuario && route.path != 'login' && route.path != 'register'"
+        class="navbar navbar-expand-lg navbar-light bg-light">
         <button class="navbar-toggler ms-3" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
             aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
 
         <div class="collapse navbar-collapse ms-3" id="navbarSupportedContent">
+            <!--Vistas del admin-->
             <ul v-if="usuario?.rol == 'admin'" class="navbar-nav mr-auto">
                 <li class="nav-item">
                     <RouterLink class="nav-link" to="/admin">Gestión Usuarios</RouterLink>
@@ -25,7 +28,7 @@ const props = defineProps({
                     <RouterLink class="nav-link" to="/admin/listar-rutas">Listado Rutas</RouterLink>
                 </li>
             </ul>
-
+            <!--Vistas del guía-->
             <ul v-if="usuario?.rol == 'guia'" class="navbar-nav mr-auto">
                 <li class="nav-item">
                     <RouterLink class="nav-link" to="/guide">Mis Asignaciones</RouterLink>

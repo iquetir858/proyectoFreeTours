@@ -154,14 +154,16 @@ function crearRuta() {
                 <div class="col-md-6">
                     <label for="titulo" class="form-label">Título de la Ruta:</label>
                     <input type="text" class="form-control" id="titulo" v-model="nuevaRuta.titulo"
-                        placeholder="Escribe aquí el nombre..." :class="{ 'is-invalid': errores.titulo }">
-                    <div class="invalid-feedback">{{ errores.titulo }}</div>
+                        placeholder="Escribe aquí el nombre..."
+                        :class="{ 'is-invalid': errores.titulo, 'is-valid': !errores.titulo && nuevaRuta.titulo }">
+                    <div v-if="errores.titulo" class="invalid-feedback">{{ errores.titulo }}</div>
                 </div>
                 <div class="col-md-6">
                     <label for="localidad" class="form-label">Localidad:</label>
                     <input type="text" class="form-control" id="localidad" v-model="nuevaRuta.localidad"
-                        placeholder="Indica la localidad..." :class="{ 'is-invalid': errores.localidad }">
-                    <div class="invalid-feedback">{{ errores.localidad }}</div>
+                        placeholder="Indica la localidad..."
+                        :class="{ 'is-invalid': errores.localidad, 'is-valid': !errores.localidad && nuevaRuta.localidad }">
+                    <div v-if="errores.localidad" class="invalid-feedback">{{ errores.localidad }}</div>
                 </div>
             </div>
 
@@ -169,14 +171,15 @@ function crearRuta() {
                 <div class="col-md-6">
                     <label for="fecha" class="form-label">Fecha:</label>
                     <input type="date" class="form-control" id="fecha" v-model="nuevaRuta.fecha"
-                        @change="obtenerGuiasBD" :class="{ 'is-invalid': errores.fecha }">
-                    <div class="invalid-feedback">{{ errores.fecha }}</div>
+                        @change="obtenerGuiasBD"
+                        :class="{ 'is-invalid': errores.fecha, 'is-valid': !errores.fecha && nuevaRuta.fecha }">
+                    <div v-if="errores.fecha" class="invalid-feedback">{{ errores.fecha }}</div>
                 </div>
                 <div class="col-md-6">
                     <label for="hora" class="form-label">Hora:</label>
                     <input type="time" class="form-control" id="hora" v-model="nuevaRuta.hora"
-                        :class="{ 'is-invalid': errores.hora }">
-                    <div class="invalid-feedback">{{ errores.hora }}</div>
+                        :class="{ 'is-invalid': errores.hora, 'is-valid': !errores.hora && nuevaRuta.hora }">
+                    <div v-if="errores.hora" class="invalid-feedback">{{ errores.hora }}</div>
                 </div>
             </div>
 
@@ -184,14 +187,13 @@ function crearRuta() {
                 <div class="col-md-6">
                     <label for="foto" class="form-label">Foto:</label>
                     <input type="text" class="form-control" id="foto" v-model="nuevaRuta.foto" placeholder="URL"
-                        :class="{ 'is-invalid': errores.foto }">
-                    <div class="invalid-feedback">{{ errores.foto }}</div>
+                        :class="{ 'is-invalid': errores.foto, 'is-valid': !errores.foto && nuevaRuta.foto }">
+                    <div v-if="errores.foto" class="invalid-feedback">{{ errores.foto }}</div>
                 </div>
                 <div class="col-md-6">
                     <label for="guia" class="form-label">Asignar guía: <span class="text-danger">(Tras seleccionar
                             fecha)</span></label>
-                    <select class="form-select" v-model="nuevaRuta.guia_id" :disabled="!fechaSeleccionada"
-                        :class="{ 'is-invalid': errores.guia_id }">
+                    <select class="form-select" v-model="nuevaRuta.guia_id" :disabled="!fechaSeleccionada">
                         <option value="" disabled>Selecciona un guía</option>
                         <option v-for="guia in guiasDisponibles" :key="guia.id" :value="guia.id">{{ guia.nombre }}
                         </option>
@@ -203,8 +205,9 @@ function crearRuta() {
             <div class="mb-3">
                 <label for="descripcion" class="form-label">Descripción:</label>
                 <textarea class="form-control" id="descripcionRuta" v-model="nuevaRuta.descripcion" rows="3"
-                    placeholder="Describe brevemente la ruta." :class="{ 'is-invalid': errores.descripcion }"></textarea>
-                <div class="invalid-feedback">{{ errores.descripcion }}</div>
+                    placeholder="Describe brevemente la ruta."
+                    :class="{ 'is-invalid': errores.descripcion, 'is-valid': !errores.descripcion && nuevaRuta.descripcion }"></textarea>
+                <div v-if="errores.descripcion" class="invalid-feedback">{{ errores.descripcion }}</div>
             </div>
 
             <div class="mb-3">
