@@ -175,7 +175,8 @@ function cambiarNumPersonas() {
 
                                 </div>
                                 <button v-if="!valoracion" @click.prevent="mostrarModalCancelacion(reserva)"
-                                    class="btn btn-danger w-100 mt-3">Cancelar Reserva</button>
+                                    class="btn btn-danger w-100 mt-3" aria-label="Mostrar modal para cancelar">Cancelar
+                                    Reserva</button>
                                 <div v-else>
                                     <!--Meter aquí lógica de la valoración-->
                                     <Rating :idRuta="reserva.ruta_id" :usuarioActual="props.usuarioActual"
@@ -204,9 +205,10 @@ function cambiarNumPersonas() {
                     <p v-else-if="errorCancelacion.value != ''" class="text-danger">{{ errorCancelacion }}</p>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" @click.prevent="cerrarModal" class="btn"
+                    <button type="button" @click.prevent="cerrarModal" class="btn" aria-label="cerrar"
                         data-bs-dismiss="modal">Cerrar</button>
-                    <button type="button" @click.prevent="cancelarReserva" class="btn btnBorrado">
+                    <button type="button" @click.prevent="cancelarReserva" class="btn btnBorrado"
+                        aria-label="Cancelar reserva">
                         Cancelar Reserva
                     </button>
                 </div>
@@ -225,8 +227,8 @@ function cambiarNumPersonas() {
                 </div>
                 <div class="modal-body">
                     <label for="numPersonas">Selecciona el número de asistentes: </label>
-                    <input v-model="inputNumPersonas" type="number" aria-label="Nuevo número de asistentes a la ruta"
-                        min="1" max="8" value="1">
+                    <input name="numPersonas" v-model="inputNumPersonas" type="number"
+                        aria-label="Nuevo número de asistentes a la ruta" min="1" max="8" value="1">
                     <p v-if="exitoModificacionPersonas.value != ''" class="text-success">
                         {{ exitoModificacionPersonas }}
                     </p>
@@ -235,9 +237,10 @@ function cambiarNumPersonas() {
                     </p>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" @click.prevent="cerrarModal" class="btn btnBorrado"
+                    <button type="button" @click.prevent="cerrarModal" class="btn btnBorrado" aria-label="Cerrar modal"
                         data-bs-dismiss="modal">Cerrar</button>
-                    <button type="button" @click.prevent="cambiarNumPersonas()" class="btn">
+                    <button type="button" @click.prevent="cambiarNumPersonas()" class="btn"
+                        aria-label="Cambiar número de personas">
                         Actualizar
                     </button>
                 </div>

@@ -185,7 +185,7 @@ obtenerRutasGuia(guiaLogueado.value.id || null);
                     <td>
                         <div class="dropdown">
                             <button class="btn btn-primary dropdown-toggle" type="button" data-bs-toggle="dropdown"
-                                aria-expanded="false">
+                                aria-expanded="false" aria-label="Ver reservas">
                                 Ver reservas
                             </button>
                             <ul class="dropdown-menu">
@@ -201,7 +201,7 @@ obtenerRutasGuia(guiaLogueado.value.id || null);
                         </div>
                     </td>
                     <td>
-                        <button class="btn btn-warning" @click="pasarLista(asignacion)">
+                        <button class="btn btn-warning" @click="pasarLista(asignacion)" aria-label="Pasar lista como guía">
                             Pasar Lista
                         </button>
                     </td>
@@ -218,7 +218,7 @@ obtenerRutasGuia(guiaLogueado.value.id || null);
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title">Asignación: {{ asignacionSeleccionada?.ruta_titulo }}</h5>
-                    <button type="button" class="btn-close" @click="cerrarModal"></button>
+                    <button type="button" class="btn-close" @click="cerrarModal" aria-label="cerrar modal"></button>
                 </div>
                 <div class="modal-body">
                     <ul class="list-group">
@@ -237,8 +237,8 @@ obtenerRutasGuia(guiaLogueado.value.id || null);
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" @click="cerrarModal">Cancelar</button>
-                    <button type="button" class="btn btn-success" @click="guardarCambios">Guardar cambios</button>
+                    <button type="button" class="btn btn-secondary" aria-label="cerrar modal" @click="cerrarModal">Cancelar</button>
+                    <button type="button" class="btn btn-success" aria-label="guardar cambios" @click="guardarCambios">Guardar cambios</button>
                 </div>
             </div>
         </div>
@@ -255,6 +255,7 @@ th {
 table {
     max-width: 80%;
     overflow-y: scroll;
+    overflow-x: scroll;
     border: 2px solid rgb(236, 166, 177);
 }
 

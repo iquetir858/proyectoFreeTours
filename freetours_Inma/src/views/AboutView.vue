@@ -11,14 +11,16 @@ import Cat from '@/components/Cat.vue';
       <div class="col-12 col-lg-12">
         <div class="p-4 bg-white rounded-4 shadow-sm hover-up">
           <h2 class="display-6 fw-bold position-relative mb-4">Sobre nosotros</h2>
-          <p class="lead">Sabemos que no es lo mismo ser turista que viajero. Es por ello que apostamos por el concepto
-            de 'free tours'
-            y pensamos en lo cómodo que sería disponer de una plataforma que ponga en contacto a viajeros inteligentes
-            con
-            lugañeros, guías residentes y proveedores de tours económicos alrededor del mundo, de forma que cualquiera
-            pueda
-            disfrutar de experiencias auténticas y enriquecedoras sin preocuparse de gastar demasiado. ¡Y así nació
-            <span class="fw-semibold">PurrfectTours</span>!
+          <p class="lead" id="textoAbout">
+            ¿Alguna vez has deseado poder visitar todos los rincones del mundo y conocer el lugar de la mano de guías
+             que lo conozcan de primera mano?
+            Pues en <span class="fw-semibold">PurrfectTours</span> apostamos por el concepto de 'free tours'
+            para vivir dicha experiencia.
+          </p>
+          <p class="lead mt-2">Para ello, ayudamos a establecer contanto entre viajeros inteligentes con lugañeros,
+            guías residentes y proveedores de tours económicos alrededor del mundo, de forma que cualquiera
+            pueda disfrutar de rutas auténticas y enriquecedoras sin preocuparse de gastar demasiado.
+
           </p>
           <Cat></Cat>
         </div>
@@ -35,8 +37,8 @@ import Cat from '@/components/Cat.vue';
       <div class="col-12 col-md-6 col-lg-3">
         <div class="card border-0 shadow-sm hover-up h-100">
           <div class="card-body text-center p-4">
-            <img src="https://avatar.iran.liara.run/public/81" alt="María García" class="rounded-circle mb-4 shadow-sm"
-              width="150" height="150">
+            <img src="https://avatar.iran.liara.run/public/81" alt="" aria-hidden="true"
+              class="rounded-circle mb-4 shadow-sm" width="150" height="150">
             <h3 class="h5 fw-bold">María García</h3>
             <p class="text-primary mb-2">CEO & Fundadora</p>
             <p class="text-muted small">Apasionada por los viajes y la cultura local. Con más de 10 años de experiencia
@@ -48,7 +50,7 @@ import Cat from '@/components/Cat.vue';
       <div class="col-12 col-md-6 col-lg-3">
         <div class="card border-0 shadow-sm hover-up h-100">
           <div class="card-body text-center p-4">
-            <img src="https://avatar.iran.liara.run/public/24" alt="Carlos Rodríguez"
+            <img src="https://avatar.iran.liara.run/public/24" alt="" aria-hidden="true"
               class="rounded-circle mb-4 shadow-sm" width="150" height="150">
             <h3 class="h5 fw-bold">Carlos Rodríguez</h3>
             <p class="text-primary mb-2">Director de Operaciones</p>
@@ -60,7 +62,7 @@ import Cat from '@/components/Cat.vue';
       <div class="col-12 col-md-6 col-lg-3">
         <div class="card border-0 shadow-sm hover-up h-100">
           <div class="card-body text-center p-4">
-            <img src="https://avatar.iran.liara.run/public/63" alt="Laura Martínez"
+            <img src="https://avatar.iran.liara.run/public/63" alt="" aria-hidden="true"
               class="rounded-circle mb-4 shadow-sm" width="150" height="150">
             <h3 class="h5 fw-bold">Laura Martínez</h3>
             <p class="text-primary mb-2">Coordinadora de Guías</p>
@@ -72,8 +74,8 @@ import Cat from '@/components/Cat.vue';
       <div class="col-12 col-md-6 col-lg-3">
         <div class="card border-0 shadow-sm hover-up h-100">
           <div class="card-body text-center p-4">
-            <img src="https://avatar.iran.liara.run/public/38" alt="David Torres" class="rounded-circle mb-4 shadow-sm"
-              width="150" height="150">
+            <img src="https://avatar.iran.liara.run/public/38" alt="" aria-hidden="true"
+              class="rounded-circle mb-4 shadow-sm" width="150" height="150">
             <h3 class="h5 fw-bold">David Torres</h3>
             <p class="text-primary mb-2">Desarrollo de Producto</p>
             <p class="text-muted small">Creador de experiencias únicas y rutas innovadoras.</p>
@@ -139,6 +141,10 @@ import Cat from '@/components/Cat.vue';
 <style scoped>
 .about {
   gap: 2rem;
+}
+
+#textoAbout {
+  line-height: 1.4;
 }
 
 .info {

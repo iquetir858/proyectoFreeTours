@@ -326,7 +326,7 @@ obtenerRutas();
         <nav aria-label="Navegación de páginas" class="mt-3">
             <ul class="pagination">
                 <li class="page-item" :class="{ disabled: paginaActual === 1 }">
-                    <button class="page-link" @click="pagAnterior" :disabled="paginaActual === 1">
+                    <button class="page-link" aria-label="Pasar a la página anterior" @click="pagAnterior" :disabled="paginaActual === 1">
                         <span>&laquo;</span>
                     </button>
                 </li>
@@ -337,7 +337,7 @@ obtenerRutas();
                 </li>
 
                 <li class="page-item" :class="{ disabled: paginaActual === totalPaginas }">
-                    <button class="page-link" @click="pagSiguiente" :disabled="paginaActual === totalPaginas">
+                    <button class="page-link" aria-label="Pasar a la página siguiente" @click="pagSiguiente" :disabled="paginaActual === totalPaginas">
                         <span>&raquo;</span>
                     </button>
                 </li>
@@ -414,6 +414,7 @@ th {
 table {
     max-width: 80%;
     overflow-y: scroll;
+    overflow-x: scroll;
     border: 2px solid rgb(236, 166, 177);
 }
 

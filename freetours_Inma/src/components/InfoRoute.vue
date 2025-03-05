@@ -32,7 +32,7 @@ function cerrarModal() {
                 <div class="modal-header">
                     <h5 class="modal-title" id="modalInfoLabel">{{ rutaSeleccionada?.titulo }}</h5>
                     <button @click.prevent="cerrarModal()" type="button" class="btn-close" data-bs-dismiss="modal"
-                        aria-label="Cerrar"></button>
+                        aria-label="Cerrar modal de info de la ruta"></button>
                 </div>
                 <div class="modal-body">
                     <div class="row">
@@ -53,8 +53,8 @@ function cerrarModal() {
                     <Map v-if="rutaSeleccionada" :ruta="rutaSeleccionada"></Map>
                 </div>
                 <div class="modal-footer">
-                    <button @click.prevent="cerrarModal()" type="button" class="btn btnBorrado"
-                        data-bs-dismiss="modal">Cerrar</button>
+                    <button @click.prevent="cerrarModal()" type="button" class="btn btnBorrado" data-bs-dismiss="modal"
+                        aria-label="Cerrar modal de info de la ruta">Cerrar</button>
                 </div>
             </div>
         </div>

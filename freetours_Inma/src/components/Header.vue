@@ -48,7 +48,7 @@ function logout() {
                         v-if="loggedUser && route.path != '/login' && route.path != '/register'">
                         <!--Intentar poner el nombre en mayúscula-->
                         <span>Bienvenid@, {{ loggedUser.nombre }} ({{ loggedUser.rol }})</span>
-                        <button @click="logout" class="btn btn-danger btnCerrarSesion">Cerrar Sesión</button>
+                        <button @click="logout" class="btn btn-danger btnCerrarSesion" aria-label="Cerrar sesión">Cerrar Sesión</button>
                     </li>
                 </ul>
             </div>

@@ -249,13 +249,15 @@ obtenerValoracionRuta(props.idRuta);
                     <p v-if="existeValoracion">Valoración actual: <strong>{{ valoracion.puntuacion }}/5</strong></p>
                     <p>Nueva valoración:</p>
                     <div class="d-flex flex-row justify-content-center">
-                        <button class="btn" @click="restarEstrella"><i class="fa-solid fa-minus"></i></button>
+                        <button class="btn" @click="restarEstrella" aria-label="Restar una estrella valoración"><i
+                                class="fa-solid fa-minus"></i></button>
                         <span v-html="estrellasModal"></span>
-                        <button class="btn" @click="sumarEstrella"><i class="fa-solid fa-plus"></i></button>
+                        <button class="btn" @click="sumarEstrella" aria-label="Sumar una estrella valoración"><i
+                                class="fa-solid fa-plus"></i></button>
                     </div>
                     <div class="d-flex flex-column">
                         <label for="comentario">Comentario</label>
-                        <textarea v-model="copiaValoracion.comentario" id="comentario"
+                        <textarea v-model="copiaValoracion.comentario" id="comentario" name="comentario"
                             aria-label="Comentario valorando la ruta"
                             placeholder="Por favor, explica brevemente el motivo de tu valoración."></textarea>
                     </div>
@@ -263,11 +265,14 @@ obtenerValoracionRuta(props.idRuta);
                     <p v-else-if="errorValoracion.value != ''" class="text-danger">{{ errorValoracion }}</p>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" @click.prevent="cerrarModal()" class="btn" data-bs-dismiss="modal">
+                    <button type="button" @click.prevent="cerrarModal()" class="btn" data-bs-dismiss="modal"
+                        aria-label="cerrar modal">
                         Cerrar
                     </button>
-                    <button class="btn" v-if="existeValoracion" @click.prevent="actualizarValoracion()">Guardar</button>
-                    <button class="btn" v-else @click.prevent="crearNuevaValoracion()">Crear</button>
+                    <button class="btn" v-if="existeValoracion" @click.prevent="actualizarValoracion()"
+                        aria-label="Guardar valoración">Guardar</button>
+                    <button class="btn" v-else @click.prevent="crearNuevaValoracion()"
+                        aria-label="Crear una nueva valoración">Crear</button>
                 </div>
             </div>
         </div>

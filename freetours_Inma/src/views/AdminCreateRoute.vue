@@ -186,14 +186,14 @@ function crearRuta() {
             <div class="row mb-3">
                 <div class="col-md-6">
                     <label for="foto" class="form-label">Foto:</label>
-                    <input type="text" class="form-control" id="foto" v-model="nuevaRuta.foto" placeholder="URL"
+                    <input type="text" class="form-control" id="foto" name="foto" v-model="nuevaRuta.foto" placeholder="URL"
                         :class="{ 'is-invalid': errores.foto, 'is-valid': !errores.foto && nuevaRuta.foto }">
                     <div v-if="errores.foto" class="invalid-feedback">{{ errores.foto }}</div>
                 </div>
                 <div class="col-md-6">
                     <label for="guia" class="form-label">Asignar guía: <span class="text-danger">(Tras seleccionar
                             fecha)</span></label>
-                    <select class="form-select" v-model="nuevaRuta.guia_id" :disabled="!fechaSeleccionada">
+                    <select name="guia" id="guia" class="form-select" v-model="nuevaRuta.guia_id" :disabled="!fechaSeleccionada">
                         <option value="" disabled>Selecciona un guía</option>
                         <option v-for="guia in guiasDisponibles" :key="guia.id" :value="guia.id">{{ guia.nombre }}
                         </option>
@@ -203,20 +203,20 @@ function crearRuta() {
             </div>
 
             <div class="mb-3">
-                <label for="descripcion" class="form-label">Descripción:</label>
-                <textarea class="form-control" id="descripcionRuta" v-model="nuevaRuta.descripcion" rows="3"
+                <label for="descripcionRuta" class="form-label">Descripción:</label>
+                <textarea class="form-control" id="descripcionRuta" name="descripcionRuta" v-model="nuevaRuta.descripcion" rows="3"
                     placeholder="Describe brevemente la ruta."
                     :class="{ 'is-invalid': errores.descripcion, 'is-valid': !errores.descripcion && nuevaRuta.descripcion }"></textarea>
                 <div v-if="errores.descripcion" class="invalid-feedback">{{ errores.descripcion }}</div>
             </div>
 
             <div class="mb-3">
-                <label class="form-label">Punto de encuentro:</label>
-                <Map id="mapa" @enviar-coordenadas="setLatitudLongitud"></Map>
+                <label for="puntoEncuentro" class="form-label">Punto de encuentro:</label>
+                <Map name="puntoEncuentro" id="mapa" @enviar-coordenadas="setLatitudLongitud"></Map>
                 <div class="text-danger mt-2" v-if="errores.ubicacion">{{ errores.ubicacion }}</div>
             </div>
 
-            <button type="submit" class="btn" @click.prevent="crearRuta">
+            <button type="submit" class="btn" @click.prevent="crearRuta" aria-label="crear ruta">
                 Crear Ruta
             </button>
         </form>

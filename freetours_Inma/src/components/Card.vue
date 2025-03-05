@@ -78,7 +78,7 @@ function reservarRuta(idRuta, emailUsuario) {
                 }
                 setTimeout(() => {
                     modalReserva.hide();
-                    asistentes.value = 1; 
+                    asistentes.value = 1;
                     mensajeReserva.value = '';
                     errorReserva.value = '';
                 }, 3000);
@@ -113,8 +113,9 @@ function reservarRuta(idRuta, emailUsuario) {
                                 <p class="card-text text-muted">
                                     <i class="fas fa-calendar-alt me-2"></i>{{ ruta.fecha }}
                                 </p>
-                                <button class="btn btn-outline-primary mt-auto" 
-                                        @click.prevent="mostrarInfo(ruta)">
+                                <button class="btn btn-outline-primary mt-auto"
+                                    aria-label="Mostrar más info de la ruta seleccionada"
+                                    @click.prevent="mostrarInfo(ruta)">
                                     <i class="fas fa-info-circle me-2"></i>Más información
                                 </button>
                             </div>
@@ -125,14 +126,14 @@ function reservarRuta(idRuta, emailUsuario) {
         </div>
     </div>
 
-    <!--MODAL (cambiarlo a componente????)-->
+    <!--MODAL DE INFORMACIÓN DE LA RUTA-->
     <div role="dialog" class="modal fade" id="modalInfo" tabindex="-1" aria-labelledby="modalInfoLabel">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="modalInfoLabel">{{ rutaSeleccionada?.titulo }}</h5>
                     <button @click.prevent="cerrarModal" type="button" class="btn-close" data-bs-dismiss="modal"
-                        aria-label="Cerrar"></button>
+                        aria-label="Cerrar modal de info de la ruta"></button>
                 </div>
                 <div class="modal-body">
                     <div class="row">
@@ -152,13 +153,15 @@ function reservarRuta(idRuta, emailUsuario) {
                     <Map v-if="rutaSeleccionada" :ruta="rutaSeleccionada"></Map>
                 </div>
                 <div class="modal-footer">
-                    <button @click.prevent="cerrarModal" type="button" class="btn btnBorrado"
-                        data-bs-dismiss="modal">Cerrar</button>
+                    <button @click.prevent="cerrarModal" type="button" class="btn btnBorrado" data-bs-dismiss="modal"
+                        aria-label="Cerrar modal de info de la ruta">Cerrar</button>
                     <!--Si hay usuario registrado (SOLO CLIENTES), se reserva-->
-                    <button v-if="usuarioLogeado && usuarioLogeado.rol=='cliente'" @click.prevent="modalReserva.show(); modalInfo.hide()"
-                        class="btn">Reservar</button>
+                    <button v-if="usuarioLogeado && usuarioLogeado.rol == 'cliente'"
+                        @click.prevent="modalReserva.show(); modalInfo.hide()" class="btn"
+                        aria-label="Acceder a la reserva">Reservar</button>
                     <!--Si no, se redirige al registro-->
-                    <button v-else-if="!usuarioLogeado" class="btn btn-success" @click.prevent="enviarARegistro">Regístrate</button>
+                    <button v-else-if="!usuarioLogeado" class="btn btn-success" aria-label="Redirigir a registro"
+                        @click.prevent="enviarARegistro">Regístrate</button>
                 </div>
 
             </div>
@@ -172,7 +175,7 @@ function reservarRuta(idRuta, emailUsuario) {
                 <div class="modal-header">
                     <h5 class="modal-title" id="modalInReservaLabel">Reserva</h5>
                     <button @click.prevent="modalReserva.hide()" type="button" class="btn-close" data-bs-dismiss="modal"
-                        aria-label="Cerrar"></button>
+                        aria-label="Cerrar modal reserva"></button>
                 </div>
                 <div class="modal-body">
                     <p><strong>Reserva de la ruta "{{ rutaSeleccionada?.titulo }}"</strong></p>
@@ -188,11 +191,11 @@ function reservarRuta(idRuta, emailUsuario) {
                 </div>
                 <div class="modal-footer">
                     <button @click.prevent="modalReserva.hide()" type="button" class="btn btnBorrado"
-                        data-bs-dismiss="modal">Cerrar</button>
+                        data-bs-dismiss="modal" aria-label="Cerrar modal reserva">Cerrar</button>
                     <!--Si hay usuario registrado, se reserva-->
                     <button v-if="usuarioLogeado"
-                        @click.prevent="reservarRuta(rutaSeleccionada.id, usuarioLogeado.email)"
-                        class="btn">Confirmar</button>
+                        @click.prevent="reservarRuta(rutaSeleccionada.id, usuarioLogeado.email)" class="btn"
+                        aria-label="Reservar ruta">Confirmar</button>
                 </div>
             </div>
         </div>
@@ -240,7 +243,7 @@ function reservarRuta(idRuta, emailUsuario) {
 }
 
 .card-img-overlay {
-    background: linear-gradient(to top, rgba(0,0,0,0.4), transparent);
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.4), transparent);
 }
 
 .btn-outline-primary {

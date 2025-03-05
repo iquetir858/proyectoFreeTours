@@ -144,10 +144,10 @@ function userRegister() {
   <div id="generalDiv" class="d-flex flex-column justify-content-center align-items-center mt-5">
     <div id="botonesCambio" class="d-flex justify-content-evenly w-100">
       <RouterLink class="text-white" to="/login">
-        <button class="btn btn-primary text-decoration-none">Login</button>
+        <button class="btn btn-primary text-decoration-none" aria-label="Cambiar al login">Login</button>
       </RouterLink>
       <RouterLink class="text-white text-decoration-none" to="/register">
-        <button class="btn btn-primary">Registro</button>
+        <button class="btn btn-primary" aria-label="Cambiar a registro">Registro</button>
       </RouterLink>
     </div>
 
@@ -206,15 +206,16 @@ function userRegister() {
                   data-bs-toggle="tooltip" data-bs-placement="top"
                   title="Debe tener al menos 8 caracteres, incluyendo al menos un número"
                   :class="{ 'is-invalid': errores.contraseña, 'is-valid': !errores.contraseña && formRegistro.contraseña }">
-                <label for="pass">Contraseña</label>
+                <label for="contraseña">Contraseña</label>
                 <div v-if="errores.contraseña" class="invalid-feedback">{{ errores.contraseña }}</div>
 
               </div>
               <p v-if="errorRegistro" class="text-danger mt-2">{{ errorRegistro }}</p>
               <div class="buttons mt-2 d-flex justify-content-evenly">
-                <button @click.prevent="userRegister" class="btn btn-success">Registrarse</button>
+                <button @click.prevent="userRegister" class="btn btn-success"
+                  aria-label="registrarse">Registrarse</button>
                 <RouterLink class="text-black text-decoration-none" to="/"> <button
-                    class="btn btn-danger">Cancelar</button></RouterLink>
+                    class="btn btn-danger" aria-label="Cancelar registro, redirigir al home">Cancelar</button></RouterLink>
               </div>
             </form>
           </div>

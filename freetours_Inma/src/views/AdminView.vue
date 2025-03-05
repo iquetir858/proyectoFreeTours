@@ -194,10 +194,6 @@ obtenerUsuariosBD();
                         </select>
                     </td>
                     <td>
-                        <!--<button title="Guardar cambios" type="button" class="btn btn-primary"
-                            @click.prevent="actualizarRol">
-                            <i class="fa-solid fa-check"></i>
-                        </button>-->
                         <button aria-label="Botón para borrar al usuario" title="Borrar usuario" type="button"
                             class="btn btn-danger btnBorrado" @click="seleccionarUsuario(usuario.id)">
                             <i class="fa-solid fa-trash"></i>
@@ -210,7 +206,7 @@ obtenerUsuariosBD();
         <nav aria-label="Navegación de páginas" class="mt-3">
             <ul class="pagination">
                 <li class="page-item" :class="{ disabled: paginaActual === 1 }">
-                    <button class="page-link" @click="pagAnterior" :disabled="paginaActual === 1">
+                    <button class="page-link" aria-label="Pasar a la página anterior" @click="pagAnterior" :disabled="paginaActual === 1">
                         <span>&laquo;</span>
                     </button>
                 </li>
@@ -221,7 +217,7 @@ obtenerUsuariosBD();
                 </li>
 
                 <li class="page-item" :class="{ disabled: paginaActual === totalPaginas }">
-                    <button class="page-link" @click="pagSiguiente" :disabled="paginaActual === totalPaginas">
+                    <button class="page-link" aria-label="Pasar a la página siguiente" @click="pagSiguiente" :disabled="paginaActual === totalPaginas">
                         <span>&raquo;</span>
                     </button>
                 </li>
@@ -293,6 +289,7 @@ th {
 table {
     max-width: 80%;
     overflow-y: scroll;
+    overflow-x: scroll;
     border: 2px solid rgb(236, 166, 177);
 }
 

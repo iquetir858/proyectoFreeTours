@@ -78,7 +78,7 @@ obtenerReservas(email);
             <nav aria-label="Navegación de páginas">
                 <ul class="pagination mb-0">
                     <li class="page-item" :class="{ disabled: paginaActual === 1 }">
-                        <button class="page-link" @click="pagAnterior" :disabled="paginaActual === 1">
+                        <button class="page-link" aria-label="Pasar a la página anterior" @click="pagAnterior" :disabled="paginaActual === 1">
                             <span>&laquo;</span>
                         </button>
                     </li>
@@ -91,7 +91,7 @@ obtenerReservas(email);
                     </li>
                     
                     <li class="page-item" :class="{ disabled: paginaActual === totalPaginas }">
-                        <button class="page-link" @click="pagSiguiente" :disabled="paginaActual === totalPaginas">
+                        <button class="page-link" aria-label="Pasar a la página siguiente" @click="pagSiguiente" :disabled="paginaActual === totalPaginas">
                             <span>&raquo;</span>
                         </button>
                     </li>

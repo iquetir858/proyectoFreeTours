@@ -118,11 +118,11 @@ function borrarFiltros() {
       <form action="" class="d-flex flex-row align-items-center justify-content-evenly m-4">
         <label for="localidadBusqueda" class="me-2">Localidad:</label>
         <!--Cambiar esto a un select?-->
-        <input v-model="localidad" type="text" name="localidadBusqueda" placeholder="Introduce una localidad"
+        <input v-model="localidad" type="text" name="localidadBusqueda" id="localidadBusqueda" placeholder="Introduce una localidad"
           class="me-5">
 
         <label for="fechaBusqueda" class="me-2">Fecha:</label>
-        <input v-model="fecha" type="date" name="fechaBusqueda">
+        <input v-model="fecha" type="date" name="fechaBusqueda" id="fechaBusqueda">
 
         <button @click.prevent="busquedaFiltro" class="btn ms-2 btnBusqueda" aria-label="Realizar búsqueda de rutas">
           <i class="fa-solid fa-magnifying-glass"></i>

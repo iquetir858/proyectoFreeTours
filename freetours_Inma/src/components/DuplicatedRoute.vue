@@ -139,13 +139,14 @@ function cerrarModal() {
                     <label for="fechaNueva" class="form-label">Nueva Fecha:
                         <span>(Debe ser distinta a <strong>{{ props.ruta.fecha }}</strong>)</span>
                     </label>
-                    <input type="date" id="fechaNueva" class="form-control" v-model="nuevaFecha" required
-                        @change="obtenerGuiasBD">
+                    <input type="date" id="fechaNueva" name="fechaNueva" class="form-control" v-model="nuevaFecha"
+                        required @change="obtenerGuiasBD">
 
                     <label for="selectGuia" class="form-label mt-2">
                         Asignar guía: <span>(Tras seleccionar fecha)</span>
                     </label>
-                    <select id="selectGuia" class="form-select" v-model="idGuiaSeleccionado" :disabled="!nuevaFecha">
+                    <select id="selectGuia" name="selectGuia" class="form-select" v-model="idGuiaSeleccionado"
+                        :disabled="!nuevaFecha">
                         <option value="" disabled>Selecciona un guía</option>
                         <option v-for="guia in guiasDisponibles" :key="guia.id" :value="guia.id">{{ guia.nombre }}
                         </option>
@@ -158,8 +159,10 @@ function cerrarModal() {
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button class="btn btn-secondary" type="button" @click.prevent="cerrarModal">Cancelar</button>
-                    <button class="btn btn-primary" type="button" @click.prevent="duplicarRuta">Duplicar</button>
+                    <button class="btn btn-secondary" type="button" @click.prevent="cerrarModal"
+                        aria-label="Cerrar modal de duplicado">Cancelar</button>
+                    <button class="btn btn-primary" type="button" aria-label="Duplicar ruta seleccionada"
+                        @click.prevent="duplicarRuta">Duplicar</button>
                 </div>
             </div>
         </div>
