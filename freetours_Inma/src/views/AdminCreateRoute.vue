@@ -1,6 +1,13 @@
 <script setup>
 import { ref, computed, onMounted } from 'vue';
 import Map from '@/components/Map.vue';
+import router from '@/router';
+
+let usuarioLogueado = ref(JSON.parse(localStorage.getItem('usuarioLogeado'))); //Obtener guía del localStorage
+//Primero comprobamos que no se pueda entrar a esta vista si no es ADMIN
+if (!usuarioLogueado.value || usuarioLogueado.value.rol != 'admin') {
+    router.push('/');
+}
 
 let guiasDisponibles = ref(); //Se cogen mediante una llamada a la api
 let nuevaRuta = ref({});
@@ -54,11 +61,6 @@ function obtenerGuiasBD() {
 function setLatitudLongitud(lat, lon) {
     nuevaRuta.value.latitud = lat;
     nuevaRuta.value.longitud = lon;
-}
-
-//Función para almacenar el guía elegido (su id) para la ruta
-function actualizarGuia(id) {
-    nuevaRuta.value.guia_id = id;
 }
 
 function crearRuta() {

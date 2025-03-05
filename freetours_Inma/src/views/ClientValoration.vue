@@ -1,10 +1,16 @@
 <script setup>
 import { ref, computed } from 'vue';
 import Reservations from '@/components/Reservations.vue';
+import router from '@/router';
 
 //-------------VARIABLES
 let cliente = ref(JSON.parse(localStorage.getItem('usuarioLogeado'))); //cliente logeado
-let email = cliente.value.email;
+//Primero comprobamos que no se pueda entrar a esta vista si no es CLIENTE
+if (!cliente.value || cliente.value.rol != 'cliente') {
+    router.push('/');
+}
+
+let email = cliente.value.email || null;
 let reservasPasadas = ref(null);
 
 const paginaActual = ref(1);

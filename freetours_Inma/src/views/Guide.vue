@@ -1,9 +1,16 @@
 <script setup>
 import { ref, onMounted } from 'vue';
 import InfoRoute from '@/components/InfoRoute.vue';
+import router from '@/router';
 
 //------------- VARIABLES
 let guiaLogueado = ref(JSON.parse(localStorage.getItem('usuarioLogeado'))); //Obtener guía del localStorage
+//Primero comprobamos que no se pueda entrar a esta vista si no es GUIA
+if (!guiaLogueado.value || guiaLogueado.value.rol != 'guia') {
+    router.push('/');
+}
+
+
 let asignacionesGuia = ref(null);
 //console.log(guiaLogueado.value);
 let rutaSeleccionada = ref(null);
@@ -139,12 +146,11 @@ function guardarCambios() {
 }
 
 //----------LLAMADA PRINCIPAL
-obtenerRutasGuia(guiaLogueado.value.id);
+obtenerRutasGuia(guiaLogueado.value.id || null);
 </script>
 
 
 <template>
-    <!--Mirar estilo !!!-->
     <h3 class="text-center">Mis asignaciones ({{ guiaLogueado.email }})</h3>
 
     <div id="divTabla" class="m-3 d-flex flex-column align-items-center">
