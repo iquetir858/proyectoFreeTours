@@ -59,6 +59,12 @@ function logout() {
 <style scoped>
 header {
     background-color: rgb(236, 166, 177);
+    /* background-color: #f4e04d; */
+    /* https://coolors.co/visualizer/f4e04d-f2ed6f-cee397-8db1ab-587792 */
+    /* https://coolors.co/visualizer/ff8811-f4d06f-fff8f0-9dd9d2-392f5a */
+    /* https://coolors.co/visualizer/795c5f-a69658-d9b26f-fadf7f-f2e29f */
+    /* background-color: #2EC4B6; */
+    /* background-color: #801A86; */
 }
 
 .titlePage {
@@ -68,6 +74,7 @@ header {
 
 .titlePage:hover {
     color: white;
+    /* color: orangered; */
 }
 
 img {
