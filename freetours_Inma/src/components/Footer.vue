@@ -8,7 +8,7 @@
                     <p class="mb-1">&copy; {{ new Date().getFullYear() }} - Todos los derechos reservados.</p>
                     <p>Desarrolladora - Inmaculada Quesada Tirado</p>
                 </div>
-                
+
                 <!-- Social Media Section -->
                 <div class="col-12 col-md-4">
                     <h4 class="text-center mb-3">Siguenos</h4>
@@ -24,7 +24,7 @@
                         </a>
                     </div>
                 </div>
-                
+
                 <!-- Links Section -->
                 <div class="col-12 col-md-4">
                     <h4 class="text-center mb-3">Enlaces</h4>
@@ -51,7 +51,7 @@
     bottom: 0;
     width: 100%;
     z-index: 1000;
-    background: linear-gradient(45deg, #1a0808, #2d1010);
+    background: linear-gradient(180deg, #330c0c, #1C0505, #160303);
 }
 
 .brand-name {
@@ -61,7 +61,8 @@
     -webkit-text-fill-color: transparent;
 }
 
-p, h4 {
+p,
+h4 {
     color: #d3d3d3;
 }
 

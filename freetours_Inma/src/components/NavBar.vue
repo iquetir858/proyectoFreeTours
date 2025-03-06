@@ -47,4 +47,8 @@ const props = defineProps({
     </nav>
 </template>
 
-<style scoped></style>
+<style scoped>
+li {
+    font-weight: bold;
+}
+</style>

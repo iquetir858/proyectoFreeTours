@@ -118,8 +118,8 @@ function borrarFiltros() {
       <form action="" class="d-flex flex-row align-items-center justify-content-evenly m-4">
         <label for="localidadBusqueda" class="me-2">Localidad:</label>
         <!--Cambiar esto a un select?-->
-        <input v-model="localidad" type="text" name="localidadBusqueda" id="localidadBusqueda" placeholder="Introduce una localidad"
-          class="me-5">
+        <input v-model="localidad" type="text" name="localidadBusqueda" id="localidadBusqueda"
+          placeholder="Introduce una localidad" class="me-5">
 
         <label for="fechaBusqueda" class="me-2">Fecha:</label>
         <input v-model="fecha" type="date" name="fechaBusqueda" id="fechaBusqueda">
@@ -127,15 +127,16 @@ function borrarFiltros() {
         <button @click.prevent="busquedaFiltro" class="btn ms-2 btnBusqueda" aria-label="Realizar búsqueda de rutas">
           <i class="fa-solid fa-magnifying-glass"></i>
         </button>
-        <button @click.prevent="borrarFiltros" class="btn btnBorrado ms-2"
-          aria-label="Eliminar filtros aplicados">X</button>
+        <button @click.prevent="borrarFiltros" class="btn btnBorrado ms-2" aria-label="Eliminar filtros aplicados"><i
+            class="fa-solid fa-xmark"></i></button>
 
       </form>
       <div v-if="mensajeFecha != ''" class="text-danger text-center">{{ mensajeFecha }}</div>
     </div>
     <Card v-if="rutasDisponibles.length > 0" :propRutas="rutasPaginadas"></Card>
     <!--Clase 'lead': https://getbootstrap.com/docs/5.0/content/typography/ -->
-    <div v-else class="container lead bg-secondary text-white mt-2 mb-4 text-center">No existen rutas para dicha fecha</div>
+    <div v-else class="container lead bg-secondary text-white mt-2 mb-4 text-center">No existen rutas para dicha fecha
+    </div>
 
     <nav v-if="rutasDisponibles.length > rutasPorPagina" aria-label="Navegación de páginas" class="mt-4">
       <ul class="pagination">
@@ -163,18 +164,17 @@ input {
 }
 
 .btn {
-  color: rgb(32, 13, 13);
+  color: #1C0505;
   font-weight: bold;
-  background-color: rgb(236, 166, 177);
-  border: 1px solid rgb(236, 166, 177);
+  background-color: #DCAC54;
+  border: 1px solid #DCAC54;
 }
 
 .btn:hover {
-  background-color: rgb(32, 13, 13);
-  color: rgb(236, 166, 177);
+  background-color: #1C0505;
+  color: #1AD4A5;
   border: 1px solid white;
 }
-
 
 .btnBorrado {
   color: white;
@@ -189,18 +189,18 @@ input {
 }
 
 .pagination .page-link {
-  color: rgb(32, 13, 13);
+  color: #1C0505;
 }
 
 .pagination .page-item.active .page-link {
-  background-color: rgb(236, 166, 177);
-  border-color: rgb(236, 166, 177);
-  color: rgb(32, 13, 13);
+  background-color: #1AD4A5;
+  border-color: #1AD4A5;
+  color: #1C0505;
 }
 
 .pagination .page-link:hover {
-  background-color: rgb(32, 13, 13);
-  color: rgb(236, 166, 177);
+  background-color: #1C0505;
+  color: #1AD4A5;
 }
 
 .pagination .page-item.disabled .page-link {
@@ -259,11 +259,11 @@ input {
   .hero-section {
     height: 50vh;
   }
-  
+
   .hero-content h1 {
     font-size: 2rem;
   }
-  
+
   .hero-content p {
     font-size: 1.1rem;
   }

@@ -12,7 +12,7 @@ const props = defineProps({
 //Variables:
 const rutaSeleccionada = ref(null);
 let modalInfo = null;
-let usuarioLogeado = ref(JSON.parse(localStorage.getItem('usuarioLogeado')));
+let usuarioLogeado = ref(JSON.parse(localStorage.getItem('usuarioLogeado')) || null);
 let modalReserva = null;
 let asistentes = ref(1);
 let mensajeReserva = ref('');
@@ -160,7 +160,7 @@ function reservarRuta(idRuta, emailUsuario) {
                         @click.prevent="modalReserva.show(); modalInfo.hide()" class="btn"
                         aria-label="Acceder a la reserva">Reservar</button>
                     <!--Si no, se redirige al registro-->
-                    <button v-else-if="!usuarioLogeado" class="btn btn-success" aria-label="Redirigir a registro"
+                    <button v-else-if="!usuarioLogeado" class="btn btn-danger" aria-label="Redirigir a registro"
                         @click.prevent="enviarARegistro">Regístrate</button>
                 </div>
 
@@ -204,7 +204,7 @@ function reservarRuta(idRuta, emailUsuario) {
 
 <style scoped>
 .cards-container {
-    background: rgba(209, 96, 113, 0.1);
+    background: #ebac3949;
     border-radius: 1rem;
     backdrop-filter: blur(10px);
     min-height: fit-content;
@@ -222,7 +222,7 @@ function reservarRuta(idRuta, emailUsuario) {
 
 .hover-card:hover {
     transform: translateY(-5px);
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1) !important;
+    box-shadow: 0 10px 20px #1c05055e !important;
 }
 
 .card-img-wrapper {
@@ -243,22 +243,24 @@ function reservarRuta(idRuta, emailUsuario) {
 }
 
 .card-img-overlay {
-    background: linear-gradient(to top, rgba(0, 0, 0, 0.4), transparent);
+    background: linear-gradient(to top, #1c05055e, transparent);
 }
 
-.btn-outline-primary {
-    color: rgb(209, 96, 113);
-    border-color: rgb(209, 96, 113);
+.btn-outline-primary{
+    background-color: #DCAC54;
+    border-color: #DCAC54;
+    color: #1C0505;
 }
-
 .btn-outline-primary:hover {
-    background-color: rgb(209, 96, 113);
-    border-color: rgb(209, 96, 113);
     color: white;
+    background-color: #1C0505;
+    border-color: #1C0505;
 }
 
 .badge {
-    background-color: rgb(209, 96, 113) !important;
+    background-color: #DCAC54 !important;
+    padding: 0.6rem;
+    color: #1C0505;
 }
 
 .modal-content {

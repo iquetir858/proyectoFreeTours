@@ -315,30 +315,6 @@ function userRegister() {
   min-width: 120px;
 }
 
-.btn-success {
-  background-color: #ff8ba7 !important;
-  border: none !important;
-  color: #33272a !important;
-}
-
-.btn-danger {
-  background-color: #fce8ec !important;
-  border: none !important;
-  color: #33272a !important;
-}
-
-.btn-success:hover {
-  background-color: #33272a !important;
-  color: #ff8ba7 !important;
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-}
-
-.btn-danger:hover {
-  background-color: #33272a !important;
-  color: #fce8ec !important;
-  transform: translateY(-2px);
-}
 
 /* Ajustes de estilo del modal*/
 .modal-content {

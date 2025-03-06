@@ -48,7 +48,8 @@ function logout() {
                         v-if="loggedUser && route.path != '/login' && route.path != '/register'">
                         <!--Intentar poner el nombre en mayúscula-->
                         <span>Bienvenid@, {{ loggedUser.nombre }} ({{ loggedUser.rol }})</span>
-                        <button @click="logout" class="btn btn-danger btnCerrarSesion" aria-label="Cerrar sesión">Cerrar Sesión</button>
+                        <button @click="logout" class="btn btnCerrarSesion" aria-label="Cerrar sesión">Cerrar
+                            Sesión</button>
                     </li>
                 </ul>
             </div>
@@ -58,7 +59,8 @@ function logout() {
 
 <style scoped>
 header {
-    background-color: rgb(236, 166, 177);
+    /* background-color: rgb(236, 166, 177); */
+    background-color: #DCAC54;
     /* background-color: #f4e04d; */
     /* https://coolors.co/visualizer/f4e04d-f2ed6f-cee397-8db1ab-587792 */
     /* https://coolors.co/visualizer/ff8811-f4d06f-fff8f0-9dd9d2-392f5a */
@@ -68,12 +70,13 @@ header {
 }
 
 .titlePage {
-    color: rgb(32, 13, 13);
+    color: #1C0505;
     font-weight: bold;
 }
 
 .titlePage:hover {
     color: white;
+    text-decoration: underline;
     /* color: orangered; */
 }
 
@@ -84,14 +87,14 @@ img {
 }
 
 .nav-link {
-    color: rgb(32, 13, 13);
+    color: #1C0505;
     transition: 0.2 linear;
     margin: 0.2em;
     font-weight: bold;
 }
 
 .bienvenida {
-    color: rgb(32, 13, 13);
+    color: #1C0505;
 }
 
 .nav-link:hover {
@@ -101,14 +104,13 @@ img {
 
 .btnCerrarSesion {
     color: white;
-    background-color: #DC4C64;
+    background-color: #1C0505;
+    border: 1px solid #1C0505;
 }
 
 .btnCerrarSesion:hover {
     background-color: white;
-    color: #DC4C64;
-    /* color: #bb2d3b; */
+    color: #1C0505;
     font-weight: bold;
-    border: 1px solid #DC4C64;
 }
 </style>
