@@ -98,7 +98,7 @@ img {
 }
 
 .nav-link:hover {
-    color: rgb(204, 15, 44);
+    color: white;
     text-decoration: underline;
 }
 

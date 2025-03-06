@@ -160,7 +160,7 @@ function reservarRuta(idRuta, emailUsuario) {
                         @click.prevent="modalReserva.show(); modalInfo.hide()" class="btn"
                         aria-label="Acceder a la reserva">Reservar</button>
                     <!--Si no, se redirige al registro-->
-                    <button v-else-if="!usuarioLogeado" class="btn btn-danger" aria-label="Redirigir a registro"
+                    <button v-else-if="!usuarioLogeado" class="btn" aria-label="Redirigir a registro"
                         @click.prevent="enviarARegistro">Regístrate</button>
                 </div>
 
@@ -220,6 +220,18 @@ function reservarRuta(idRuta, emailUsuario) {
     border-radius: 0.5rem;
 }
 
+.btnBorrado {
+    color: white;
+    background-color: #DC4C64;
+    border: 1px solid #DC4C64;
+}
+
+.btnBorrado:hover {
+    background-color: white;
+    color: #DC4C64;
+    border: 1px solid #DC4C64;
+}
+
 .hover-card:hover {
     transform: translateY(-5px);
     box-shadow: 0 10px 20px #1c05055e !important;
@@ -246,11 +258,12 @@ function reservarRuta(idRuta, emailUsuario) {
     background: linear-gradient(to top, #1c05055e, transparent);
 }
 
-.btn-outline-primary{
+.btn-outline-primary {
     background-color: #DCAC54;
     border-color: #DCAC54;
     color: #1C0505;
 }
+
 .btn-outline-primary:hover {
     color: white;
     background-color: #1C0505;
@@ -271,7 +284,7 @@ function reservarRuta(idRuta, emailUsuario) {
 
 .modal-header {
     border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-    background-color: rgba(209, 96, 113, 0.1);
+    background-color: #dcac5462;
     border-top-left-radius: 1rem;
     border-top-right-radius: 1rem;
 }

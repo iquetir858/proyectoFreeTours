@@ -172,7 +172,7 @@ input {
 
 .btn:hover {
   background-color: #1C0505;
-  color: #1AD4A5;
+  color: #DCAC54;
   border: 1px solid white;
 }
 
@@ -193,14 +193,14 @@ input {
 }
 
 .pagination .page-item.active .page-link {
-  background-color: #1AD4A5;
-  border-color: #1AD4A5;
+  background-color: #DCAC54;
+  border-color: #DCAC54;
   color: #1C0505;
 }
 
 .pagination .page-link:hover {
   background-color: #1C0505;
-  color: #1AD4A5;
+  color: #DCAC54;
 }
 
 .pagination .page-item.disabled .page-link {
