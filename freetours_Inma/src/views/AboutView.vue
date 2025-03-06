@@ -1,5 +1,56 @@
 <script setup>
+import { ref } from 'vue';
 import Cat from '@/components/Cat.vue';
+
+//-------------------Variables video
+const medio = ref(null);
+const play = ref("▶"); // Valor inicial del botón de play
+
+//--------------------------FUNCIONES VIDEO
+function accionPlay() {
+  if (!medio.value.paused && !medio.value.ended) {
+    medio.value.pause();
+    play.value = "▶";
+  } else {
+    medio.value.play();
+    play.value = "||";
+  }
+}
+
+function accionReiniciar() {
+  //Usar propiedad .currentTime
+  //Reproducir el vídeo
+  //Cambiar el valor del botón a ||
+  medio.value.currentTime = 0;
+  medio.value.play();
+  play.value = '||';
+
+}
+
+function accionRetrasar() {
+  //Contemplar que no existen valores negativos
+  medio.value.currentTime = Math.max(medio.value.currentTime - 5, 0);
+}
+
+function accionAdelantar() {
+  //Contemplar que no existen valores mayores a medio.duration
+  medio.value.currentTime = Math.min(medio.value.currentTime + 5, medio.value.duration);
+}
+
+function accionSilenciar() {
+  //Utilizar medio.muted = true; o medio.muted = false;
+  medio.value.muted = !medio.value.muted;
+}
+
+function accionMasVolumen() {
+  //Contemplar que el valor máximo de volumen es 1
+  medio.value.volume = Math.min(medio.value.volume + 0.1, 1);
+}
+
+function accionMenosVolumen() {
+  //Contemplar que el valor mínimo de volumen es 0
+  medio.value.volume = Math.max(medio.value.volume - 0.1, 0);
+}
 
 </script>
 
@@ -13,7 +64,7 @@ import Cat from '@/components/Cat.vue';
           <h2 class="display-6 fw-bold position-relative mb-4">Sobre nosotros</h2>
           <p class="lead" id="textoAbout">
             ¿Alguna vez has deseado poder visitar todos los rincones del mundo y conocer el lugar de la mano de guías
-             que lo conozcan de primera mano?
+            que lo conozcan de primera mano?
             Pues en <span class="fw-semibold">PurrfectTours</span> apostamos por el concepto de 'free tours'
             para vivir dicha experiencia.
           </p>
@@ -121,36 +172,37 @@ import Cat from '@/components/Cat.vue';
     </div>
 
 
-    <!--Vídeo-->
-    <div class="row g-4 mt-4 mb-3 justify-content-center">
-      <div class="col-12 text-center mb-1">
-        <h2 class="display-6 fw-bold">Apúntate y vive una experiencia única</h2>
-      </div>
-      <div class="col-8 d-flex justify-content-center">
-        <video controls width="100%" height="500px" preload="auto">
-          <source src="../assets/videos/video.mp4" type="video/mp4">
-          <source src="../assets/videos/video.ogv" type="video/ogv">
-          Tu navegador no soporta este video
+    <!------------------Vídeo--------------------->
+    <div class="info container py-5">
+      <h2 class="display-6 fw-bold text-center">Apúntate y vive una experiencia única</h2>
+      <div class="col-8 d-flex flex-column mx-auto">
+        <video ref="medio" width="100%" height="500px" preload="auto">
+          <source src="../assets/videos/videoTour.mp4" type="video/mp4" />
+          <source src="../assets/videos/videoTour.ogv" type="video/ogv" />
+          Vídeo no soportado por el navegador.
         </video>
+        <div id="controlesVideo" class="d-flex flex-row justify-content-center mt-2">
+          <button @click="accionReiniciar" class="btn" aria-label="Reiniciar vídeo">Reiniciar</button>
+          <button @click="accionRetrasar" class="btn" aria-label="Retrasar vídeo">«</button>
+          <button @click="accionPlay" class="btn" aria-label="Comenzar/parar vídeo">{{ play }}</button>
+          <button @click="accionAdelantar" class="btn" aria-label="Adelantar vídeo">»</button>
+          <button @click="accionSilenciar" class="btn" aria-label="Silenciar vídeo">Silenciar</button>
+          <span>Volumen</span>
+          <button @click="accionMenosVolumen" class="btn" aria-label="Bajar volumen">-</button>
+          <button @click="accionMasVolumen" class="btn" aria-label="Subir volumen">+</button>
+        </div>
       </div>
-    </div>
 
+    </div>
   </div>
 </template>
 
 <style scoped>
-.about {
-  gap: 2rem;
-}
-
-#textoAbout {
-  line-height: 1.4;
-}
-
+/* Contenedor principal */
 .info {
   --radius: 0.7em;
-  --primary-color: #FF6B6B;
-  --bg-color: #FFF5F5;
+  --primary-color: #ff6b6b;
+  --bg-color: #fff5f5;
   background: var(--bg-color);
   border-radius: 20px;
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
@@ -158,23 +210,88 @@ import Cat from '@/components/Cat.vue';
   transition: transform 0.3s ease;
 }
 
-.hover-up:hover {
-  transform: translateY(-5px);
-}
-
 h2 {
   color: var(--primary-color);
   font-size: clamp(1.5rem, 4vw, 2.5rem);
-  margin-bottom: 1.5rem;
   font-weight: 700;
-  position: relative;
 }
 
-h3 {
-  color: var(--primary-color);
+.video-player {
+  border-radius: 15px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
 }
 
-span {
-  color: var(--primary-color);
+/*Contenedor con los controles del vídeo */
+#controlesVideo {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: clamp(5px, 2vw, 15px);
+  /*Espaciado adaptable*/
+  margin-top: 15px;
+  background: #f8d7da;
+  padding: 5px;
+  border-radius: 10px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/*Botones*/
+.control-btn {
+  background: #ff6b6b;
+  border: none;
+  color: white;
+  padding: 12px;
+  font-size: 18px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+}
+
+@media (max-width: 600px) {
+  #controlesVideo {
+    flex-direction: row;
+    justify-content: center;
+    padding: 10px;
+  }
+
+  .control-btn {
+    width: 35px;
+    height: 35px;
+    font-size: 16px;
+    padding: 8px;
+  }
+
+  .volumen-label {
+    font-size: 12px;
+  }
+}
+
+.control-btn:hover {
+  background: #ff5252;
+}
+
+.play-btn {
+  font-size: 22px;
+  font-weight: bold;
+}
+
+.volumen-btn {
+  background: #ffb6b6;
+}
+
+.volumen-btn:hover {
+  background: #ff9090;
+}
+
+.volumen-label {
+  font-size: 14px;
+  font-weight: bold;
+  color: #d9534f;
 }
 </style>

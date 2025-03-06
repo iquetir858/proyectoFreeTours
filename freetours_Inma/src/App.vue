@@ -30,8 +30,9 @@ function updateSessionData(user) {
 <template>
   <div class="layout">
     <Header :loggedUser="usuarioLogeado" @logout="updateSessionData" title="PurrfectTours"></Header>
-    <!--Si la página es el home o login, no debería haber navbar??-->
-    <NavBar v-if="usuarioLogeado" :usuario="usuarioLogeado"> </NavBar>
+    <!--Si la página es el login o registro O NO hay usuario logeado, no debería haber navbar-->
+    <NavBar v-if="usuarioLogeado && route.path != 'login' && route.path != 'register'" :usuario="usuarioLogeado">
+    </NavBar>
     <main>
       <RouterView @loggedIn="updateSessionData" />
     </main>

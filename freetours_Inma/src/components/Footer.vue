@@ -33,7 +33,7 @@
                             <a href="#" class="text-decoration-none text-white hover-link">Inicio</a>
                         </li>
                         <li class="nav-item mb-2">
-                            <a href="#" class="text-decoration-none text-white hover-link">Tours</a>
+                            <a href="/" class="text-decoration-none text-white hover-link">Tours</a>
                         </li>
                         <li class="nav-item">
                             <a href="/about" class="text-decoration-none text-white hover-link">Contacto</a>
