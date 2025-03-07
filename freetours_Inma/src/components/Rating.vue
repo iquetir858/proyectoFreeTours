@@ -124,13 +124,13 @@ function restarEstrella() {
  * tienen en "copiaValoracion"
  */
 function actualizarValoracion() {
-    let idValoracion = copiaValoracion.value.id;
+    let idValoracion = copiaValoracion.value.valoracion_id;
     let data = {
         estrellas: copiaValoracion.value.puntuacion,
         comentario: copiaValoracion.value.comentario
     };
     console.log("Copia----> " + JSON.stringify(copiaValoracion.value));
-    console.log("idValoracion: " + JSON.stringify(copiaValoracion.value.id));
+    console.log("idValoracion: " + JSON.stringify(copiaValoracion.value.valoracion_id));
 
     fetch(`/api/api.php/valoraciones?id=${idValoracion}`, {
         method: 'PUT',

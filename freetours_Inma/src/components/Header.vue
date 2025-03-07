@@ -16,7 +16,7 @@ function logout() {
 </script>
 
 <template>
-    <header class="navbar navbar-expand-sm">
+    <header class="navbar navbar-expand-md">
         <div class="container-fluid">
             <RouterLink to="/" class="navbar-brand">
                 <img src="../assets/logoGato.png" alt="(Logo)" title="Logo">
@@ -27,7 +27,7 @@ function logout() {
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse flex-row-reverse" id="navbarToggler">
-                <ul class="navbar-nav ms-auto mb-2 mb-lg-0 nav-pills">
+                <ul class="navbar-nav ms-auto mb-2 mb-lg-0 nav-pills d-flex align-items-center">
                     <li class="nav-item">
                         <!--RouterLink a la vista de AboutView.vue-->
                         <RouterLink to="/about" class="nav-link">
@@ -91,6 +91,7 @@ img {
     transition: 0.2 linear;
     margin: 0.2em;
     font-weight: bold;
+    font-size: 1.2em;
 }
 
 .bienvenida {
