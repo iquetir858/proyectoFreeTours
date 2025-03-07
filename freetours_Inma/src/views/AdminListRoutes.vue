@@ -29,6 +29,7 @@ let errorBorrado = ref('');
 let rutaSeleccionadaInfo = ref(''); //Id de la ruta seleccionada para mostrar su info
 let rutaSeleccionada = ref(''); //Id de la ruta seleccionada para borrar
 let rutaSeleccionadaDuplicar = ref(null); //Variable para duplicar ruta
+let mediasValoracion = ref({});
 
 //Variables paginación
 const paginaActual = ref(1);
@@ -96,6 +97,10 @@ function obtenerRutas() {
             //console.log('Rutas:', data);
             rutasBD.value = data;
             cargarGuiasPorFecha();
+            //Cargamos tmb por cada ruta la media de sus valoraciones
+            rutasBD.value.forEach(ruta => {
+                mostrarMediaValoracion(ruta.id);
+            });
         })
         .catch(error => console.error('Error (Listado Rutas):', error));
 
@@ -260,6 +265,35 @@ function mostrarModalInfo(ruta) {
     modalInfo.show();
 }
 
+/**
+ * Función que realiza una petición a la API para obtener todas las valoraciones de esa ruta
+ * Si No hay valoraciones, devuelve un mensaje de "Sin registros"
+ * Si hay valoraciones, calcula y muestra la media de las mismas (/5)
+ * Los valores se almacenan en la variable mediasValoracion.value[idRuta] para que se muestren al renderizar
+ */
+function mostrarMediaValoracion(rutaId) {
+    fetch(`/api/api.php/valoraciones?ruta_id=${rutaId}`)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Error en la solicitud: ' + response.status);
+            }
+            return response.json();
+        })
+        .then(data => {
+            console.log(`Valoraciones para la ruta ${rutaId}:`, data);
+            if (data.length < 1) { //No hay valoraciones para esa ruta
+                mediasValoracion.value[rutaId] = "Sin registros";
+            } else { //Se ha devuelto un array con las valoraciones
+                let media = data.reduce((acc, valoracion) => acc + valoracion.puntuacion, 0) / data.length;
+                mediasValoracion.value[rutaId] = media.toFixed(2).toString() + "/5"; //(Para que salga /5 sólo si hay nota)
+
+            }
+        })
+        .catch(error => {
+            console.error(`Error al obtener las valoraciones para la ruta ${rutaId}:`, error);
+        });
+}
+
 //------------LLAMADAS AL CARGAR LA VISTA
 obtenerRutas(); 
 </script>
@@ -277,6 +311,7 @@ obtenerRutas();
                     <th scope="col">Ruta</th> <!--Poner en esta columna el titulo y un modal de info??-->
                     <th scope="col">Asistentes</th> <!--Si es menor de 10, salta warning-->
                     <th scope="col">Guía</th>
+                    <th scope="col">Media Valoraciones</th>
                     <th scope="col">Duplicado</th>
                     <th scope="col">Cancelación</th>
                 </tr>
@@ -309,6 +344,9 @@ obtenerRutas();
                                 :value="guia.id"> {{ guia.nombre }}</option>
                             <!--Aquí deberían ser los guias disponibles en esa fecha-->
                         </select>
+                    </td>
+                    <td>
+                        <p>{{ mediasValoracion[ruta.id] }}</p>
                     </td>
                     <td>
                         <button class="btn" aria-label="Duplicar la ruta actual en otra fecha"
