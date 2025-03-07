@@ -25,15 +25,15 @@ let estrellasTarjeta = computed(() => {
     if (!valoracion.value || !valoracion.value.puntuacion) {
         return '<i class="fa-regular fa-star text-warning"></i>'.repeat(5);
     }
-    let estrellasRellenas = '<i class="fa-solid fa-star text-warning estrella"></i>'.repeat(valoracion.value.puntuacion);
-    let estrellasVacias = '<i class="fa-regular fa-star text-warning estrella"></i>'.repeat(5 - valoracion.value.puntuacion);
+    let estrellasRellenas = '<i class="fa-solid fa-star text-warning fa-lg"></i>'.repeat(valoracion.value.puntuacion);
+    let estrellasVacias = '<i class="fa-regular fa-star text-warning fa-lg"></i>'.repeat(5 - valoracion.value.puntuacion);
     return estrellasRellenas + estrellasVacias;
 });
 
 //Variable computada Función para actualizar la visualización de estrellas en el modal
 let estrellasModal = computed(() => {
-    let estrellasRellenas = '<i class="fa-solid fa-star text-warning"></i>'.repeat(copiaValoracion.value.puntuacion);
-    let estrellasVacias = '<i class="fa-regular fa-star text-warning"></i>'.repeat(5 - copiaValoracion.value.puntuacion);
+    let estrellasRellenas = '<i class="fa-solid fa-star text-warning fa-lg"></i>'.repeat(copiaValoracion.value.puntuacion);
+    let estrellasVacias = '<i class="fa-regular fa-star text-warning fa-lg"></i>'.repeat(5 - copiaValoracion.value.puntuacion);
     return estrellasRellenas + estrellasVacias;
 });
 
@@ -51,9 +51,12 @@ onMounted(() => {
  * cambien los datos principales hasta que se actualice/cree la valoración en el modal
  */
 function abrirModal() {
+    console.log("Valoracion----> " + JSON.stringify(valoracion.value));
+
     copiaValoracion.value = valoracion.value
         ? { ...valoracion.value }
         : { puntuacion: 1, comentario: '' };
+    console.log("Copia----> " + JSON.stringify(copiaValoracion.value));
 
     //Se muestra el modal
     if (modalValoracion.value) {
@@ -121,11 +124,13 @@ function restarEstrella() {
  * tienen en "copiaValoracion"
  */
 function actualizarValoracion() {
-    let idValoracion = copiaValoracion.value.valoracion_id;
+    let idValoracion = copiaValoracion.value.id;
     let data = {
         estrellas: copiaValoracion.value.puntuacion,
         comentario: copiaValoracion.value.comentario
     };
+    console.log("Copia----> " + JSON.stringify(copiaValoracion.value));
+    console.log("idValoracion: " + JSON.stringify(copiaValoracion.value.id));
 
     fetch(`/api/api.php/valoraciones?id=${idValoracion}`, {
         method: 'PUT',
@@ -250,8 +255,8 @@ obtenerValoracionRuta(props.idRuta);
                     <p v-if="existeValoracion">Valoración actual: <strong>{{ valoracion.puntuacion }}/5</strong></p>
                     <p>Nueva valoración:</p>
                     <div class="d-flex flex-row justify-content-center p-2">
-                        <button class="btn btnValoracion" @click="restarEstrella" aria-label="Restar una estrella valoración"><i
-                                class="fa-solid fa-minus"></i></button>
+                        <button class="btn btnValoracion" @click="restarEstrella"
+                            aria-label="Restar una estrella valoración"><i class="fa-solid fa-minus"></i></button>
                         <span class="d-flex align-items-center" v-html="estrellasModal"></span>
                         <button class="btn btnValoracion" @click="sumarEstrella"
                             aria-label="Sumar una estrella valoración"><i class="fa-solid fa-plus"></i></button>
@@ -291,8 +296,5 @@ obtenerValoracionRuta(props.idRuta);
     border: 1px solid var(--marron);
     color: var(--blanco);
     background-color: var(--marron);
-}
-.estrella{
-    font-size: 1.5em;
 }
 </style>

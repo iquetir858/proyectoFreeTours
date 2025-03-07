@@ -108,39 +108,4 @@ obtenerReservas(email);
 </template>
 
 <style scoped>
-.pagination {
-    margin-bottom: 0;
-}
-
-.page-link {
-    color: #DC4C64;
-    cursor: pointer;
-}
-
-.page-item.active .page-link {
-    background-color: #DC4C64;
-    border-color: #DC4C64;
-    color: white;
-}
-
-.page-link:hover {
-    color: #DC4C64;
-    background-color: #f8f9fa;
-}
-
-.page-item.disabled .page-link {
-    color: #6c757d;
-    pointer-events: none;
-}
-
-.form-select {
-    border-color: #DC4C64;
-    color: #DC4C64;
-    width: 120px !important;
-}
-
-.form-select:focus {
-    border-color: #DC4C64;
-    box-shadow: 0 0 0 0.25rem rgba(220, 76, 100, 0.25);
-}
 </style>
