@@ -289,7 +289,7 @@ function userRegister() {
 
 .form-control {
   border-radius: 12px;
-  border: 2px solid #fce8ec;
+  border: 2px solid #ddd7cb;
   padding: 0.8rem 1rem;
   transition: all 0.3s ease;
 }
@@ -323,7 +323,7 @@ function userRegister() {
 }
 
 .modal-header {
-  background-color: #fce8ec;
+  background-color: var(--amarilloClaro);
   border-radius: 20px 20px 0 0;
 }
 
@@ -387,7 +387,6 @@ function userRegister() {
 .back {
   transform: rotateY(180deg);
 }
-
 
 #loginDiv,
 #registerDiv {

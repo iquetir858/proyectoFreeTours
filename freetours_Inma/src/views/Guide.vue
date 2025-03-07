@@ -184,7 +184,7 @@ obtenerRutasGuia(guiaLogueado.value.id || null);
                     </td>
                     <td>
                         <div class="dropdown">
-                            <button class="btn btn-primary dropdown-toggle" type="button" data-bs-toggle="dropdown"
+                            <button class="btn btnReservas dropdown-toggle" type="button" data-bs-toggle="dropdown"
                                 aria-expanded="false" aria-label="Ver reservas">
                                 Ver reservas
                             </button>
@@ -201,7 +201,8 @@ obtenerRutasGuia(guiaLogueado.value.id || null);
                         </div>
                     </td>
                     <td>
-                        <button class="btn btn-warning" @click="pasarLista(asignacion)" aria-label="Pasar lista como guía">
+                        <button class="btn btn-warning" @click="pasarLista(asignacion)"
+                            aria-label="Pasar lista como guía">
                             Pasar Lista
                         </button>
                     </td>
@@ -237,8 +238,10 @@ obtenerRutasGuia(guiaLogueado.value.id || null);
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" aria-label="cerrar modal" @click="cerrarModal">Cancelar</button>
-                    <button type="button" class="btn btn-success" aria-label="guardar cambios" @click="guardarCambios">Guardar cambios</button>
+                    <button type="button" class="btn btnBorrado" aria-label="cerrar modal"
+                        @click="cerrarModal">Cancelar</button>
+                    <button type="button" class="btn" aria-label="guardar cambios" @click="guardarCambios">Guardar
+                        cambios</button>
                 </div>
             </div>
         </div>
@@ -256,18 +259,21 @@ table {
     max-width: 80%;
     overflow-y: scroll;
     overflow-x: scroll;
-    border: 2px solid rgb(236, 166, 177);
+    border: 2px solid var(--amarillo);
 }
 
 img {
     width: 10rem;
 }
 
-.btnMasInfo {
-    background: transparent;
-    border: none;
-    padding: 0;
-    color: palevioletred;
-    font-size: 1.5em;
+.btnReservas {
+    background-color: var(--amarilloClaro);
+    border: 1px solid var(--amarillo);
+}
+
+.btnReservas:hover {
+    background-color: var(--amarillo);
+    color: var(--blanco);
+    border: 1px solid var(--amarillo);
 }
 </style>

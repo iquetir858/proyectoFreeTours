@@ -326,7 +326,8 @@ obtenerRutas();
         <nav aria-label="Navegación de páginas" class="mt-3">
             <ul class="pagination">
                 <li class="page-item" :class="{ disabled: paginaActual === 1 }">
-                    <button class="page-link" aria-label="Pasar a la página anterior" @click="pagAnterior" :disabled="paginaActual === 1">
+                    <button class="page-link" aria-label="Pasar a la página anterior" @click="pagAnterior"
+                        :disabled="paginaActual === 1">
                         <span>&laquo;</span>
                     </button>
                 </li>
@@ -337,7 +338,8 @@ obtenerRutas();
                 </li>
 
                 <li class="page-item" :class="{ disabled: paginaActual === totalPaginas }">
-                    <button class="page-link" aria-label="Pasar a la página siguiente" @click="pagSiguiente" :disabled="paginaActual === totalPaginas">
+                    <button class="page-link" aria-label="Pasar a la página siguiente" @click="pagSiguiente"
+                        :disabled="paginaActual === totalPaginas">
                         <span>&raquo;</span>
                     </button>
                 </li>
@@ -415,65 +417,10 @@ table {
     max-width: 80%;
     overflow-y: scroll;
     overflow-x: scroll;
-    border: 2px solid rgb(236, 166, 177);
-}
-
-.btnMasInfo {
-    background: transparent;
-    border: none;
-    padding: 0;
-    color: palevioletred;
-    font-size: 1.5em;
+    border: 2px solid var(--amarillo);
 }
 
 img {
     width: 100%;
-}
-
-.btnBorrado {
-    color: white;
-    background-color: #DC4C64;
-    border: 1px solid #DC4C64;
-}
-
-.btnBorrado:hover {
-    background-color: white;
-    color: #DC4C64;
-    border: 1px solid #DC4C64;
-}
-
-/* Estilo de paginación. Los nombres no se pueden cambiar porque se aprovechan las clases de bootstrap */
-.pagination {
-    margin-bottom: 0;
-}
-
-.page-link {
-    color: #DC4C64;
-    cursor: pointer;
-}
-
-.page-item.active .page-link {
-    background-color: #DC4C64;
-    border-color: #DC4C64;
-    color: white;
-}
-
-.page-link:hover {
-    color: #DC4C64;
-    background-color: #f8f9fa;
-}
-
-.page-item.active .page-link:hover {
-    color: white;
-}
-
-.form-select {
-    border-color: #DC4C64;
-    color: #DC4C64;
-}
-
-.form-select:focus {
-    border-color: #DC4C64;
-    box-shadow: 0 0 0 0.25rem rgba(220, 76, 100, 0.25);
 }
 </style>

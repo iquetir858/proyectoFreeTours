@@ -25,8 +25,8 @@ let estrellasTarjeta = computed(() => {
     if (!valoracion.value || !valoracion.value.puntuacion) {
         return '<i class="fa-regular fa-star text-warning"></i>'.repeat(5);
     }
-    let estrellasRellenas = '<i class="fa-solid fa-star text-warning"></i>'.repeat(valoracion.value.puntuacion);
-    let estrellasVacias = '<i class="fa-regular fa-star text-warning"></i>'.repeat(5 - valoracion.value.puntuacion);
+    let estrellasRellenas = '<i class="fa-solid fa-star text-warning estrella"></i>'.repeat(valoracion.value.puntuacion);
+    let estrellasVacias = '<i class="fa-regular fa-star text-warning estrella"></i>'.repeat(5 - valoracion.value.puntuacion);
     return estrellasRellenas + estrellasVacias;
 });
 
@@ -223,11 +223,12 @@ obtenerValoracionRuta(props.idRuta);
     <div id="divValoracion">
         <!--Si ya existe una valoración para esa ruta, se muestra y se podrá modificar-->
         <div v-if="existeValoracion" id="divValoracionActual">
-            <p class="mb-0 me-2"><strong>Valoración:</strong><span id="estrellas" v-html="estrellasTarjeta"></span></p>
+            <p class="mb-0 me-2"><strong>Valoración:</strong></p>
+            <span id="estrellas" v-html="estrellasTarjeta"></span>
             <p><strong>Comentario:</strong></p>
             <p>{{ valoracion.comentario }}</p>
             <!--Botón para actualizar valoración existente (sólo puede haber 1 valoración por ruta-cliente pero se puede modificar)-->
-            <button @click="abrirModal()" aria-label="Editar valoración actual">Editar</button>
+            <button class="btn" @click="abrirModal()" aria-label="Editar valoración actual">Editar</button>
         </div>
         <!--Si no existe valoración, se muestra un botón para crearla (puntuación estrellas + comentario)-->
         <div v-else id="divNuevaValoración">
@@ -238,7 +239,7 @@ obtenerValoracionRuta(props.idRuta);
 
     <!--Modal de valoración-->
     <div class="modal fade" ref="modalRef" tabindex="-1" aria-labelledby="exampleModalLabel">
-        <div class="modal-dialog">
+        <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalLabel">Valoración reserva pasada</h5>
@@ -248,12 +249,12 @@ obtenerValoracionRuta(props.idRuta);
                 <div class="modal-body">
                     <p v-if="existeValoracion">Valoración actual: <strong>{{ valoracion.puntuacion }}/5</strong></p>
                     <p>Nueva valoración:</p>
-                    <div class="d-flex flex-row justify-content-center">
-                        <button class="btn" @click="restarEstrella" aria-label="Restar una estrella valoración"><i
+                    <div class="d-flex flex-row justify-content-center p-2">
+                        <button class="btn btnValoracion" @click="restarEstrella" aria-label="Restar una estrella valoración"><i
                                 class="fa-solid fa-minus"></i></button>
-                        <span v-html="estrellasModal"></span>
-                        <button class="btn" @click="sumarEstrella" aria-label="Sumar una estrella valoración"><i
-                                class="fa-solid fa-plus"></i></button>
+                        <span class="d-flex align-items-center" v-html="estrellasModal"></span>
+                        <button class="btn btnValoracion" @click="sumarEstrella"
+                            aria-label="Sumar una estrella valoración"><i class="fa-solid fa-plus"></i></button>
                     </div>
                     <div class="d-flex flex-column">
                         <label for="comentario">Comentario</label>
@@ -265,7 +266,7 @@ obtenerValoracionRuta(props.idRuta);
                     <p v-else-if="errorValoracion.value != ''" class="text-danger">{{ errorValoracion }}</p>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" @click.prevent="cerrarModal()" class="btn" data-bs-dismiss="modal"
+                    <button type="button" @click.prevent="cerrarModal()" class="btn btnBorrado" data-bs-dismiss="modal"
                         aria-label="cerrar modal">
                         Cerrar
                     </button>
@@ -279,4 +280,19 @@ obtenerValoracionRuta(props.idRuta);
     </div>
 </template>
 
-<style></style>
+<style scoped>
+.btnValoracion {
+    border: 1px solid var(--amarillo);
+    background-color: var(--amarilloClaro);
+    color: var(--marron);
+}
+
+.btnValoracion:hover {
+    border: 1px solid var(--marron);
+    color: var(--blanco);
+    background-color: var(--marron);
+}
+.estrella{
+    font-size: 1.5em;
+}
+</style>

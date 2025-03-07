@@ -292,39 +292,4 @@ table {
     overflow-x: scroll;
     border: 2px solid var(--amarillo);
 }
-.pagination {
-    margin-bottom: 0;
-}
-
-.page-link {
-    color: var(--marron);
-    cursor: pointer;
-}
-
-.page-item.active .page-link {
-    background-color: var(--amarillo);
-    border-color: var(--amarilloClaro);
-    color: var(--marron);
-}
-
-.page-link:hover {
-    color: var(--marron);
-    background-color: #e9e8e5;
-}
-
-.page-item.disabled .page-link {
-    color: #7c7d6c;
-    pointer-events: none;
-}
-
-.form-select {
-    border-color: var(--amarillo);
-    color:var(--marron);
-    width: 120px !important;
-}
-
-.form-select:focus {
-    border-color: var(--amarilloClaro);
-    box-shadow: 0 0 0 0.25rem rgba(220, 203, 76, 0.25);
-}
 </style>

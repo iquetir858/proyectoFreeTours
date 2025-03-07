@@ -5,7 +5,8 @@
         <!--<input v-model="address" @keyup.enter="searchLocation" placeholder="Buscar dirección" class="input" />-->
         <div class="d-flex flex-row mb-2">
             <input class="form-control" v-model="address" @keyup.enter="searchLocation"
-                placeholder="Buscar dirección" />
+                placeholder="Buscar dirección" data-bs-toggle="tooltip" data-bs-placement="top"
+                        title="Introduce un lugar y pulsa el botón de búsqueda" />
             <button @click.prevent="searchLocation" class="btn ms-2" aria-label="Realizar la búsqueda de la dirección">
                 <i class="fa-solid fa-magnifying-glass"></i>
             </button>

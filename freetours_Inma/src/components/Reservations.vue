@@ -144,7 +144,7 @@ function cambiarNumPersonas() {
 </script>
 
 <template>
-    <div class="container mt-4 overflow-auto h-50  border border-2 border-danger ">
+    <div class="container mt-4 overflow-auto h-50 p-2 rounded">
         <div v-if="!props.reservas || props.reservas.length === 0" class="text-black bg-secondary">
             No se han encontrado reservas
         </div>
@@ -167,16 +167,17 @@ function cambiarNumPersonas() {
                                     <p class="mb-0 me-2"><strong>Número de personas:</strong>
                                         {{ reserva.num_personas }}
                                     </p>
-                                    <button v-if="!valoracion" class="btn btn-sm btn-primary"
+                                    <button v-if="!valoracion" class="btn btn-sm btnModificar"
                                         aria-label="Modificar número de personas"
-                                        @click.prevent="mostrarModalNumPersonas(reserva)">
+                                        @click.prevent="mostrarModalNumPersonas(reserva)" data-bs-toggle="tooltip"
+                                        data-bs-placement="top" title="Modificar número de personas">
                                         <i class="fa-solid fa-pen-to-square"></i>
                                     </button>
 
                                 </div>
                                 <button v-if="!valoracion" @click.prevent="mostrarModalCancelacion(reserva)"
-                                    class="btn btn-danger w-100 mt-3" aria-label="Mostrar modal para cancelar">Cancelar
-                                    Reserva</button>
+                                    class="btn btnBorrado w-100 mt-3" aria-label="Mostrar modal para cancelar">
+                                    Cancelar Reserva</button>
                                 <div v-else>
                                     <!--Meter aquí lógica de la valoración-->
                                     <Rating :idRuta="reserva.ruta_id" :usuarioActual="props.usuarioActual"
@@ -249,4 +250,19 @@ function cambiarNumPersonas() {
     </div>
 </template>
 
-<style scoped></style>
+<style scoped>
+.container{
+    background-color: var(--amarilloClaro);
+}
+
+.btnModificar {
+    background-color: var(--amarilloClaro);
+    border: 1px solid var(--amarillo);
+}
+
+.btnModificar:hover {
+    background-color: var(--marron);
+    color: var(--amarillo);
+    border: 1px solid var(--marron);
+}
+</style>
