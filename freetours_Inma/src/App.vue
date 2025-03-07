@@ -40,14 +40,15 @@ function updateSessionData(user) {
   </div>
 </template>
 
-<style scoped>
+<style>
 :root {
-  --primary-color: #eca6b1;
-  --secondary-color: #200d0d;
-  --background-color: #faf4f6;
-  --text-color: #333;
-  --accent-color: #DC4C64;
-  --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  --amarillo: #DCAC54;
+  --marron: #1C0505;
+  --amarilloClaro: #ebac3949;
+  --marronClaro: #501a1a;
+  --rojo: #DC4C64;
+  --blanco: white;
+  --sombra: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 html {
@@ -64,4 +65,37 @@ html {
 main {
   min-height: 72.5vh;
 }
+
+.btn {
+  color: #1C0505;
+  font-weight: bold;
+  background-color: var(--amarillo);
+  border: 1px solid var(--amarillo);
+}
+
+.btn:hover {
+  background-color: var(--marron);
+  color: var(--amarillo);
+  border: 1px solid var(--blanco);
+}
+
+.btnBorrado, .btnCancelar {
+  color: var(--blanco);
+  background-color: var(--rojo);
+  border: 1px solid var(--rojo);
+}
+
+.btnBorrado:hover,.btnCancelar:hover {
+  background-color: var(--blanco);
+  color: var(--rojo);
+  border: 1px solid var(--rojo);
+}
+
+/**
+Amarillo oscuro:
+Amarillo clarito:
+Marrón claro:#501a1a
+Marrón oscuro:
+Rojo botones borrado: var(--rojo)
+*/
 </style>

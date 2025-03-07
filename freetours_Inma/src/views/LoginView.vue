@@ -170,7 +170,7 @@ function userRegister() {
               <div class="buttons mt-2 d-flex justify-content-evenly">
                 <button type="submit" @click.prevent="login" class="btn btn-success me-1">Iniciar Sesión</button>
                 <RouterLink class="text-black text-decoration-none" to="/"> <button
-                    class="btn btn-danger">Cancelar</button></RouterLink>
+                    class="btn btnCancelar">Cancelar</button></RouterLink>
               </div>
             </form>
           </div>
@@ -214,8 +214,8 @@ function userRegister() {
               <div class="buttons mt-2 d-flex justify-content-evenly">
                 <button @click.prevent="userRegister" class="btn btn-success"
                   aria-label="registrarse">Registrarse</button>
-                <RouterLink class="text-black text-decoration-none" to="/"> <button
-                    class="btn btn-danger" aria-label="Cancelar registro, redirigir al home">Cancelar</button></RouterLink>
+                <RouterLink class="text-black text-decoration-none" to="/"> <button class="btn btn-danger"
+                    aria-label="Cancelar registro, redirigir al home">Cancelar</button></RouterLink>
               </div>
             </form>
           </div>
@@ -245,7 +245,7 @@ function userRegister() {
 <style>
 #generalDiv {
   padding: 2rem 1rem;
-  background: linear-gradient(135deg, #fce8ec 0%, #ffe9e9 100%);
+  background: var(--white);
 }
 
 #botonesCambio {
@@ -258,19 +258,19 @@ function userRegister() {
   font-size: clamp(1rem, 2vw, 1.3rem);
   font-weight: 600;
   padding: 0.8rem 2rem;
-  background-color: #ff8ba7;
+  background-color: var(--marron);
   border: none;
-  color: #33272a;
+  color: var(--amarillo);
   border-radius: 25px;
   transition: all 0.3s ease;
   width: 140px;
 }
 
 #botonesCambio button:hover {
-  background-color: #33272a;
-  color: #ff8ba7;
+  background-color: var(--amarilloClaro);
+  color: var(--marron);
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.223);
 }
 
 #loginDiv,
@@ -295,7 +295,7 @@ function userRegister() {
 }
 
 .form-control:focus {
-  border-color: #ff8ba7;
+  border-color: var(--amarilloClaro);
   box-shadow: 0 0 0 0.2rem rgba(255, 139, 167, 0.25);
 }
 

@@ -135,7 +135,7 @@ function borrarFiltros() {
     </div>
     <Card v-if="rutasDisponibles.length > 0" :propRutas="rutasPaginadas"></Card>
     <!--Clase 'lead': https://getbootstrap.com/docs/5.0/content/typography/ -->
-    <div v-else class="container lead bg-secondary text-white mt-2 mb-4 text-center">No existen rutas para dicha fecha
+    <div v-else class="container lead bg-secondary text-var(--blanco) mt-2 mb-4 text-center">No existen rutas para dicha fecha
     </div>
 
     <nav v-if="rutasDisponibles.length > rutasPorPagina" aria-label="Navegación de páginas" class="mt-4">
@@ -163,44 +163,19 @@ input {
   border-radius: 5px;
 }
 
-.btn {
-  color: #1C0505;
-  font-weight: bold;
-  background-color: #DCAC54;
-  border: 1px solid #DCAC54;
-}
-
-.btn:hover {
-  background-color: #1C0505;
-  color: #DCAC54;
-  border: 1px solid white;
-}
-
-.btnBorrado {
-  color: white;
-  background-color: #DC4C64;
-  border: 1px solid #DC4C64;
-}
-
-.btnBorrado:hover {
-  background-color: white;
-  color: #DC4C64;
-  border: 1px solid #DC4C64;
-}
-
 .pagination .page-link {
-  color: #1C0505;
+  color: var(--marron);
 }
 
 .pagination .page-item.active .page-link {
-  background-color: #DCAC54;
-  border-color: #DCAC54;
-  color: #1C0505;
+  background-color: var(--amarillo);
+  border-color: var(--amarillo);
+  color: var(--marron);
 }
 
 .pagination .page-link:hover {
-  background-color: #1C0505;
-  color: #DCAC54;
+  background-color: var(--marron);
+  color: var(--amarillo);
 }
 
 .pagination .page-item.disabled .page-link {
@@ -236,7 +211,7 @@ input {
 .hero-content {
   position: relative;
   z-index: 2;
-  color: white;
+  color: var(--blanco);
   height: 100%;
   display: flex;
   flex-direction: column;

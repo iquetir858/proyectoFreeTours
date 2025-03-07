@@ -290,54 +290,41 @@ table {
     max-width: 80%;
     overflow-y: scroll;
     overflow-x: scroll;
-    border: 2px solid rgb(236, 166, 177);
+    border: 2px solid var(--amarillo);
 }
-
-.btnBorrado {
-    color: white;
-    background-color: #DC4C64;
-    border: 1px solid #DC4C64;
-}
-
-.btnBorrado:hover {
-    background-color: white;
-    color: #DC4C64;
-    border: 1px solid #DC4C64;
-}
-
 .pagination {
     margin-bottom: 0;
 }
 
 .page-link {
-    color: #DC4C64;
+    color: var(--marron);
     cursor: pointer;
 }
 
 .page-item.active .page-link {
-    background-color: #DC4C64;
-    border-color: #DC4C64;
-    color: white;
+    background-color: var(--amarillo);
+    border-color: var(--amarilloClaro);
+    color: var(--marron);
 }
 
 .page-link:hover {
-    color: #DC4C64;
-    background-color: #f8f9fa;
+    color: var(--marron);
+    background-color: #e9e8e5;
 }
 
 .page-item.disabled .page-link {
-    color: #6c757d;
+    color: #7c7d6c;
     pointer-events: none;
 }
 
 .form-select {
-    border-color: #DC4C64;
-    color: #DC4C64;
+    border-color: var(--amarillo);
+    color:var(--marron);
     width: 120px !important;
 }
 
 .form-select:focus {
-    border-color: #DC4C64;
-    box-shadow: 0 0 0 0.25rem rgba(220, 76, 100, 0.25);
+    border-color: var(--amarilloClaro);
+    box-shadow: 0 0 0 0.25rem rgba(220, 203, 76, 0.25);
 }
 </style>
