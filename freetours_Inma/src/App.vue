@@ -64,6 +64,7 @@ html {
 
 main {
   min-height: 72.5vh;
+  height: fit-content;
 }
 
 /*Estilo botones generales (si no se les aplica otra clase)*/

@@ -19,6 +19,7 @@ const formRegistro = ref({ nombre: '', email: '', contraseña: '' });
 const errorRegistro = ref('');
 const exitoRegistro = ref('');
 const errores = ref({});
+const validado = ref(false);
 
 //Modal para el resgitro 
 let modalRegistro = null;
@@ -84,10 +85,15 @@ function validacionRegistro() {
   }
   if (!contraseña || contraseña.length < 8 || !patron.test(contraseña)) {
     errores.value.contraseña = "La contraseña debe tener 8 caracteres con al menos 1 número";
+    errores.value.contraseña2 = "La contraseña debe tener 8 caracteres con al menos 1 número";
+  } else if (contra !== formRegistro.value.contraseña2) {
+    errores.value.contraseña2 = "Las contraseñas no coinciden";
   }
   if (!correo || !patronCorreo.test(correo)) {
     errores.value.email = "Introduce un correo válido (Ej: usuario12@tours.com)";
   }
+
+  validado.value = true;
 
   //Si hay errores, devuelve false
   return Object.keys(errores.value).length === 0;
@@ -141,7 +147,7 @@ function userRegister() {
 </script>
 
 <template>
-  <div id="generalDiv" class="d-flex flex-column justify-content-center align-items-center mt-5">
+  <div id="generalDiv" class="d-flex flex-column justify-content-center align-items-center">
     <div id="botonesCambio" class="d-flex justify-content-evenly w-100">
       <RouterLink class="text-white" to="/login">
         <button class="btn btn-primary text-decoration-none" aria-label="Cambiar al login">Login</button>
@@ -205,12 +211,22 @@ function userRegister() {
                 <input v-model="formRegistro.contraseña" type="text" name="contraseña" class="form-control"
                   data-bs-toggle="tooltip" data-bs-placement="top"
                   title="Debe tener al menos 8 caracteres, incluyendo al menos un número"
-                  :class="{ 'is-invalid': errores.contraseña, 'is-valid': !errores.contraseña && formRegistro.contraseña }">
+                  :class="{ 'is-invalid': errores.contraseña, 'is-valid': !errores.contraseña && validado }">
                 <label for="contraseña">Contraseña</label>
                 <div v-if="errores.contraseña" class="invalid-feedback">{{ errores.contraseña }}</div>
-
               </div>
-              <p v-if="errorRegistro" class="text-danger mt-2">{{ errorRegistro }}</p>
+
+              <!--INPUT CONTRASEÑA 2-->
+              <div class="form-floating">
+                <input v-model="formRegistro.contraseña2" type="text" name="contraseña2" class="form-control"
+                  data-bs-toggle="tooltip" data-bs-placement="top"
+                  title="Debe tener al menos 8 caracteres, incluyendo al menos un número"
+                  :class="{ 'is-invalid': errores.contraseña2, 'is-valid': !errores.contraseña2 && validado}">
+                <label for="contraseña2">Repita su contraseña</label>
+                <div v-if="errores.contraseña2" class="invalid-feedback">{{ errores.contraseña2 }}</div>
+              </div>
+
+              <!--<p v-if="errorRegistro" class="text-danger mt-2">{{ errorRegistro }}</p>-->
               <div class="buttons mt-2 d-flex justify-content-evenly">
                 <button @click.prevent="userRegister" class="btn btn-success"
                   aria-label="registrarse">Registrarse</button>
@@ -246,6 +262,7 @@ function userRegister() {
 #generalDiv {
   padding: 2rem 1rem;
   background: var(--white);
+  height: fit-content;
 }
 
 #botonesCambio {
@@ -354,7 +371,7 @@ function userRegister() {
   perspective: 500px;
   width: 90%;
   max-width: 50vh;
-  height: 55vh;
+  height: 100%;
 }
 
 .flip-container.flipped .flipper {
@@ -362,11 +379,9 @@ function userRegister() {
 }
 
 .flipper {
-  transition: 0.8s;
   transform-style: preserve-3d;
-  position: relative;
   width: 100%;
-  height: 100%;
+  height: 600px;
   transition: all 1.0s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
@@ -376,7 +391,7 @@ function userRegister() {
   /*Esto es para que no se vea el contenido cuando está "detras"*/
   position: absolute;
   width: 100%;
-  height: 100%;
+  height: fit-content;
 }
 
 .front {
@@ -387,10 +402,11 @@ function userRegister() {
 .back {
   transform: rotateY(180deg);
 }
-
+/*
 #loginDiv,
 #registerDiv {
   max-height: 100%;
   overflow-y: auto;
 }
+  */
 </style>
