@@ -9,9 +9,9 @@ let cliente = ref(JSON.parse(localStorage.getItem('usuarioLogeado'))); //cliente
 if (!cliente.value || cliente.value.rol != 'cliente') {
     router.push('/');
 }
-
-let email = cliente.value.email || null;
+let email = (cliente.value) ? cliente.value.email : null;
 let reservasPasadas = ref(null);
+
 
 const paginaActual = ref(1);
 const reservasPorPagina = ref(2);
@@ -63,7 +63,7 @@ function obtenerReservas(emailUsuario) {
 }
 
 //Llamada principal al abrir la página del cliente
-obtenerReservas(email);
+if (cliente.value) obtenerReservas(email);
 
 
 </script>

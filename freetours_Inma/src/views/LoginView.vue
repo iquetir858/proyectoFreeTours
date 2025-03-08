@@ -72,7 +72,7 @@ function validacionRegistro() {
   let nombre = formRegistro.value.nombre;
   let correo = formRegistro.value.email;
   let contra = formRegistro.value.contraseña;
-  let patron = /^(?=.*\d).+$/;
+  let patron = /^(?=.*\d)[a-zA-Z\d]{8,}$/;
   let patronCorreo = /[a-zA-Z0-9]+@tours.com/;
 
   //Borramos anteriores mensajes y reiniciamos errores
@@ -83,9 +83,9 @@ function validacionRegistro() {
   if (!nombre || nombre.length < 4 || !isNaN(nombre)) {
     errores.value.nombre = "El nombre debe contener al menos 4 caracteres y NO ser numérico";
   }
-  if (!contraseña || contraseña.length < 8 || !patron.test(contraseña)) {
+  if (!contra || contra.length < 8 || !patron.test(contra)) {
     errores.value.contraseña = "La contraseña debe tener 8 caracteres con al menos 1 número";
-    errores.value.contraseña2 = "La contraseña debe tener 8 caracteres con al menos 1 número";
+    //errores.value.contraseña2 = "La contraseña debe tener 8 caracteres con al menos 1 número";
   } else if (contra !== formRegistro.value.contraseña2) {
     errores.value.contraseña2 = "Las contraseñas no coinciden";
   }
@@ -221,7 +221,7 @@ function userRegister() {
                 <input v-model="formRegistro.contraseña2" type="text" name="contraseña2" class="form-control"
                   data-bs-toggle="tooltip" data-bs-placement="top"
                   title="Debe tener al menos 8 caracteres, incluyendo al menos un número"
-                  :class="{ 'is-invalid': errores.contraseña2, 'is-valid': !errores.contraseña2 && validado}">
+                  :class="{ 'is-invalid':errores.contraseña || errores.contraseña2, 'is-valid': !errores.contraseña && !errores.contraseña2 && validado}">
                 <label for="contraseña2">Repita su contraseña</label>
                 <div v-if="errores.contraseña2" class="invalid-feedback">{{ errores.contraseña2 }}</div>
               </div>

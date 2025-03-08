@@ -82,8 +82,8 @@ function setLatitudLongitud(lat, lon) {
 function validarDatosRuta() {
     errores.value = {};
 
-    if (!nuevaRuta.value.titulo || nuevaRuta.value.title.length < 4 || !isNaN(nuevaRuta.value.titulo)) errores.value.titulo = "El título es obligatorio (valor NO numérico).";
-    if (!nuevaRuta.value.localidad || nuevaRuta.value.localidad.length < 4 || !isNaN(nuevaRuta.value.titulo)) errores.value.localidad = "La localidad es obligatoria (valor NO numérico).";
+    if (!nuevaRuta.value.titulo || nuevaRuta.value.titulo.length < 4 || !isNaN(nuevaRuta.value.titulo)) errores.value.titulo = "El título es obligatorio (valor NO numérico).";
+    if (!nuevaRuta.value.localidad || nuevaRuta.value.localidad.length < 4 || !isNaN(nuevaRuta.value.localidad)) errores.value.localidad = "La localidad es obligatoria (valor NO numérico).";
 
     if (!nuevaRuta.value.fecha) {
         errores.value.fecha = "La fecha es obligatoria.";
@@ -156,7 +156,8 @@ function crearRuta() {
                     <input type="text" class="form-control" id="titulo" v-model="nuevaRuta.titulo"
                         placeholder="Escribe aquí el nombre..." data-bs-toggle="tooltip" data-bs-placement="top"
                         title="El nombre de la ruta debe tener al menos 4 caracteres y NO ser numérico"
-                        :class="{ 'is-invalid': errores.titulo, 'is-valid': !errores.titulo && nuevaRuta.titulo }">
+                        :class="{ 'is-invalid': errores.titulo, 'is-valid': !errores.titulo && nuevaRuta.titulo }"
+                        @input="validarDatosRuta()">
                     <div v-if="errores.titulo" class="invalid-feedback">{{ errores.titulo }}</div>
                 </div>
                 <div class="col-md-6">
@@ -164,7 +165,8 @@ function crearRuta() {
                     <input type="text" class="form-control" id="localidad" v-model="nuevaRuta.localidad"
                         placeholder="Indica la localidad..." data-bs-toggle="tooltip" data-bs-placement="top"
                         title="El nombre de la localidad debe tener al menos 4 caracteres y NO ser numérico"
-                        :class="{ 'is-invalid': errores.localidad, 'is-valid': !errores.localidad && nuevaRuta.localidad }">
+                        :class="{ 'is-invalid': errores.localidad, 'is-valid': !errores.localidad && nuevaRuta.localidad }"
+                        @input="validarDatosRuta()">
                     <div v-if="errores.localidad" class="invalid-feedback">{{ errores.localidad }}</div>
                 </div>
             </div>
@@ -175,13 +177,15 @@ function crearRuta() {
                     <input type="date" class="form-control" id="fecha" v-model="nuevaRuta.fecha"
                         @change="obtenerGuiasBD" data-bs-toggle="tooltip" data-bs-placement="top"
                         title="La fecha NO puede ser en el pasado"
-                        :class="{ 'is-invalid': errores.fecha, 'is-valid': !errores.fecha && nuevaRuta.fecha }">
+                        :class="{ 'is-invalid': errores.fecha, 'is-valid': !errores.fecha && nuevaRuta.fecha }"
+                        @input="validarDatosRuta()">
                     <div v-if="errores.fecha" class="invalid-feedback">{{ errores.fecha }}</div>
                 </div>
                 <div class="col-md-6">
                     <label for="hora" class="form-label">Hora:</label>
                     <input type="time" class="form-control" id="hora" v-model="nuevaRuta.hora"
-                        :class="{ 'is-invalid': errores.hora, 'is-valid': !errores.hora && nuevaRuta.hora }">
+                        :class="{ 'is-invalid': errores.hora, 'is-valid': !errores.hora && nuevaRuta.hora }"
+                        @input="validarDatosRuta()">
                     <div v-if="errores.hora" class="invalid-feedback">{{ errores.hora }}</div>
                 </div>
             </div>
@@ -192,7 +196,8 @@ function crearRuta() {
                     <input type="text" class="form-control" id="foto" name="foto" v-model="nuevaRuta.foto"
                         placeholder="URL" data-bs-toggle="tooltip" data-bs-placement="top"
                         title="Inserta una URL válida (https://example.example)"
-                        :class="{ 'is-invalid': errores.foto, 'is-valid': !errores.foto && nuevaRuta.foto }">
+                        :class="{ 'is-invalid': errores.foto, 'is-valid': !errores.foto && nuevaRuta.foto }"
+                        @input="validarDatosRuta()">
                     <div v-if="errores.foto" class="invalid-feedback">{{ errores.foto }}</div>
                 </div>
                 <div class="col-md-6">
@@ -214,7 +219,8 @@ function crearRuta() {
                     v-model="nuevaRuta.descripcion" rows="3" placeholder="Describe brevemente la ruta."
                     data-bs-toggle="tooltip" data-bs-placement="top"
                     title="La descripción debe tener más de 4 caracteres"
-                    :class="{ 'is-invalid': errores.descripcion, 'is-valid': !errores.descripcion && nuevaRuta.descripcion }"></textarea>
+                    :class="{ 'is-invalid': errores.descripcion, 'is-valid': !errores.descripcion && nuevaRuta.descripcion }"
+                    @input="validarDatosRuta()"></textarea>
                 <div v-if="errores.descripcion" class="invalid-feedback">{{ errores.descripcion }}</div>
             </div>
 

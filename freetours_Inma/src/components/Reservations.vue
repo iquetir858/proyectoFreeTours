@@ -145,7 +145,7 @@ function cambiarNumPersonas() {
 
 <template>
     <div class="container mt-4 overflow-auto h-50 p-2 rounded">
-        <div v-if="!props.reservas || props.reservas.length === 0" class="text-black bg-secondary">
+        <div v-if="!props.reservas || props.reservas.length === 0">
             No se han encontrado reservas
         </div>
         <div v-else class="row row-cols-1 row-cols-md-2 g-4">

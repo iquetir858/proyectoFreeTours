@@ -280,7 +280,7 @@ function mostrarMediaValoracion(rutaId) {
             return response.json();
         })
         .then(data => {
-            console.log(`Valoraciones para la ruta ${rutaId}:`, data);
+            //console.log(`Valoraciones para la ruta ${rutaId}:`, data);
             if (data.length < 1) { //No hay valoraciones para esa ruta
                 mediasValoracion.value[rutaId] = "Sin registros";
             } else { //Se ha devuelto un array con las valoraciones

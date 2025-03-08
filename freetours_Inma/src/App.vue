@@ -75,7 +75,7 @@ main {
   border: 1px solid var(--amarillo);
 }
 
-.btn:hover {
+.btn:hover, .btn:focus {
   background-color: var(--marron);
   color: var(--amarillo);
   border: 1px solid var(--blanco);
@@ -90,7 +90,9 @@ main {
 }
 
 .btnBorrado:hover,
-.btnCancelar:hover {
+.btnCancelar:hover,
+.btnBorrado:focus,
+.btnCancelar:focus{
   background-color: var(--blanco);
   color: var(--rojo);
   border: 1px solid var(--rojo);
@@ -105,7 +107,7 @@ main {
   font-size: 1.3em;
 }
 
-.btnMasInfo:hover {
+.btnMasInfo:hover, .btnMasInfo:focus {
   background: transparent;
   border: none;
   color: var(--marron);

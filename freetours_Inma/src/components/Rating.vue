@@ -51,12 +51,12 @@ onMounted(() => {
  * cambien los datos principales hasta que se actualice/cree la valoración en el modal
  */
 function abrirModal() {
-    console.log("Valoracion----> " + JSON.stringify(valoracion.value));
+    //console.log("Valoracion----> " + JSON.stringify(valoracion.value));
 
     copiaValoracion.value = valoracion.value
         ? { ...valoracion.value }
         : { puntuacion: 1, comentario: '' };
-    console.log("Copia----> " + JSON.stringify(copiaValoracion.value));
+    //console.log("Copia----> " + JSON.stringify(copiaValoracion.value));
 
     //Se muestra el modal
     if (modalValoracion.value) {
@@ -129,8 +129,8 @@ function actualizarValoracion() {
         estrellas: copiaValoracion.value.puntuacion,
         comentario: copiaValoracion.value.comentario
     };
-    console.log("Copia----> " + JSON.stringify(copiaValoracion.value));
-    console.log("idValoracion: " + JSON.stringify(copiaValoracion.value.valoracion_id));
+    //console.log("Copia----> " + JSON.stringify(copiaValoracion.value));
+    //console.log("idValoracion: " + JSON.stringify(copiaValoracion.value.valoracion_id));
 
     fetch(`/api/api.php/valoraciones?id=${idValoracion}`, {
         method: 'PUT',
@@ -241,7 +241,7 @@ obtenerValoracionRuta(props.idRuta);
         </div>
         <!--Si no existe valoración, se muestra un botón para crearla (puntuación estrellas + comentario)-->
         <div v-else id="divNuevaValoración">
-            <button @click="abrirModal()" aria-label="Valorar ruta">Valorar</button><!--Muestra el modal-->
+            <button @click="abrirModal()" class="btn" aria-label="Valorar ruta">Valorar</button><!--Muestra el modal-->
         </div>
     </div>
 

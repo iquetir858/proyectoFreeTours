@@ -58,7 +58,7 @@ function reservarRuta(idRuta, emailUsuario) {
 
     console.log(reservaData);
 
-    if (asistentes.value >= 1 && asistentes.value <= 8) {
+    if (!isNaN(asistentes.value) && asistentes.value >= 1 && asistentes.value <= 8) {
         fetch('/api/api.php/reservas', {
             method: 'POST',
             headers: {
@@ -90,6 +90,11 @@ function reservarRuta(idRuta, emailUsuario) {
                     errorReserva.value = '';
                 }, 3000);
             });
+    } else {
+        errorReserva.value = 'El número de personas debe ser superior a 1 y menor a 8.';
+        setTimeout(() => {
+            errorReserva.value = '';
+        }, 3000);
     }
 }
 
@@ -170,7 +175,7 @@ function reservarRuta(idRuta, emailUsuario) {
 
     <!--MODAL RESERVA-->
     <div role="dialog" class="modal fade" id="modalReserva" tabindex="-1" aria-labelledby="modalInfoLabel">
-        <div class="modal-dialog">
+        <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="modalInReservaLabel">Reserva</h5>
@@ -179,9 +184,12 @@ function reservarRuta(idRuta, emailUsuario) {
                 </div>
                 <div class="modal-body">
                     <p><strong>Reserva de la ruta "{{ rutaSeleccionada?.titulo }}"</strong></p>
-                    <label for="numPersonas">Número de asistentes: </label>
-                    <input v-model.number="asistentes" type="number" min="1" max="8" name="numPersonas" id="asistentes"
-                        placeholder="1">
+                    <div class="d-flex flex-row justify-content-start align-items-center">
+                        <label for="numPersonas">Número de asistentes: </label>
+                        <input v-model.number="asistentes" type="number" min="1" max="8" name="numPersonas"
+                            id="asistentes" class="form-control ms-3" placeholder="1" data-toggle="tooltip"
+                            data-placement="top" title="El número de asistentes debe ser superior a 1 y como máximo 8">
+                    </div>
                     <!--Mensaje de confirmación/error-->
                     <div>
                         <p v-if="mensajeReserva != ''" class="text-success">{{ mensajeReserva }}</p>
@@ -203,6 +211,9 @@ function reservarRuta(idRuta, emailUsuario) {
 </template>
 
 <style scoped>
+#asistentes{
+    width: 6rem;
+}
 .cards-container {
     background: #ebac3949;
     border-radius: 1rem;
@@ -222,7 +233,7 @@ function reservarRuta(idRuta, emailUsuario) {
 
 .hover-card:hover {
     transform: translateY(-5px);
-    box-shadow: 0 10px 20px #1c05055e !important;
+    box-shadow: 0 10px 20px #1c14055e !important;
 }
 
 .card-img-wrapper {
@@ -243,7 +254,7 @@ function reservarRuta(idRuta, emailUsuario) {
 }
 
 .card-img-overlay {
-    background: linear-gradient(to top, #1c05055e, transparent);
+    background: linear-gradient(to top, #1c13055e, transparent);
 }
 
 .btn-outline-primary {

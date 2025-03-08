@@ -4,14 +4,13 @@ import Reservations from '@/components/Reservations.vue';
 import router from '@/router';
 
 //-------------VARIABLES
-let cliente = ref(JSON.parse(localStorage.getItem('usuarioLogeado'))); //cliente logeado
+let cliente = ref(JSON.parse(localStorage.getItem('usuarioLogeado')) || null); //cliente logeado
 //Primero comprobamos que no se pueda entrar a esta vista si no es CLIENTE
 if (!cliente.value || cliente.value.rol != 'cliente') {
     router.push('/');
 }
-
 let reservasActuales = ref(null);
-let email = cliente.value.email;
+//let email = (cliente.value) ? cliente.value.email : null;
 
 const paginaActual = ref(1);
 const reservasPorPagina = ref(2);
@@ -72,18 +71,16 @@ function actualizarReservasActuales() {
 }
 
 //Llamada principal al abrir la página del cliente
-obtenerReservas(cliente.value.email);
+if (cliente.value) obtenerReservas(cliente.value.email);
 
 </script>
 
 <template>
-    <div class="container">
+    <div v-if="cliente && cliente.rol == 'cliente'" class="container">
         <h2 class="text-center mt-4 mb-4">Rutas reservadas</h2>
-        
+
         <div v-if="reservasActuales" class="d-flex flex-column align-items-center">
-            <Reservations 
-                @actualizar-reservas="actualizarReservasActuales" 
-                :reservas="reservasPaginadas"
+            <Reservations @actualizar-reservas="actualizarReservasActuales" :reservas="reservasPaginadas"
                 :valoracion="false">
             </Reservations>
 
@@ -91,20 +88,20 @@ obtenerReservas(cliente.value.email);
                 <nav aria-label="Navegación de páginas">
                     <ul class="pagination mb-0">
                         <li class="page-item" :class="{ disabled: paginaActual === 1 }">
-                            <button class="page-link" aria-label="Pasar a la página anterior" @click="pagAnterior" :disabled="paginaActual === 1">
+                            <button class="page-link" aria-label="Pasar a la página anterior" @click="pagAnterior"
+                                :disabled="paginaActual === 1">
                                 <span>&laquo;</span>
                             </button>
                         </li>
-                        
-                        <li v-for="pagina in totalPaginas" 
-                            :key="pagina" 
-                            class="page-item"
+
+                        <li v-for="pagina in totalPaginas" :key="pagina" class="page-item"
                             :class="{ active: pagina === paginaActual }">
                             <button class="page-link" @click="setPagina(pagina)">{{ pagina }}</button>
                         </li>
-                        
+
                         <li class="page-item" :class="{ disabled: paginaActual === totalPaginas }">
-                            <button class="page-link" aria-label="Pasar a la página siguiente" @click="pagSiguiente" :disabled="paginaActual === totalPaginas">
+                            <button class="page-link" aria-label="Pasar a la página siguiente" @click="pagSiguiente"
+                                :disabled="paginaActual === totalPaginas">
                                 <span>&raquo;</span>
                             </button>
                         </li>
@@ -121,5 +118,4 @@ obtenerReservas(cliente.value.email);
     </div>
 </template>
 
-<style scoped>
-</style>
+<style scoped></style>

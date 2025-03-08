@@ -4,9 +4,9 @@ import InfoRoute from '@/components/InfoRoute.vue';
 import router from '@/router';
 
 //------------- VARIABLES
-let guiaLogueado = ref(JSON.parse(localStorage.getItem('usuarioLogeado'))); //Obtener guía del localStorage
+let guiaLogueado = ref(JSON.parse(localStorage.getItem('usuarioLogeado')) || null); //Obtener guía del localStorage
 //Primero comprobamos que no se pueda entrar a esta vista si no es GUIA
-if (!guiaLogueado.value || guiaLogueado.value.rol != 'guia') {
+if (!guiaLogueado.value || guiaLogueado?.value.rol != 'guia') {
     router.push('/');
 }
 
@@ -146,108 +146,109 @@ function guardarCambios() {
 }
 
 //----------LLAMADA PRINCIPAL
-obtenerRutasGuia(guiaLogueado.value.id || null);
+if (guiaLogueado.value) obtenerRutasGuia(guiaLogueado.value.id);
 </script>
 
 
 <template>
-    <h3 class="text-center">Mis asignaciones ({{ guiaLogueado.email }})</h3>
+    <div v-if="guiaLogueado">
+        <h3 class="text-center">Mis asignaciones ({{ guiaLogueado.email }})</h3>
 
-    <div id="divTabla" class="m-3 d-flex flex-column align-items-center">
-        <table class="table table-light table-striped table-hover text-center mb-3">
-            <caption class="text-center">Listado de rutas</caption>
-            <thead>
-                <tr>
-                    <th scope="col">ID</th>
-                    <th scope="col">Ruta</th> <!--Poner en esta columna el titulo y un modal de info-->
-                    <th scope="col">Asistentes</th> <!--Warning si es <10-->
-                    <th scope="col">Reservas</th>
-                    <th scope="col">Acción</th>
-                </tr>
-            </thead>
-            <tbody>
-                <!--HACER QUE NO SE PUEDA MODIFICAR EL ADMIN-->
-                <tr v-for="asignacion in asignacionesGuia" :key="asignacion.ruta_id">
-                    <td>{{ asignacion.ruta_id }}</td>
-                    <td>
-                        {{ asignacion.ruta_titulo }}
-                        <button @click.prevent="mostrarModalInfo(asignacion)" class="btn btnMasInfo"
-                            aria-label="Información de la ruta">
-                            <i class="fa-solid fa-circle-info" title="Información de la ruta"></i>
-                        </button>
-                    </td>
-                    <td>
-                        {{ calcularTotalPersonas(asignacion) }}
-                        <span v-if="calcularTotalPersonas(asignacion) < 10" title="Menos de 10 asistentes">
-                            <i class="fa-solid fa-triangle-exclamation text-danger"></i>
-                        </span>
-                    </td>
-                    <td>
-                        <div class="dropdown">
-                            <button class="btn btnReservas dropdown-toggle" type="button" data-bs-toggle="dropdown"
-                                aria-expanded="false" :disabled="asignacion.reservas.length < 1"
-                                aria-label="Ver reservas">
-                                Ver reservas
+        <div id="divTabla" class="m-3 d-flex flex-column align-items-center">
+            <table class="table table-light table-striped table-hover text-center mb-3">
+                <caption class="text-center">Listado de rutas</caption>
+                <thead>
+                    <tr>
+                        <th scope="col">ID</th>
+                        <th scope="col">Ruta</th> <!--Poner en esta columna el titulo y un modal de info-->
+                        <th scope="col">Asistentes</th> <!--Warning si es <10-->
+                        <th scope="col">Reservas</th>
+                        <th scope="col">Acción</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!--HACER QUE NO SE PUEDA MODIFICAR EL ADMIN-->
+                    <tr v-for="asignacion in asignacionesGuia" :key="asignacion.ruta_id">
+                        <td>{{ asignacion.ruta_id }}</td>
+                        <td>
+                            {{ asignacion.ruta_titulo }}
+                            <button @click.prevent="mostrarModalInfo(asignacion)" class="btn btnMasInfo"
+                                aria-label="Información de la ruta">
+                                <i class="fa-solid fa-circle-info" title="Información de la ruta"></i>
                             </button>
-                            <ul class="dropdown-menu">
-                                <li v-for="reserva in asignacion.reservas" :key="reserva.reserva_id"
-                                    class="dropdown-item d-flex justify-content-between align-items-center">
-                                    <div>
-                                        <strong>{{ reserva.cliente.email }}</strong> - {{ reserva.num_personas }}
-                                        personas
-                                    </div>
+                        </td>
+                        <td>
+                            {{ calcularTotalPersonas(asignacion) }}
+                            <span v-if="calcularTotalPersonas(asignacion) < 10" title="Menos de 10 asistentes">
+                                <i class="fa-solid fa-triangle-exclamation text-danger"></i>
+                            </span>
+                        </td>
+                        <td>
+                            <div class="dropdown">
+                                <button class="btn btnReservas dropdown-toggle" type="button" data-bs-toggle="dropdown"
+                                    aria-expanded="false" :disabled="asignacion.reservas.length < 1"
+                                    aria-label="Ver reservas">
+                                    Ver reservas
+                                </button>
+                                <ul class="dropdown-menu">
+                                    <li v-for="reserva in asignacion.reservas" :key="reserva.reserva_id"
+                                        class="dropdown-item d-flex justify-content-between align-items-center">
+                                        <div>
+                                            <strong>{{ reserva.cliente.email }}</strong> - {{ reserva.num_personas }}
+                                            personas
+                                        </div>
 
-                                </li>
-                            </ul>
-                        </div>
-                    </td>
-                    <td>
-                        <button class="btn btn-warning" @click="pasarLista(asignacion)"
-                            :disabled="asignacion.reservas.length < 1" aria-label="Pasar lista como guía">
-                            Pasar Lista
-                        </button>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-
-    <InfoRoute :ruta-seleccionada="rutaSeleccionada" @cerrar-modal="cerrarModal()"></InfoRoute>
-    <!--------------------------------------------------------------------------------------------------->
-    <!--MODAL DE PASAR LISTA (Cambiar número de asistentes en una ruta, como guía)-->
-    <div class="modal fade" id="modalPasarLista" tabindex="-1" aria-labelledby="modalPasarListaLabel">
-        <div class="modal-dialog modal-dialog-centered modal-lg">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Asignación: {{ asignacionSeleccionada?.ruta_titulo }}</h5>
-                    <button type="button" class="btn-close" @click="cerrarModal" aria-label="cerrar modal"></button>
-                </div>
-                <div class="modal-body">
-                    <ul class="list-group">
-                        <li v-for="reserva in asignacionSeleccionada?.reservas" :key="reserva.reserva_id"
-                            class="list-group-item d-flex justify-content-between align-items-center">
-                            <div>
-                                <strong>{{ reserva.cliente.email }}</strong>
+                                    </li>
+                                </ul>
                             </div>
-                            <input type="number" min="1" max="8" class="form-control w-25"
-                                v-model="reservasEditadas[reserva.reserva_id]" :placeholder="reserva.num_personas">
-                        </li>
-                    </ul>
-                    <div class="mt-2">
-                        <p v-if="exitoCambio != ''" class="text-success">{{ exitoCambio }}</p>
-                        <p v-if="errorCambio != ''" class="text-danger">{{ errorCambio }}</p>
+                        </td>
+                        <td>
+                            <button class="btn btn-warning" @click="pasarLista(asignacion)"
+                                :disabled="asignacion.reservas.length < 1" aria-label="Pasar lista como guía">
+                                Pasar Lista
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <InfoRoute :ruta-seleccionada="rutaSeleccionada" @cerrar-modal="cerrarModal()"></InfoRoute>
+        <!--------------------------------------------------------------------------------------------------->
+        <!--MODAL DE PASAR LISTA (Cambiar número de asistentes en una ruta, como guía)-->
+        <div class="modal fade" id="modalPasarLista" tabindex="-1" aria-labelledby="modalPasarListaLabel">
+            <div class="modal-dialog modal-dialog-centered modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Asignación: {{ asignacionSeleccionada?.ruta_titulo }}</h5>
+                        <button type="button" class="btn-close" @click="cerrarModal" aria-label="cerrar modal"></button>
                     </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btnBorrado" aria-label="cerrar modal"
-                        @click="cerrarModal">Cancelar</button>
-                    <button type="button" class="btn" aria-label="guardar cambios" @click="guardarCambios">Guardar
-                        cambios</button>
+                    <div class="modal-body">
+                        <ul class="list-group">
+                            <li v-for="reserva in asignacionSeleccionada?.reservas" :key="reserva.reserva_id"
+                                class="list-group-item d-flex justify-content-between align-items-center">
+                                <div>
+                                    <strong>{{ reserva.cliente.email }}</strong>
+                                </div>
+                                <input type="number" min="1" max="8" class="form-control"
+                                    v-model="reservasEditadas[reserva.reserva_id]" :placeholder="reserva.num_personas">
+                            </li>
+                        </ul>
+                        <div class="mt-2">
+                            <p v-if="exitoCambio != ''" class="text-success">{{ exitoCambio }}</p>
+                            <p v-if="errorCambio != ''" class="text-danger">{{ errorCambio }}</p>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btnBorrado" aria-label="cerrar modal"
+                            @click="cerrarModal">Cancelar</button>
+                        <button type="button" class="btn" aria-label="guardar cambios" @click="guardarCambios">Guardar
+                            cambios</button>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-
 </template>
 
 

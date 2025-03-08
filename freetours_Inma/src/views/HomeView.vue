@@ -117,7 +117,6 @@ function borrarFiltros() {
       <!--Formulario de búsqueda de rutas-->
       <form action="" class="d-flex flex-row align-items-center justify-content-evenly m-4">
         <label for="localidadBusqueda" class="me-2">Localidad:</label>
-        <!--Cambiar esto a un select?-->
         <input v-model="localidad" type="text" name="localidadBusqueda" id="localidadBusqueda"
           placeholder="Introduce una localidad" class="me-5">
 
