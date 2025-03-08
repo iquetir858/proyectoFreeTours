@@ -9,31 +9,33 @@ if (!usuarioLogueado.value || usuarioLogueado.value.rol != 'admin') {
     router.push('/');
 }
 
+//------------------VARIABLES
+let usuariosBD = ref(); //Para almacenar los usuarios de la petición
+let error = ref('');
+let exitoActualizacion = ref('');
+let usuarioSeleccionado = ref(-1);
+let paginaActual = ref(1);
+let usuariosPorPagina = ref(5);
+let guiasAsignados = ref([]);
 
-const usuariosBD = ref(); //Para almacenar los usuarios de la petición
-const error = ref('');
-const exitoActualizacion = ref('');
 //DEfinición del modal de cambio de rol 
 let modalConfirmacion = null;
+let modalBorrarUsuario = null;//Modal para borrar el usuario
+
 onMounted(() => {
     modalConfirmacion = new bootstrap.Modal(document.getElementById('modalConfirmacion'));
+    modalBorrarUsuario = new bootstrap.Modal(document.getElementById('modalBorrarUsuario'));
 });
+
 function cerrarModalConfirmacion() {
     modalConfirmacion.hide();
 }
 
-//Modal para borrar el usuario
-let modalBorrarUsuario = null;
-onMounted(() => {
-    modalBorrarUsuario = new bootstrap.Modal(document.getElementById('modalBorrarUsuario'));
-});
 function cerrarModalBorrado() {
     modalBorrarUsuario.hide();
 }
 
 //Función para establecer el usuario que se va a borrar
-let usuarioSeleccionado = ref(-1);
-
 function seleccionarUsuario(id) {
     usuarioSeleccionado.value = id;
     console.log("Id seleccionado:" + usuarioSeleccionado.value);
@@ -41,9 +43,7 @@ function seleccionarUsuario(id) {
     modalBorrarUsuario.show();
 }
 
-const paginaActual = ref(1);
-const usuariosPorPagina = ref(5);
-
+//--------------------PAGINACIÓN
 const usuariosPaginados = computed(() => {
     const inicio = (paginaActual.value - 1) * usuariosPorPagina.value;
     const final = inicio + usuariosPorPagina.value;
@@ -70,6 +70,32 @@ function setPagina(pagina) {
     paginaActual.value = pagina;
 }
 
+//--------------------FUNCIONES GENERALES
+
+/**
+ * Función que, por cada usuario, comprueba si este es un guia y si tiene asignada alguna ruta
+ * (No se puede cambiar el rol de un guia que tenga asignaciones)
+ * @param usuarios 
+ */
+function comprobarAsignaciones(usuarios) {
+    usuarios.forEach(usuario => {
+        if (usuario.rol == 'guia') {
+            fetch(`/api/api.php/asignaciones?guia_id=${usuario.id}`, {
+                method: 'GET',
+            })
+                .then(response => response.json())
+                .then(data => {
+                    //console.log('Asignaciones del guía:', data);
+                    if (data.length > 1) guiasAsignados.value[usuario.id] = true; //marcamos el guía como asignado
+                })
+                .catch(error => console.error('Error comprobación asignaciones guía:', error));
+        }
+    });
+}
+
+/**
+ * Función que obtiene todos los usuarios de la base de datos
+ */
 function obtenerUsuariosBD() {
     try {
         //fetch('http://localhost/api/api.php/usuarios', {
@@ -79,7 +105,7 @@ function obtenerUsuariosBD() {
             .then(response => response.json())
             .then(data => {
                 usuariosBD.value = data;
-                //console.log("Data: " + JSON.stringify(data));
+                if (usuariosBD.value) comprobarAsignaciones(usuariosBD.value);
                 //console.log("usuariosBD: " + JSON.stringify(usuariosBD));
                 error.value = '';
             })
@@ -92,6 +118,11 @@ function obtenerUsuariosBD() {
     }
 }
 
+/**
+ * Función que actualiza el rol del usuario seleccionado
+ * @param id 
+ * @param nuevoRol 
+ */
 function actualizarRol(id, nuevoRol) {
     // console.log(id + "---" + nuevoRol);
     try {
@@ -187,6 +218,7 @@ obtenerUsuariosBD();
                     <td>{{ usuario.contraseña }}</td>
                     <td>
                         <p v-if="usuario.rol == 'admin'">Admin</p>
+                        <p v-else-if="guiasAsignados[usuario.id]">Guía</p>
                         <select v-else v-model="usuario.rol" @change="actualizarRol(usuario.id, usuario.rol)">
                             <!-- <option value="admin">Admin</option> (Sólo puede haber 1 admin)-->
                             <option value="guia">Guía</option>
@@ -206,7 +238,8 @@ obtenerUsuariosBD();
         <nav aria-label="Navegación de páginas" class="mt-3">
             <ul class="pagination">
                 <li class="page-item" :class="{ disabled: paginaActual === 1 }">
-                    <button class="page-link" aria-label="Pasar a la página anterior" @click="pagAnterior" :disabled="paginaActual === 1">
+                    <button class="page-link" aria-label="Pasar a la página anterior" @click="pagAnterior"
+                        :disabled="paginaActual === 1">
                         <span>&laquo;</span>
                     </button>
                 </li>
@@ -217,7 +250,8 @@ obtenerUsuariosBD();
                 </li>
 
                 <li class="page-item" :class="{ disabled: paginaActual === totalPaginas }">
-                    <button class="page-link" aria-label="Pasar a la página siguiente" @click="pagSiguiente" :disabled="paginaActual === totalPaginas">
+                    <button class="page-link" aria-label="Pasar a la página siguiente" @click="pagSiguiente"
+                        :disabled="paginaActual === totalPaginas">
                         <span>&raquo;</span>
                     </button>
                 </li>
