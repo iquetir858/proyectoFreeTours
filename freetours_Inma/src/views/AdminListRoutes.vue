@@ -323,7 +323,7 @@ obtenerRutas();
                     <td>
                         {{ ruta.titulo }}
                         <button @click.prevent="mostrarModalInfo(ruta)" class="btn btnMasInfo"
-                            aria-label="Información de la ruta">
+                            aria-label="Información de la ruta" title="Más información de la ruta">
                             <i class="fa-solid fa-circle-info"></i>
                         </button>
                     </td>

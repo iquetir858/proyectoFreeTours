@@ -159,7 +159,7 @@ function cerrarModal() {
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button class="btn btn-secondary" type="button" @click.prevent="cerrarModal"
+                    <button class="btn btnBorrado" type="button" @click.prevent="cerrarModal"
                         aria-label="Cerrar modal de duplicado">Cancelar</button>
                     <button class="btn btn-primary" type="button" aria-label="Duplicar ruta seleccionada"
                         @click.prevent="duplicarRuta">Duplicar</button>
@@ -175,7 +175,7 @@ function cerrarModal() {
 }
 
 span {
-    color: palevioletred;
+    color: var(--rojo);
     font-style: italic;
 }
 

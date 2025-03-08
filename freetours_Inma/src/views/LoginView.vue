@@ -15,7 +15,7 @@ const userLogged = ref(); //id, nombre, email, rol --Datos que recibe en el fetc
 const errorLogin = ref('');
 
 //---------Datos Registro
-const formRegistro = ref({ nombre: '', email: '', contraseña: '' });
+const formRegistro = ref({ nombre: '', email: '', contraseña: '', contraseña2: ''});
 const errorRegistro = ref('');
 const exitoRegistro = ref('');
 const errores = ref({});
@@ -126,6 +126,7 @@ function userRegister() {
             modalRegistro = new bootstrap.Modal(document.getElementById('modalRegistro'));
           }
           modalRegistro.show();
+          formRegistro.value={ nombre: '', email: '', contraseña: '', contraseña2: ''}; //Reseteamos los valores del form
           setTimeout(() => {
             modalRegistro.hide();
             exitoRegistro.value = '';
@@ -219,9 +220,8 @@ function userRegister() {
               <!--INPUT CONTRASEÑA 2-->
               <div class="form-floating">
                 <input v-model="formRegistro.contraseña2" type="text" name="contraseña2" class="form-control"
-                  data-bs-toggle="tooltip" data-bs-placement="top"
-                  title="Debe tener al menos 8 caracteres, incluyendo al menos un número"
-                  :class="{ 'is-invalid':errores.contraseña || errores.contraseña2, 'is-valid': !errores.contraseña && !errores.contraseña2 && validado}">
+                  data-bs-toggle="tooltip" data-bs-placement="top" title="Deben coincidir ambas contraseñas"
+                  :class="{ 'is-invalid': errores.contraseña || errores.contraseña2, 'is-valid': !errores.contraseña && !errores.contraseña2 && validado }">
                 <label for="contraseña2">Repita su contraseña</label>
                 <div v-if="errores.contraseña2" class="invalid-feedback">{{ errores.contraseña2 }}</div>
               </div>
@@ -402,6 +402,7 @@ function userRegister() {
 .back {
   transform: rotateY(180deg);
 }
+
 /*
 #loginDiv,
 #registerDiv {

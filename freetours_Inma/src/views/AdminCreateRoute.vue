@@ -112,12 +112,12 @@ function validarDatosRuta() {
  * Función que realiza la petición para crear la ruta
  */
 function crearRuta() {
-    console.log(nuevaRuta.value);
+    //console.log(nuevaRuta.value);
     if (!validarDatosRuta()) return; //No sigue ejecutando si hay errores
 
     //-------------Creación de la ruta
-    fetch('http://localhost/api/api.php/rutas', {
-        // fetch('/api/api.php/rutas', {
+    // fetch('http://localhost/api/api.php/rutas', {
+        fetch('/api/api.php/rutas', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -248,7 +248,7 @@ function crearRuta() {
                     </div>
                     <div class="modal-body">
                         <p v-if="exitoCreacion != ''" class="text-success">{{ exitoCreacion }}</p>
-                        <p v-else class="text-danger">{{ errorCreacion }}</p>
+                        <p v-if="errorCreacion != ''" class="text-danger">{{ errorCreacion }}</p>
                     </div>
                 </div>
             </div>

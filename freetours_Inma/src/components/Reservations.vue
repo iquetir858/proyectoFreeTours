@@ -99,7 +99,9 @@ function mostrarModalNumPersonas(reserva) {
 function cambiarNumPersonas() {
     //let inputNumPersonas = document.getElementById('numPersonas');
     //Se comprueba el input
-    if (!inputNumPersonas.value || !Number.isInteger(Number(inputNumPersonas.value)) || inputNumPersonas.value < 1 || inputNumPersonas.value > 8) {
+    //console.log(inputNumPersonas.value);
+    
+    if (!inputNumPersonas.value || inputNumPersonas.value < 1 || inputNumPersonas.value > 8) {
         //Hay un error con el número de personas y no debe actualizarse
         errorModificacionPersonas.value = "Número de personas no válido.";
         exitoModificacionPersonas.value = '';
@@ -169,7 +171,7 @@ function cambiarNumPersonas() {
                                     </p>
                                     <button v-if="!valoracion" class="btn btn-sm btnModificar"
                                         aria-label="Modificar número de personas"
-                                        @click.prevent="mostrarModalNumPersonas(reserva)" data-bs-toggle="tooltip"
+                                       @click.prevent="mostrarModalNumPersonas(reserva)" data-bs-toggle="tooltip"
                                         data-bs-placement="top" title="Modificar número de personas">
                                         <i class="fa-solid fa-pen-to-square"></i>
                                     </button>
@@ -184,7 +186,7 @@ function cambiarNumPersonas() {
                                         @actualizar-reservas="emit('actualizarReservas');"></Rating>
                                 </div>
                             </div>
-                        </div>
+                         </div>
                     </div>
                 </div>
             </div>
@@ -227,16 +229,16 @@ function cambiarNumPersonas() {
                         aria-label="Cerrar modal"></button>
                 </div>
                 <div class="modal-body">
-                    <div class="d-flex flex-row align-items-center justify-content-evenly">
+                    <div class="d-flex flex-row align-items-center">
                         <label for="numPersonas">Selecciona el número de asistentes: </label>
                         <input name="numPersonas" id="numPersonas" v-model="inputNumPersonas" type="number"
-                            class="form-control" aria-label="Nuevo número de asistentes a la ruta" min="1" max="8"
+                            class="form-control ms-3" aria-label="Nuevo número de asistentes a la ruta" min="1" max="8"
                             value="1">
                     </div>
-                    <p v-if="exitoModificacionPersonas.value != ''" class="text-success">
+                    <p v-if="exitoModificacionPersonas != ''" class="text-success">
                         {{ exitoModificacionPersonas }}
                     </p>
-                    <p v-else-if="errorModificacionPersonas.value != ''" class="text-danger">
+                    <p v-else-if="errorModificacionPersonas != ''" class="text-danger">
                         {{ errorModificacionPersonas }}
                     </p>
                 </div>
