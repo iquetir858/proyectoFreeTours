@@ -1,5 +1,5 @@
 <script setup>
-import { ref, computed } from 'vue';
+import { ref, computed, onMounted } from 'vue';
 import Cat from '@/components/Cat.vue';
 
 //-------------------Variables video
@@ -7,9 +7,27 @@ const medio = ref(null);
 const play = ref("▶"); // Valor inicial del botón de play
 
 const playIcon = computed(() => (play.value === "▶" ? "fas fa-play" : "fas fa-pause"));
+let volumenActual = ref('');
 
+onMounted(() => {
+  if (medio.value) {
+    actualizarVolumen();
+  }
+});
 
-//--------------------------FUNCIONES VIDEO
+//--------------------------FUNCIONES
+/**
+ * Función para actualizar el valor del volumenActual, que se modifica al bajar y subir el volumen
+ */
+function actualizarVolumen() {
+  if (medio.value) {
+    volumenActual.value = Math.round(medio.value.volume * 100) + '%';
+  }
+}
+
+/**
+ * Función para darle a play o parar el video
+ */
 function accionPlay() {
   if (!medio.value.paused && !medio.value.ended) {
     medio.value.pause();
@@ -20,8 +38,11 @@ function accionPlay() {
   }
 }
 
+/**
+ * Función para reiniciar el video
+ */
 function accionReiniciar() {
-//Usar propiedad .currentTime
+  //Usar propiedad .currentTime
   //Reproducir el vídeo
   //Cambiar el valor del botón a ||
   medio.value.currentTime = 0;
@@ -29,28 +50,45 @@ function accionReiniciar() {
   play.value = '||';
 }
 
+/**
+ * Función para darle echar hacia atrás el video
+ */
 function accionRetrasar() {
-//Contemplar que no existen valores negativos
+  //Contemplar que no existen valores negativos
   medio.value.currentTime = Math.max(medio.value.currentTime - 5, 0);
 }
 
+/**
+ * Función para adelantar el video
+ */
 function accionAdelantar() {
   medio.value.currentTime = Math.min(medio.value.currentTime + 5, medio.value.duration);
 }
 
+/**
+ * Función para silenciar el video
+ */
 function accionSilenciar() {
-//Utilizar medio.muted = true; o medio.muted = false;
+  //Utilizar medio.muted = true; o medio.muted = false;
   medio.value.muted = !medio.value.muted;
 }
 
+/**
+ * Función para subir el volumen del video
+ */
 function accionMasVolumen() {
-//Contemplar que el valor máximo de volumen es 1
+  //Contemplar que el valor máximo de volumen es 1
   medio.value.volume = Math.min(medio.value.volume + 0.1, 1);
+  actualizarVolumen();
 }
 
+/**
+ * Función para bajar el volumen del video
+ */
 function accionMenosVolumen() {
-//Contemplar que el valor mínimo de volumen es 0
+  //Contemplar que el valor mínimo de volumen es 0
   medio.value.volume = Math.max(medio.value.volume - 0.1, 0);
+  actualizarVolumen();
 }
 
 </script>
@@ -178,8 +216,8 @@ function accionMenosVolumen() {
       <h2 class="display-6 fw-bold text-center">Apúntate y vive una experiencia única</h2>
       <div class="col-8 d-flex flex-column mx-auto mt-4">
         <video ref="medio" width="100%" preload="auto">
-          <source src="../assets/videos/videoTour.mp4" type="video/mp4" />
-          <source src="../assets/videos/videoTour.ogv" type="video/ogv" />
+          <source ref="medio" src="../assets/videos/videoTour.mp4" type="video/mp4" />
+          <source ref="medio" src="../assets/videos/videoTour.ogv" type="video/ogv" />
           Vídeo no soportado por el navegador.
         </video>
         <div id="controlesVideo" class="d-flex flex-row justify-content-center mt-2 rounded">
@@ -198,7 +236,7 @@ function accionMenosVolumen() {
           <button @click="accionSilenciar" class="btn control-btn" aria-label="Silenciar vídeo">
             <i class="fas fa-volume-mute"></i>
           </button>
-          <span class="volume-label">Volumen</span>
+          <span class="volume-label">Volumen: {{ volumenActual }}</span>
           <button @click="accionMenosVolumen" class="btn control-btn" aria-label="Bajar volumen">
             <i class="fas fa-volume-down"></i>
           </button>
@@ -228,7 +266,8 @@ h2 {
   font-size: clamp(1.5rem, 4vw, 2.5rem);
   font-weight: 700;
 }
-.work{
+
+.work {
   color: rgb(155, 45, 5);
 }
 
