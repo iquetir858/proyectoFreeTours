@@ -173,7 +173,7 @@ obtenerRutasGuia(guiaLogueado.value.id || null);
                         {{ asignacion.ruta_titulo }}
                         <button @click.prevent="mostrarModalInfo(asignacion)" class="btn btnMasInfo"
                             aria-label="Información de la ruta">
-                            <i class="fa-solid fa-circle-info"></i>
+                            <i class="fa-solid fa-circle-info" title="Información de la ruta"></i>
                         </button>
                     </td>
                     <td>
@@ -185,7 +185,8 @@ obtenerRutasGuia(guiaLogueado.value.id || null);
                     <td>
                         <div class="dropdown">
                             <button class="btn btnReservas dropdown-toggle" type="button" data-bs-toggle="dropdown"
-                                aria-expanded="false" aria-label="Ver reservas">
+                                aria-expanded="false" :disabled="asignacion.reservas.length < 1"
+                                aria-label="Ver reservas">
                                 Ver reservas
                             </button>
                             <ul class="dropdown-menu">
@@ -202,7 +203,7 @@ obtenerRutasGuia(guiaLogueado.value.id || null);
                     </td>
                     <td>
                         <button class="btn btn-warning" @click="pasarLista(asignacion)"
-                            aria-label="Pasar lista como guía">
+                            :disabled="asignacion.reservas.length < 1" aria-label="Pasar lista como guía">
                             Pasar Lista
                         </button>
                     </td>
@@ -275,5 +276,10 @@ img {
     background-color: var(--amarillo);
     color: var(--blanco);
     border: 1px solid var(--amarillo);
+}
+
+button:disabled {
+    background-color: rgb(176, 167, 128);
+    border: 1px solid var(--sombra);
 }
 </style>

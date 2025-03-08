@@ -71,27 +71,28 @@ obtenerReservas(email);
 <template>
     <h2 class="text-center mt-2">Rutas pasadas</h2>
     <div v-if="reservasPasadas" class="d-flex flex-column align-items-center">
-        <Reservations :reservas="reservasPaginadas" :valoracion="true"
-            :usuarioActual="cliente" @actualizar-reservas="obtenerReservas(email)"></Reservations>
-
+        <Reservations :reservas="reservasPaginadas" :valoracion="true" :usuarioActual="cliente"
+            @actualizar-reservas="obtenerReservas(email)">
+        </Reservations>
+        <!--PAGINACIÓN-->
         <div class="d-flex flex-column align-items-center gap-3 mt-4" v-if="reservasPasadas.length > 0">
             <nav aria-label="Navegación de páginas">
                 <ul class="pagination mb-0">
                     <li class="page-item" :class="{ disabled: paginaActual === 1 }">
-                        <button class="page-link" aria-label="Pasar a la página anterior" @click="pagAnterior" :disabled="paginaActual === 1">
+                        <button class="page-link" aria-label="Pasar a la página anterior" @click="pagAnterior"
+                            :disabled="paginaActual === 1">
                             <span>&laquo;</span>
                         </button>
                     </li>
-                    
-                    <li v-for="pagina in totalPaginas" 
-                        :key="pagina" 
-                        class="page-item"
+
+                    <li v-for="pagina in totalPaginas" :key="pagina" class="page-item"
                         :class="{ active: pagina === paginaActual }">
                         <button class="page-link" @click="setPagina(pagina)">{{ pagina }}</button>
                     </li>
-                    
+
                     <li class="page-item" :class="{ disabled: paginaActual === totalPaginas }">
-                        <button class="page-link" aria-label="Pasar a la página siguiente" @click="pagSiguiente" :disabled="paginaActual === totalPaginas">
+                        <button class="page-link" aria-label="Pasar a la página siguiente" @click="pagSiguiente"
+                            :disabled="paginaActual === totalPaginas">
                             <span>&raquo;</span>
                         </button>
                     </li>
@@ -106,6 +107,3 @@ obtenerReservas(email);
         </div>
     </div>
 </template>
-
-<style scoped>
-</style>

@@ -161,10 +161,10 @@ function cambiarNumPersonas() {
                         <div class="col-md-8 d-flex flex-column">
                             <div class="card-body">
                                 <h5 class="card-title">{{ reserva.ruta_titulo }}</h5>
-                                <p class="card-text"><strong>Localidad:</strong> {{ reserva.ruta_localidad }}</p>
-                                <p class="card-text"><strong>Fecha:</strong> {{ reserva.ruta_fecha }}</p>
+                                <p class="mb-2"><strong>Localidad:</strong> {{ reserva.ruta_localidad }}</p>
+                                <p class="mb-2"><strong>Fecha:</strong> {{ reserva.ruta_fecha }}</p>
                                 <div class="d-flex align-items-center justify-content-between">
-                                    <p class="mb-0 me-2"><strong>Número de personas:</strong>
+                                    <p class="mb-2"><strong>Número de personas:</strong>
                                         {{ reserva.num_personas }}
                                     </p>
                                     <button v-if="!valoracion" class="btn btn-sm btnModificar"
@@ -227,9 +227,12 @@ function cambiarNumPersonas() {
                         aria-label="Cerrar modal"></button>
                 </div>
                 <div class="modal-body">
-                    <label for="numPersonas">Selecciona el número de asistentes: </label>
-                    <input name="numPersonas" v-model="inputNumPersonas" type="number"
-                        aria-label="Nuevo número de asistentes a la ruta" min="1" max="8" value="1">
+                    <div class="d-flex flex-row align-items-center justify-content-evenly">
+                        <label for="numPersonas">Selecciona el número de asistentes: </label>
+                        <input name="numPersonas" id="numPersonas" v-model="inputNumPersonas" type="number"
+                            class="form-control" aria-label="Nuevo número de asistentes a la ruta" min="1" max="8"
+                            value="1">
+                    </div>
                     <p v-if="exitoModificacionPersonas.value != ''" class="text-success">
                         {{ exitoModificacionPersonas }}
                     </p>
@@ -251,7 +254,7 @@ function cambiarNumPersonas() {
 </template>
 
 <style scoped>
-.container{
+.container {
     background-color: var(--amarilloClaro);
 }
 
@@ -264,5 +267,9 @@ function cambiarNumPersonas() {
     background-color: var(--marron);
     color: var(--amarillo);
     border: 1px solid var(--marron);
+}
+
+#numPersonas {
+    width: 100px;
 }
 </style>

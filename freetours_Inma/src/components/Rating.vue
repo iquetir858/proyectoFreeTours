@@ -228,10 +228,14 @@ obtenerValoracionRuta(props.idRuta);
     <div id="divValoracion">
         <!--Si ya existe una valoración para esa ruta, se muestra y se podrá modificar-->
         <div v-if="existeValoracion" id="divValoracionActual">
-            <p class="mb-0 me-2"><strong>Valoración:</strong></p>
-            <span id="estrellas" v-html="estrellasTarjeta"></span>
-            <p><strong>Comentario:</strong></p>
-            <p>{{ valoracion.comentario }}</p>
+            <div class="d-flex flex-wrap flex-row">
+                <p class="mb-2 me-2"><strong>Valoración:</strong></p>
+                <span id="estrellas" v-html="estrellasTarjeta"></span>
+            </div>
+            <div class="d-flex flex-wrap flex-row">
+                <p><strong>Comentario:</strong></p>
+                <p class="ms-2">{{ valoracion.comentario }}</p>
+            </div>
             <!--Botón para actualizar valoración existente (sólo puede haber 1 valoración por ruta-cliente pero se puede modificar)-->
             <button class="btn" @click="abrirModal()" aria-label="Editar valoración actual">Editar</button>
         </div>
